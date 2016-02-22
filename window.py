@@ -17,7 +17,8 @@ class Window(QtGui.QMainWindow):
         ui.actionOpen.triggered.connect(lambda: self.signals_slots.open_file(self, ui))
         ui.playButton.clicked.connect(lambda: self.signals_slots.start_playback(self, ui))
         ui.stopButton.clicked.connect(lambda: self.signals_slots.stop_playback(self, ui))
-
+        ui.seekSlider.setMediaObject(ui.videoPlayer.mediaObject())
+        ui.volumeSlider.setAudioOutput(ui.videoPlayer.audioOutput())
 
 
 
