@@ -36,8 +36,12 @@ class Timeline(QtGui.QWidget):
 
         qp.setBrush(QtGui.QColor(255, 255, 255))
         qp.drawRect(start["x"] - 2, start["y"] - 2, end["x"], end["y"])
+        
         qp.setBrush(QtGui.QColor(0, 0, 255))
         qp.drawRect(start["x"] -2  , start["y"] + lines["long"] + 3, end["x"] , start["y"] + lines["long"] + 3 + 5)
+
+        qp.setBrush(QtGui.QColor(0, 255, 0))
+        qp.drawRect(start["x"] -2 + 50  , start["y"] + lines["long"] + 3, end["x"] - 180 , start["y"] + lines["long"] + 3 + 5)
         
 
     def drawLines(self, qp, start, end, lines):
