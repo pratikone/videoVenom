@@ -3,12 +3,21 @@
 import sys
 from PyQt4 import QtGui, QtCore
 
+DELAY = 1000 * 1 #  5 seconds in milli-seconds
+
+
 class Timeline(QtGui.QWidget):
-    
+    ctr = 0 
     def __init__(self):
         super(Timeline, self).__init__()
         
         self.initUI()
+        self.timer = QtCore.QTimer(self)
+        self.connect(self.timer,
+                     QtCore.SIGNAL("timeout()"),
+                     self.update)
+        self.timer.start(DELAY)
+
         
     def initUI(self):      
 
@@ -17,7 +26,7 @@ class Timeline(QtGui.QWidget):
         self.show()
 
     def paintEvent(self, e):
-
+        print "paintEvent called"
         start = {"x" : 10, "y" : 15 }
         end = {"x" : 300, "y" : 60 }
         lines = { "short" : 5, "long" : 12 }
@@ -26,6 +35,9 @@ class Timeline(QtGui.QWidget):
         qp.begin(self)
         self.drawRectangles(qp, start, end, lines)
         self.drawLines(qp, start, end, lines)
+
+        self.drawTicker(qp, start, end, lines)
+
         qp.end()
         
     def drawRectangles(self, qp, start, end, lines):
@@ -56,9 +68,23 @@ class Timeline(QtGui.QWidget):
                 qp.drawLine(x, start["y"], x, start["y"] + lines["long"] )
             else :
                 qp.drawLine(x, start["y"], x, start["y"] + lines["short"])
-            
+    
+    def drawTicker(self, qp, start, end, lines):
+      
+        pen = QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(start["x"] + self.ctr, start["y"], start["x"] + self.ctr,  start["y"] + lines["long"] )
+        self.ctr = self.ctr + 1
 
-        
+
+
+    def update( self) :
+        print "something"
+
+
+
+        self.repaint()
+
              
 
 def main():
