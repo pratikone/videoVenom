@@ -10,19 +10,24 @@ class Timeline:
 
     def drawRectangles(self, qp, start, end, lines):
 
+        width  = end["x"] - start["x"]
+        height = end["y"] - start["y"]
 
         color = QtGui.QColor(0, 0, 0)
         color.setNamedColor('#d4d4d4')
         qp.setPen(color)
 
+        # white
         qp.setBrush(QtGui.QColor(255, 255, 255))
-        qp.drawRect(start["x"] - 2, start["y"] - 2, end["x"], end["y"])
+        qp.drawRect(start["x"] - 2, start["y"] - 2, width, height)
         
+        # blue
         qp.setBrush(QtGui.QColor(0, 0, 255))
-        qp.drawRect(start["x"] -2  , start["y"] + lines["long"] + 3, end["x"] , start["y"] + lines["long"] + 3 + 5)
+        qp.drawRect(start["x"] -2  , start["y"] + lines["long"] + 3, width , height - lines["long"] - 3)
 
+        # green
         qp.setBrush(QtGui.QColor(0, 255, 0))
-        qp.drawRect(start["x"] -2 + 50  , start["y"] + lines["long"] + 3, end["x"] - 180 , start["y"] + lines["long"] + 3 + 5)
+        qp.drawRect(start["x"] -2 + 50  , start["y"] + lines["long"] + 3, width - 180 , height - lines["long"] - 3)
         
 
     def drawLines(self, qp, start, end, lines):
@@ -42,7 +47,7 @@ class Timeline:
       
         pen = QtGui.QPen(QtCore.Qt.black, 2, QtCore.Qt.SolidLine)
         qp.setPen(pen)
-        qp.drawLine(start["x"] - 2 +  ctr, start["y"] + lines["long"] + 3, start["x"] - 2 + ctr,  start["y"] + lines["long"] + 3 + 20 )
+        qp.drawLine(start["x"] - 2 +  ctr, start["y"] + lines["long"] + 3 , start["x"] - 2 + ctr,  end["y"])
         ctr = ctr + 1
 
 
@@ -67,7 +72,6 @@ class Widget(QtGui.QWidget) :
         self.show()
 
     def paintEvent(self, e):
-        print "paintEvent called"
         start = {"x" : 10, "y" : 15 }
         end = {"x" : 300, "y" : 60 }
         lines = { "short" : 5, "long" : 12 }
@@ -83,7 +87,6 @@ class Widget(QtGui.QWidget) :
 
 
     def update( self) :
-        print "something"
         self.ctr = self.ctr + 1
         self.repaint()
 
