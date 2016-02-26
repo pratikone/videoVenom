@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from PyQt4 import QtGui, QtCore
+import banner_ui
 
 DELAY = 100 * 1 #  5 seconds in milli-seconds
 
@@ -14,47 +15,33 @@ class Widget(QtGui.QWidget) :
     start = {"x" : 50, "y" : 100 }
     end = {"x" : 300, "y" : 300 }
 
-    def __init__(self):
+    def __init__(self, ui):
         super(Widget, self).__init__()
-        self.initUI()
-        self.can_Hresize = False
-        self.can_Vresize = False
+        self.ui = ui
+
 
     def initUI(self):      
-        self.setGeometry(300, 500, 350, 300)
-        self.setWindowTitle('Editor')
-        self.label = QtGui.QLabel(self)
-        self.label.setGeometry(200, 60, 200, 25)
-        
-        self.textEdit = QtGui.QTextEdit(self)
-        self.textEdit.setGeometry(50, 60, 100, 25)
-
-        self.textEdit.connect(self.textEdit, QtCore.SIGNAL("textChanged()"),
+        self.ui.bannerText.connect(self.ui.bannerText, QtCore.SIGNAL("textChanged(QString)"),
                     self.labelUpdate)
 
+        self.ui.fontBtn.clicked.connect(self.font_choice)
 
-        self.btn = QtGui.QPushButton("Change Font",self)
-        self.btn.move(20,120)
-        self.btn.clicked.connect(self.font_choice)
-
-        self.btn = QtGui.QPushButton("Change Color",self)
-        self.btn.move(140,120)
-        self.btn.clicked.connect(self.color_choice)
+        self.ui.colorBtn.clicked.connect(self.color_choice)
 
 
-        self.show()
+        
 
     def labelUpdate(self):
-        self.label.setText(self.textEdit.toPlainText())
+        self.ui.bannerLabel.setText(self.ui.bannerText.text())
 
     def font_choice(self):
         font, valid = QtGui.QFontDialog.getFont()
         if valid:
-            self.label.setFont(font)
+            self.ui.bannerLabel.setFont(font)
 
     def color_choice(self):
         color = QtGui.QColorDialog.getColor()
-        self.label.setStyleSheet("QLabel { color: %s}" % color.name())
+        self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % color.name())
             
 
 
@@ -71,7 +58,11 @@ class Widget(QtGui.QWidget) :
 def main():
     
     app = QtGui.QApplication(sys.argv)
-    widget = Widget()
+    ui = banner_ui.Ui_Form()
+    widget = Widget(ui)
+    ui.setupUi(widget)
+    widget.initUI()
+    widget.show()
     sys.exit(app.exec_())
 
 

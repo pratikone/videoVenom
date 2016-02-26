@@ -53,6 +53,28 @@
       <property name="frameShadow">
        <enum>QFrame::Sunken</enum>
       </property>
+      <widget class="QLabel" name="bannerLabel">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>150</y>
+         <width>141</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0)</string>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
      <widget class="QDialogButtonBox" name="buttonBox">
       <property name="geometry">
