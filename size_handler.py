@@ -26,7 +26,7 @@ class Widget(QtGui.QWidget) :
 
     def paintEvent(self, event):
 
-        if self.sizeHandler is not None :
+        if self.sizeHandler is not None and self.sizeHandler.object == "rectangle" :
             self.bounds = self.sizeHandler.bounds
 
         qp = QtGui.QPainter()
@@ -43,14 +43,20 @@ class Widget(QtGui.QWidget) :
 
         
     def mousePressEvent(self, event):
-        if self.sizeHandler is not None :
-            self.sizeHandler.mousePressEvent(event)
-        else: #size handler is  none
-            print "handler added"
-            if self.bounds.contains( event.pos()) :
+        print "yeah"
+        if self.bounds.contains( event.pos()) :
+            print "first"
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds :
                 self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
-                self.repaint()
+            self.sizeHandler.mousePressEvent(event)
 
+        elif self.label.geometry().contains( event.pos() ) :
+            print "entering"
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.label.geometry() :
+                self.sizeHandler = SizeHandler(self, self.label)
+            self.sizeHandler.mousePressEvent(event)
+
+        self.repaint()
 
     def mouseReleaseEvent(self, event):
         if self.sizeHandler is not None :
@@ -68,47 +74,49 @@ class Widget(QtGui.QWidget) :
 
 class SizeHandler :
 
+    HANDLER_XSIZE = 8
+    HANDLER_YSIZE = 8
+
     def __init__(self, widget, obj, bounds=None) :
         self.object = obj  # could be any QPainter shape or Qlabel
         self.widget = widget
         if bounds is not None :
             self.bounds = bounds #in case of QPainter rectangle
         else :
-            self.bounds = obj.boundingRect() # incase of QLabel
+            self.bounds = obj.geometry() # incase of QLabel and other UI elements
 
         self.can_Hresize = self.can_Vresize = self.can_move = False
-        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() - 4, 8, 8)
-        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
-        self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
+        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() - self.HANDLER_YSIZE / 2 , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
 
 
     def paintEvent( self, event ) :
-        if self.object == "rectangle" : 
-            qp = QtGui.QPainter()
-            qp.begin(self.widget)
-            
-            color = QtGui.QColor(0, 0, 0)
-            color.setNamedColor('#d4d4d4')
-            qp.setPen(color)
-            # vertical  handle 
-            self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() - 4, 8, 8)
-            qp.setBrush(QtGui.QColor("Black"))
-            qp.drawRect(  self.VBounds )
+        qp = QtGui.QPainter()
+        qp.begin(self.widget)
+        
+        color = QtGui.QColor(0, 0, 0)
+        color.setNamedColor('#d4d4d4')
+        qp.setPen(color)
+        # vertical  handle 
+        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() - self.HANDLER_YSIZE / 2 , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        qp.setBrush(QtGui.QColor("Black"))
+        qp.drawRect(  self.VBounds )
 
 
-            # horizontal  handle 
-            self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
-            qp.setBrush(QtGui.QColor("Black"))
-            qp.drawRect( self.HBounds ) 
+        # horizontal  handle 
+        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        qp.setBrush(QtGui.QColor("Black"))
+        qp.drawRect( self.HBounds ) 
 
 
-            # central  handle 
-            self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
-            qp.setBrush(QtGui.QColor("Black"))
-            qp.drawRect( self.CBounds ) 
+        # central  handle 
+        self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        qp.setBrush(QtGui.QColor("Black"))
+        qp.drawRect( self.CBounds ) 
 
 
-            qp.end()    
+        qp.end()    
 
     def mousePressEvent(self, event):
         #horizontal
@@ -135,18 +143,27 @@ class SizeHandler :
 
     def mouseMoveEvent(self, event):
         if self.can_Hresize == True:
+            self.bounds.setRight(event.pos().x()) #change width of rectangle being drawn using these values
             if self.object == "rectangle" :
-                self.bounds.setRight(event.pos().x()) #change width of rectangle being drawn using these values
+                pass  #nothing more is needed to be done here. PaintEvent takes care of everything
+            else:
+                self.widget.label.setGeometry( self.bounds )
 
         elif self.can_Vresize == True:
+            self.bounds.setTop(event.pos().y())  #change height Qt is awesome for giving these functions
             if self.object == "rectangle" :
-                self.bounds.setTop(event.pos().y())  #change height Qt is awesome for giving these functions
+                pass
+            else :
+                self.widget.label.setGeometry( self.bounds )
         
         elif self.can_move == True:
-            if self.object == "rectangle" :
                 self.bounds = QtCore.QRect(event.pos().x() - self.bounds.width() / 2, \
                                             event.pos().y() - self.bounds.height() / 2, \
                                             self.bounds.width(), self.bounds.height()) 
+                if self.object == "rectangle" :
+                    pass
+                else :
+                    self.widget.label.setGeometry( self.bounds )
         
         else : #when mouse is simply moving and hovers over handlers, change mouse cursor momentarily
             if self.HBounds.contains( event.pos()) :
