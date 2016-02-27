@@ -7,37 +7,63 @@ from PyQt4 import QtGui, QtCore
 class Widget(QtGui.QWidget) :
 
     
+
     def __init__(self):
         super(Widget, self).__init__()
         self.initUI()
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
         
-    def setSizeHandler(self, sizeHandler) :
-        self.sizeHandler = sizeHandler
 
-    def initUI(self):      
+    def initUI(self, sizeHandler = None):      
         self.setGeometry(300, 500, 350, 300)
         self.setWindowTitle('Colours')
+        self.sizeHandler = sizeHandler
+        self.bounds = QtCore.QRect(50, 100, 250, 200)
+        self.label = self.bannerLabel = QtGui.QLabel(self)
+        self.label.setText("Hello welcome to sajjanpur")
+        self.label.move(50,50)
         self.show()
 
     def paintEvent(self, event):
-        self.sizeHandler.paintEvent( event)
+
+        if self.sizeHandler is not None :
+            self.bounds = self.sizeHandler.bounds
+
+        qp = QtGui.QPainter()
+        qp.begin(self)
+        color = QtGui.QColor(0, 0, 0)
+        color.setNamedColor('#d4d4d4')
+        qp.setPen(color)
+        qp.setBrush(QtGui.QColor("Red"))
+        qp.drawRect(  self.bounds )
+        qp.end()
+
+        if self.sizeHandler is not None :
+            self.sizeHandler.paintEvent( event)
+
         
     def mousePressEvent(self, event):
-        self.sizeHandler.mousePressEvent(event)
+        if self.sizeHandler is not None :
+            self.sizeHandler.mousePressEvent(event)
+        else: #size handler is  none
+            print "handler added"
+            if self.bounds.contains( event.pos()) :
+                self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
+                self.repaint()
+
 
     def mouseReleaseEvent(self, event):
-        self.sizeHandler.mouseReleaseEvent(event)
-
-
+        if self.sizeHandler is not None :
+            self.sizeHandler.mouseReleaseEvent(event)
 
     def mouseMoveEvent(self, event):
-        self.sizeHandler.mouseMoveEvent(event)
-        if self.sizeHandler.can_Hresize is True or \
-            self.sizeHandler.can_Vresize is True or \
-            self.sizeHandler.can_move is True:
+        if self.sizeHandler is not None :
+            self.sizeHandler.mouseMoveEvent(event)
+            if self.sizeHandler.can_Hresize is True or \
+                self.sizeHandler.can_Vresize is True or \
+                self.sizeHandler.can_move is True:
 
-            self.repaint()
+                self.repaint()
         
 
 class SizeHandler :
@@ -51,6 +77,10 @@ class SizeHandler :
             self.bounds = obj.boundingRect() # incase of QLabel
 
         self.can_Hresize = self.can_Vresize = self.can_move = False
+        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() - 4, 8, 8)
+        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
+        self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
+
 
     def paintEvent( self, event ) :
         if self.object == "rectangle" : 
@@ -60,8 +90,6 @@ class SizeHandler :
             color = QtGui.QColor(0, 0, 0)
             color.setNamedColor('#d4d4d4')
             qp.setPen(color)
-            qp.setBrush(QtGui.QColor("Red"))
-            qp.drawRect(  self.bounds )
             # vertical  handle 
             self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() - 4, 8, 8)
             qp.setBrush(QtGui.QColor("Black"))
@@ -83,7 +111,6 @@ class SizeHandler :
             qp.end()    
 
     def mousePressEvent(self, event):
-
         #horizontal
         if self.HBounds.contains( event.pos()) :
                 self.can_Hresize = True
@@ -140,9 +167,6 @@ def main():
     
     app = QtGui.QApplication(sys.argv)
     widget = Widget()
-    bounds = QtCore.QRect(50, 100, 250, 200)
-    sizeHandler = SizeHandler(widget, "rectangle", bounds)
-    widget.setSizeHandler(sizeHandler)
     sys.exit(app.exec_())
 
 
