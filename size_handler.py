@@ -21,7 +21,7 @@ class Widget(QtGui.QWidget) :
         self.bounds = QtCore.QRect(50, 100, 250, 200)
         self.label = self.bannerLabel = QtGui.QLabel(self)
         self.label.setText("Hello welcome to sajjanpur")
-        self.label.move(50,50)
+        self.label.move( 50, 20 )
         self.show()
 
     def paintEvent(self, event):
@@ -43,15 +43,12 @@ class Widget(QtGui.QWidget) :
 
         
     def mousePressEvent(self, event):
-        print "yeah"
         if self.bounds.contains( event.pos()) :
-            print "first"
-            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds :
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
                 self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
             self.sizeHandler.mousePressEvent(event)
 
         elif self.label.geometry().contains( event.pos() ) :
-            print "entering"
             if self.sizeHandler is None or self.sizeHandler.bounds != self.label.geometry() :
                 self.sizeHandler = SizeHandler(self, self.label)
             self.sizeHandler.mousePressEvent(event)
@@ -74,8 +71,8 @@ class Widget(QtGui.QWidget) :
 
 class SizeHandler :
 
-    HANDLER_XSIZE = 8
-    HANDLER_YSIZE = 8
+    HANDLER_XSIZE = 10
+    HANDLER_YSIZE = 10
 
     def __init__(self, widget, obj, bounds=None) :
         self.object = obj  # could be any QPainter shape or Qlabel
@@ -84,11 +81,18 @@ class SizeHandler :
             self.bounds = bounds #in case of QPainter rectangle
         else :
             self.bounds = obj.geometry() # incase of QLabel and other UI elements
+            print self.bounds
 
         self.can_Hresize = self.can_Vresize = self.can_move = False
-        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() - self.HANDLER_YSIZE / 2 , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
-        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        
+        self.enable_Hresize = self.enable_Vresize = self.enable_move = True  # knobs to disable any of the handlers
+
+        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2 , self.bounds.y() , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
         self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+
+        print self.VBounds
+
 
 
     def paintEvent( self, event ) :
@@ -99,34 +103,38 @@ class SizeHandler :
         color.setNamedColor('#d4d4d4')
         qp.setPen(color)
         # vertical  handle 
-        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() - self.HANDLER_YSIZE / 2 , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
-        qp.setBrush(QtGui.QColor("Black"))
-        qp.drawRect(  self.VBounds )
+        self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        print self.VBounds
+        qp.setBrush(QtGui.QColor("Yellow"))
+        if self.enable_Vresize is True :
+            qp.drawRect(  self.VBounds )
 
 
         # horizontal  handle 
-        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
-        qp.setBrush(QtGui.QColor("Black"))
-        qp.drawRect( self.HBounds ) 
+        self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
+        qp.setBrush(QtGui.QColor("Yellow"))
+        if self.enable_Hresize is True :
+            qp.drawRect( self.HBounds ) 
 
 
         # central  handle 
         self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
-        qp.setBrush(QtGui.QColor("Black"))
-        qp.drawRect( self.CBounds ) 
+        qp.setBrush(QtGui.QColor("Yellow"))
+        if self.enable_move is True :
+            qp.drawRect( self.CBounds ) 
 
 
         qp.end()    
 
     def mousePressEvent(self, event):
         #horizontal
-        if self.HBounds.contains( event.pos()) :
+        if self.enable_Hresize and self.HBounds.contains( event.pos()) :
                 self.can_Hresize = True
         #vertical
-        elif self.VBounds.contains( event.pos()) :
+        elif self.enable_Vresize and self.VBounds.contains( event.pos()) :
                 self.can_Vresize = True
                 
-        elif self.CBounds.contains( event.pos()) :
+        elif self.enable_move and self.CBounds.contains( event.pos()) :
                 self.can_move = True
 
                 
