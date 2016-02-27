@@ -33,7 +33,10 @@ class Widget(QtGui.QWidget) :
 
     def mouseMoveEvent(self, event):
         self.sizeHandler.mouseMoveEvent(event)
-        if self.sizeHandler.can_Hresize is True or self.sizeHandler.can_Vresize is True :
+        if self.sizeHandler.can_Hresize is True or \
+            self.sizeHandler.can_Vresize is True or \
+            self.sizeHandler.can_move is True:
+
             self.repaint()
         
 
@@ -47,7 +50,7 @@ class SizeHandler :
         else :
             self.bounds = obj.boundingRect() # incase of QLabel
 
-        self.can_Hresize = self.can_Vresize = False
+        self.can_Hresize = self.can_Vresize = self.can_move = False
 
     def paintEvent( self, event ) :
         if self.object == "rectangle" : 
@@ -71,6 +74,12 @@ class SizeHandler :
             qp.drawRect( self.HBounds ) 
 
 
+            # central  handle 
+            self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - 4, self.bounds.y() + self.bounds.height()/2 - 4, 8, 8)
+            qp.setBrush(QtGui.QColor("Black"))
+            qp.drawRect( self.CBounds ) 
+
+
             qp.end()    
 
     def mousePressEvent(self, event):
@@ -78,11 +87,13 @@ class SizeHandler :
         #horizontal
         if self.HBounds.contains( event.pos()) :
                 self.can_Hresize = True
-                #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeHorCursor ))
         #vertical
         elif self.VBounds.contains( event.pos()) :
                 self.can_Vresize = True
-                #QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor ))
+                
+        elif self.CBounds.contains( event.pos()) :
+                self.can_move = True
+
                 
 
     def mouseReleaseEvent(self, event):
@@ -91,14 +102,24 @@ class SizeHandler :
 
         elif self.can_Vresize == True :
             self.can_Vresize  = False
-
+        
+        elif self.can_move == True :
+            self.can_move  = False
 
     def mouseMoveEvent(self, event):
         if self.can_Hresize == True:
-            self.bounds.setRight(event.pos().x()) #change width of rectangle being drawn using these values
+            if self.object == "rectangle" :
+                self.bounds.setRight(event.pos().x()) #change width of rectangle being drawn using these values
 
         elif self.can_Vresize == True:
-            self.bounds.setTop(event.pos().y())  #change height Qt is awesome for giving these functions
+            if self.object == "rectangle" :
+                self.bounds.setTop(event.pos().y())  #change height Qt is awesome for giving these functions
+        
+        elif self.can_move == True:
+            if self.object == "rectangle" :
+                self.bounds = QtCore.QRect(event.pos().x() - self.bounds.width() / 2, \
+                                            event.pos().y() - self.bounds.height() / 2, \
+                                            self.bounds.width(), self.bounds.height()) 
         
         else : #when mouse is simply moving and hovers over handlers, change mouse cursor momentarily
             if self.HBounds.contains( event.pos()) :
@@ -106,6 +127,9 @@ class SizeHandler :
 
             elif self.VBounds.contains( event.pos()) :
                 QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor ))
+
+            elif self.CBounds.contains( event.pos()) :
+                QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeAllCursor ))
             else:
                 QtGui.QApplication.restoreOverrideCursor() #normal cursor mode
 
