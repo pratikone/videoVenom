@@ -3,8 +3,8 @@
 import sys
 from PyQt4 import QtGui, QtCore
 import banner_ui
+from size_handler import SizeHandler
 
-DELAY = 100 * 1 #  5 seconds in milli-seconds
 
 
 
@@ -15,18 +15,20 @@ class Widget(QtGui.QWidget) :
     start = {"x" : 50, "y" : 100 }
     end = {"x" : 300, "y" : 300 }
 
-    def __init__(self, ui):
+    def __init__(self, ui, sizeHandler = None):
         super(Widget, self).__init__()
         self.ui = ui
+        self.sizeHandler = sizeHandler
 
 
     def initUI(self):      
         self.ui.bannerText.connect(self.ui.bannerText, QtCore.SIGNAL("textChanged(QString)"),
                     self.labelUpdate)
-
         self.ui.fontBtn.clicked.connect(self.font_choice)
-
         self.ui.colorBtn.clicked.connect(self.color_choice)
+        
+        self.bounds = QtCore.QRect(50, 100, 250, 200)
+        self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
 
 
         
@@ -46,13 +48,50 @@ class Widget(QtGui.QWidget) :
 
 
     def paintEvent(self, e):
-        
-        lines = { "short" : 5, "long" : 12 }
+        if self.sizeHandler is not None and self.sizeHandler.object == "rectangle" :
+            self.bounds = self.sizeHandler.bounds
 
-        width  = self.end["x"] - self.start["x"]
-        height = self.end["y"] - self.start["y"]
+        qp = QtGui.QPainter()
+        qp.begin(self)
+        color = QtGui.QColor(0, 0, 0)
+        color.setNamedColor('#d4d4d4')
+        qp.setPen(color)
+        qp.setBrush(QtGui.QColor("Red"))
+        qp.drawRect(  self.bounds )
+        qp.end()
 
+        if self.sizeHandler is not None :
+            self.sizeHandler.paintEvent( event)
 
+    def mousePressEvent(self, event):
+        print "yo"
+        if self.bounds.contains( event.pos()) :
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
+                self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
+            self.sizeHandler.mousePressEvent(event)
+
+        elif self.ui.bannerLabel.geometry().contains( event.pos() ) :
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.ui.bannerLabel.geometry() :
+                self.sizeHandler = SizeHandler(self, self.ui.bannerLabel)
+                self.sizeHandler.enable_Hresize = self.sizeHandler.enable_Vresize = False  #disabling handlers
+            self.sizeHandler.mousePressEvent(event)
+
+        self.repaint()
+   
+    def mouseReleaseEvent(self, event):
+        print "yeah"
+        if self.sizeHandler is not None :
+            self.sizeHandler.mouseReleaseEvent(event)
+
+    def mouseMoveEvent(self, event):
+        if self.sizeHandler is not None :
+            self.sizeHandler.mouseMoveEvent(event)
+            if self.sizeHandler.can_Hresize is True or \
+                self.sizeHandler.can_Vresize is True or \
+                self.sizeHandler.can_move is True:
+
+                self.repaint()
+      
 
 
 def main():

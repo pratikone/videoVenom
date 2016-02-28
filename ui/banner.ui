@@ -13,138 +13,118 @@
   <property name="windowTitle">
    <string>Set Video Banner and Text</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="topMargin">
-    <number>9</number>
+  <widget class="QPushButton" name="bannerBtn">
+   <property name="geometry">
+    <rect>
+     <x>52</x>
+     <y>241</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
    </property>
-   <property name="bottomMargin">
-    <number>9</number>
+   <property name="text">
+    <string>Add Banner</string>
    </property>
-   <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Banner selection</string>
-     </property>
-     <widget class="QPushButton" name="bannerBtn">
-      <property name="geometry">
-       <rect>
-        <x>41</x>
-        <y>241</y>
-        <width>481</width>
-        <height>41</height>
-       </rect>
-      </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>52</x>
+     <y>292</y>
+     <width>481</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="textLabel">
       <property name="text">
-       <string>Add Banner</string>
+       <string>Add banner text to the video</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame">
-      <property name="geometry">
-       <rect>
-        <x>19</x>
-        <y>20</y>
-        <width>521</width>
-        <height>201</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::Panel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <widget class="QLabel" name="bannerLabel">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>150</y>
-         <width>141</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgba(255, 255, 255, 0)</string>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QDialogButtonBox" name="buttonBox">
-      <property name="geometry">
-       <rect>
-        <x>430</x>
-        <y>390</y>
-        <width>156</width>
-        <height>59</height>
-       </rect>
-      </property>
-      <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="bannerText"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>51</x>
+     <y>330</y>
+     <width>481</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QPushButton" name="fontBtn">
+      <property name="text">
+       <string>Select Font</string>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>41</x>
-        <y>292</y>
-        <width>481</width>
-        <height>41</height>
-       </rect>
+    </item>
+    <item>
+     <widget class="QPushButton" name="colorBtn">
+      <property name="text">
+       <string>Set Font Color</string>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="textLabel">
-         <property name="text">
-          <string>Add banner text to the video</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="bannerText"/>
-       </item>
-      </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>330</y>
-        <width>481</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QPushButton" name="fontBtn">
-         <property name="text">
-          <string>Select Font</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="colorBtn">
-         <property name="text">
-          <string>Set Font Color</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <zorder>layoutWidget</zorder>
-     <zorder>bannerBtn</zorder>
-     <zorder>frame</zorder>
-     <zorder>buttonBox</zorder>
-     <zorder>layoutWidget</zorder>
-    </widget>
-   </item>
-  </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>441</x>
+     <y>390</y>
+     <width>156</width>
+     <height>59</height>
+    </rect>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>20</y>
+     <width>521</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <widget class="QLabel" name="bannerLabel">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>150</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0)</string>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>
