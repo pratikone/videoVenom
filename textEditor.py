@@ -14,6 +14,7 @@ class Widget(QtGui.QWidget) :
         self.ui = ui
         self.sizeHandler = sizeHandler
         self.show_banner = False
+        self.File = None
 
 
 
@@ -23,9 +24,7 @@ class Widget(QtGui.QWidget) :
         self.ui.fontBtn.clicked.connect(self.font_choice)
         self.ui.colorBtn.clicked.connect(self.color_choice)
         self.ui.bannerBtn.clicked.connect( self.bannerToogle )
-        # self.ui.bannerLabel.setFixedSize(200, 50)
 
-        
         self.bounds = QtCore.QRect(70, 50, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
         self.ui.frame.setMouseTracking(True)
@@ -45,11 +44,23 @@ class Widget(QtGui.QWidget) :
     def color_choice(self):
         color = QtGui.QColorDialog.getColor()
         self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % color.name())
+
+    def file_open(self):
+        name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
+        self.file = open(name,'r')
+        return self.file
+
+    def file_close(self):
+        self.file = None
+
+
             
     def bannerToogle(self) :
         if self.show_banner is False :
-            self.show_banner = True
+            if self.file_open() is not None :
+                self.show_banner = True
         elif self.show_banner is True :
+            self.file_close()
             self.show_banner = False
         self.repaint()
 
@@ -72,7 +83,6 @@ class Widget(QtGui.QWidget) :
 
     def mousePressEvent(self, event):
 
-        print self.ui.bannerLabel.geometry()
         if self.show_banner is True and self.bounds.contains( event.pos()) :
             if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
                 self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
@@ -91,7 +101,6 @@ class Widget(QtGui.QWidget) :
             self.sizeHandler.mouseReleaseEvent(event)
 
     def mouseMoveEvent(self, event):
-        print event.pos()
         if self.sizeHandler is not None :
             self.sizeHandler.mouseMoveEvent(event)
             if self.sizeHandler.can_Hresize is True or \
