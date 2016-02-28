@@ -67,6 +67,9 @@ class Ui_Form(object):
         self.bannerLabel.setFrameShadow(QtGui.QFrame.Plain)
         self.bannerLabel.setText(_fromUtf8(""))
         self.bannerLabel.setObjectName(_fromUtf8("bannerLabel"))
+        self.previewBtn = QtGui.QPushButton(Form)
+        self.previewBtn.setGeometry(QtCore.QRect(340, 410, 75, 23))
+        self.previewBtn.setObjectName(_fromUtf8("previewBtn"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -77,6 +80,7 @@ class Ui_Form(object):
         self.textLabel.setText(_translate("Form", "Add banner text to the video", None))
         self.fontBtn.setText(_translate("Form", "Select Font", None))
         self.colorBtn.setText(_translate("Form", "Set Font Color", None))
+        self.previewBtn.setText(_translate("Form", "Preview ...", None))
 
 
 if __name__ == "__main__":
