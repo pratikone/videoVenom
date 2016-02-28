@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
+import sys, os
 from PyQt4 import QtGui, QtCore
 
 
@@ -19,8 +19,10 @@ class Widget(QtGui.QWidget) :
         self.setWindowTitle('Colours')
         self.sizeHandler = sizeHandler
         self.bounds = QtCore.QRect(50, 100, 250, 200)
-        self.label = self.bannerLabel = QtGui.QLabel(self)
-        self.label.setText("Hello welcome to sajjanpur")
+        self.label = QtGui.QLabel(self)
+        #self.pixmap = QtGui.QPixmap( os.getcwd() + "/resources/pattern.jpg" )
+        #self.label.setPixmap( self.pixmap.scaled( self.label.width(), self.label.height()))
+        self.label.setText( " mann ke manjira baaje re " )
         self.label.move( 50, 20 )
         self.show()
 
@@ -51,6 +53,7 @@ class Widget(QtGui.QWidget) :
         elif self.label.geometry().contains( event.pos() ) :
             if self.sizeHandler is None or self.sizeHandler.bounds != self.label.geometry() :
                 self.sizeHandler = SizeHandler(self, self.label)
+                self.sizeHandler.enable_Hresize = self.sizeHandler.enable_Vresize = False  #disabling handlers
             self.sizeHandler.mousePressEvent(event)
 
         self.repaint()
@@ -81,7 +84,6 @@ class SizeHandler :
             self.bounds = bounds #in case of QPainter rectangle
         else :
             self.bounds = obj.geometry() # incase of QLabel and other UI elements
-            print self.bounds
 
         self.can_Hresize = self.can_Vresize = self.can_move = False
         
@@ -91,7 +93,6 @@ class SizeHandler :
         self.HBounds = QtCore.QRect( self.bounds.x() + self.bounds.width() - self.HANDLER_XSIZE, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
         self.CBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() + self.bounds.height()/2 - self.HANDLER_YSIZE / 2, self.HANDLER_XSIZE, self.HANDLER_YSIZE)
 
-        print self.VBounds
 
 
 
@@ -104,7 +105,6 @@ class SizeHandler :
         qp.setPen(color)
         # vertical  handle 
         self.VBounds = QtCore.QRect( self.bounds.x() + self.bounds.width()/2 - self.HANDLER_XSIZE / 2, self.bounds.y() , self.HANDLER_XSIZE, self.HANDLER_YSIZE)
-        print self.VBounds
         qp.setBrush(QtGui.QColor("Yellow"))
         if self.enable_Vresize is True :
             qp.drawRect(  self.VBounds )
