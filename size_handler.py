@@ -150,7 +150,7 @@ class SizeHandler :
             self.can_move  = False
 
     def mouseMoveEvent(self, event):
-        print "reacjing fn cstart"
+        #for mouse move to work properly , add setMouseTracking(True) to all concerned widgets
         if self.can_Hresize == True:
             self.bounds.setRight(event.pos().x()) #change width of rectangle being drawn using these values
             if self.object == "rectangle" :
@@ -175,7 +175,6 @@ class SizeHandler :
                     self.widget.label.setGeometry( self.bounds )
         
         else : #when mouse is simply moving and hovers over handlers, change mouse cursor momentarily
-            print "reacjing ELSE"
             if self.HBounds.contains( event.pos()) :
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeHorCursor )) #horizontal cursor
 
@@ -183,7 +182,6 @@ class SizeHandler :
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor )) #vertical cursor
 
             elif self.CBounds.contains( event.pos()) :
-                print "reaching central"
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeAllCursor )) #move cursor
             else:
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor ))  #restore normal cursor

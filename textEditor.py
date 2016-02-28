@@ -32,6 +32,8 @@ class Widget(QtGui.QWidget) :
         
         self.bounds = QtCore.QRect(50, 50, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
+        self.ui.frame.setMouseTracking(True)
+        self.ui.bannerLabel.setMouseTracking(True)
 
 
         
