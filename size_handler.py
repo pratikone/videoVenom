@@ -150,6 +150,7 @@ class SizeHandler :
             self.can_move  = False
 
     def mouseMoveEvent(self, event):
+        print "reacjing fn cstart"
         if self.can_Hresize == True:
             self.bounds.setRight(event.pos().x()) #change width of rectangle being drawn using these values
             if self.object == "rectangle" :
@@ -174,16 +175,18 @@ class SizeHandler :
                     self.widget.label.setGeometry( self.bounds )
         
         else : #when mouse is simply moving and hovers over handlers, change mouse cursor momentarily
+            print "reacjing ELSE"
             if self.HBounds.contains( event.pos()) :
-                QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeHorCursor ))
+                self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeHorCursor )) #horizontal cursor
 
             elif self.VBounds.contains( event.pos()) :
-                QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor ))
+                self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor )) #vertical cursor
 
             elif self.CBounds.contains( event.pos()) :
-                QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.SizeAllCursor ))
+                print "reaching central"
+                self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeAllCursor )) #move cursor
             else:
-                QtGui.QApplication.restoreOverrideCursor() #normal cursor mode
+                self.widget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor ))  #restore normal cursor
 
 
         #repaint to be called by the caller

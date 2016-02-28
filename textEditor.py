@@ -19,6 +19,7 @@ class Widget(QtGui.QWidget) :
         super(Widget, self).__init__()
         self.ui = ui
         self.sizeHandler = sizeHandler
+        self.show_banner = False
 
 
     def initUI(self):      
@@ -26,8 +27,10 @@ class Widget(QtGui.QWidget) :
                     self.labelUpdate)
         self.ui.fontBtn.clicked.connect(self.font_choice)
         self.ui.colorBtn.clicked.connect(self.color_choice)
+        self.ui.bannerBtn.clicked.connect( self.bannerToogle )
+
         
-        self.bounds = QtCore.QRect(50, 100, 250, 200)
+        self.bounds = QtCore.QRect(50, 50, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
 
 
@@ -45,27 +48,32 @@ class Widget(QtGui.QWidget) :
         color = QtGui.QColorDialog.getColor()
         self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % color.name())
             
+    def bannerToogle(self) :
+        if self.show_banner is False :
+            self.show_banner = True
+        elif self.show_banner is True :
+            self.show_banner = False
+        self.repaint()
 
-
-    def paintEvent(self, e):
+    def paintEvent(self, event):
         if self.sizeHandler is not None and self.sizeHandler.object == "rectangle" :
             self.bounds = self.sizeHandler.bounds
 
-        qp = QtGui.QPainter()
-        qp.begin(self)
-        color = QtGui.QColor(0, 0, 0)
-        color.setNamedColor('#d4d4d4')
-        qp.setPen(color)
-        qp.setBrush(QtGui.QColor("Red"))
-        qp.drawRect(  self.bounds )
-        qp.end()
+        if self.show_banner is True :
+            qp = QtGui.QPainter()
+            qp.begin(self)
+            color = QtGui.QColor(0, 0, 0)
+            color.setNamedColor('#d4d4d4')
+            qp.setPen(color)
+            qp.setBrush(QtGui.QColor("Red"))
+            qp.drawRect(  self.bounds )
+            qp.end()
 
         if self.sizeHandler is not None :
             self.sizeHandler.paintEvent( event)
 
     def mousePressEvent(self, event):
-        print "yo"
-        if self.bounds.contains( event.pos()) :
+        if self.show_banner is True and self.bounds.contains( event.pos()) :
             if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
                 self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
             self.sizeHandler.mousePressEvent(event)
@@ -79,7 +87,6 @@ class Widget(QtGui.QWidget) :
         self.repaint()
    
     def mouseReleaseEvent(self, event):
-        print "yeah"
         if self.sizeHandler is not None :
             self.sizeHandler.mouseReleaseEvent(event)
 
