@@ -156,14 +156,14 @@ class SizeHandler :
             if self.object == "rectangle" :
                 pass  #nothing more is needed to be done here. PaintEvent takes care of everything
             else:
-                self.widget.label.setGeometry( self.bounds )
+                self.object.setGeometry( self.bounds )
 
         elif self.can_Vresize == True:
             self.bounds.setTop(event.pos().y())  #change height Qt is awesome for giving these functions
             if self.object == "rectangle" :
                 pass
             else :
-                self.widget.label.setGeometry( self.bounds )
+                self.object.setGeometry( self.bounds )
         
         elif self.can_move == True:
                 self.bounds = QtCore.QRect(event.pos().x() - self.bounds.width() / 2, \
@@ -172,16 +172,16 @@ class SizeHandler :
                 if self.object == "rectangle" :
                     pass
                 else :
-                    self.widget.label.setGeometry( self.bounds )
+                    self.object.setGeometry( self.bounds )
         
         else : #when mouse is simply moving and hovers over handlers, change mouse cursor momentarily
-            if self.HBounds.contains( event.pos()) :
+            if self.enable_Hresize and self.HBounds.contains( event.pos()) :
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeHorCursor )) #horizontal cursor
 
-            elif self.VBounds.contains( event.pos()) :
+            elif self.enable_Vresize and self.VBounds.contains( event.pos()) :
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeVerCursor )) #vertical cursor
 
-            elif self.CBounds.contains( event.pos()) :
+            elif self.enable_move and self.CBounds.contains( event.pos()) :
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.SizeAllCursor )) #move cursor
             else:
                 self.widget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor ))  #restore normal cursor

@@ -6,14 +6,8 @@ import banner_ui
 from size_handler import SizeHandler
 
 
-
-
-
 class Widget(QtGui.QWidget) :
 
-
-    start = {"x" : 50, "y" : 100 }
-    end = {"x" : 300, "y" : 300 }
 
     def __init__(self, ui, sizeHandler = None):
         super(Widget, self).__init__()
@@ -22,15 +16,17 @@ class Widget(QtGui.QWidget) :
         self.show_banner = False
 
 
+
     def initUI(self):      
         self.ui.bannerText.connect(self.ui.bannerText, QtCore.SIGNAL("textChanged(QString)"),
                     self.labelUpdate)
         self.ui.fontBtn.clicked.connect(self.font_choice)
         self.ui.colorBtn.clicked.connect(self.color_choice)
         self.ui.bannerBtn.clicked.connect( self.bannerToogle )
+        # self.ui.bannerLabel.setFixedSize(200, 50)
 
         
-        self.bounds = QtCore.QRect(50, 50, 250, 50)
+        self.bounds = QtCore.QRect(70, 50, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
         self.ui.frame.setMouseTracking(True)
         self.ui.bannerLabel.setMouseTracking(True)
@@ -75,15 +71,17 @@ class Widget(QtGui.QWidget) :
             self.sizeHandler.paintEvent( event)
 
     def mousePressEvent(self, event):
+
+        print self.ui.bannerLabel.geometry()
         if self.show_banner is True and self.bounds.contains( event.pos()) :
             if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
                 self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
             self.sizeHandler.mousePressEvent(event)
 
-        elif self.ui.bannerLabel.geometry().contains( event.pos() ) :
+        elif self.ui.bannerLabel.geometry().contains( event.pos() ) : #label
             if self.sizeHandler is None or self.sizeHandler.bounds != self.ui.bannerLabel.geometry() :
                 self.sizeHandler = SizeHandler(self, self.ui.bannerLabel)
-                self.sizeHandler.enable_Hresize = self.sizeHandler.enable_Vresize = False  #disabling handlers
+                # self.sizeHandler.enable_Hresize = self.sizeHandler.enable_Vresize = False  #disabling handlers
             self.sizeHandler.mousePressEvent(event)
 
         self.repaint()
@@ -93,6 +91,7 @@ class Widget(QtGui.QWidget) :
             self.sizeHandler.mouseReleaseEvent(event)
 
     def mouseMoveEvent(self, event):
+        print event.pos()
         if self.sizeHandler is not None :
             self.sizeHandler.mouseMoveEvent(event)
             if self.sizeHandler.can_Hresize is True or \
