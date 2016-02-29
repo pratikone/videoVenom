@@ -24,3 +24,4 @@ class Signal_Slots :
     def stop_playback( self, window, ui ) :
         ui.videoPlayer.stop()
 
+ 

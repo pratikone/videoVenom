@@ -4,6 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import banner_ui
 from size_handler import SizeHandler
+import preview
 
 
 class Widget(QtGui.QWidget) :
@@ -24,6 +25,7 @@ class Widget(QtGui.QWidget) :
         self.ui.fontBtn.clicked.connect(self.font_choice)
         self.ui.colorBtn.clicked.connect(self.color_choice)
         self.ui.bannerBtn.clicked.connect( self.bannerToogle )
+        self.ui.previewBtn.clicked.connect( self.preview_banner )
 
         self.bounds = QtCore.QRect(70, 50, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
@@ -37,22 +39,24 @@ class Widget(QtGui.QWidget) :
         self.ui.bannerLabel.setText(self.ui.bannerText.text())
 
     def font_choice(self):
-        font, valid = QtGui.QFontDialog.getFont()
+        self.font, valid = QtGui.QFontDialog.getFont()
         if valid:
-            self.ui.bannerLabel.setFont(font)
+            self.ui.bannerLabel.setFont(self.font)
 
     def color_choice(self):
-        color = QtGui.QColorDialog.getColor()
-        self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % color.name())
+        self.color = QtGui.QColorDialog.getColor()
+        self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % self.color.name())
 
     def file_open(self):
-        name = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
-        self.file = open(name,'r')
+        self.file = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
         return self.file
 
     def file_close(self):
         self.file = None
 
+    def preview_banner(self) :
+            self.preview = preview.showPreview()
+            self.preview.moveStuff( self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
 
             
     def bannerToogle(self) :
@@ -109,6 +113,9 @@ class Widget(QtGui.QWidget) :
 
                 self.repaint()
       
+
+
+
 
 
 def main():
