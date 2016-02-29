@@ -1,9 +1,12 @@
-import cv2
-from moviepy.editor import *
-from PIL import *
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import os
+import cv2
 import random
+from PIL import *
 import numpy as np
+from moviepy.editor import *
 
 def compare_image(imageA, imageB):
     # the 'Mean Squared Error' between the two images is the
@@ -25,13 +28,14 @@ def destroyAllFrames(pathOfVideo,count):
         if os.path.isfile(pathToremove):
             os.remove(pathToremove)
 
+#Function to generate an array of frames from the video
 def GenerateFrames(videoLocation):
     vidcap = cv2.VideoCapture(videoLocation) 
     success,image = vidcap.read()
     count = 1
     vidDirectory = os.path.dirname(videoLocation)
 
-    while success:
+    while (count < 200) and (success): 
         success,image = vidcap.read()
         frame_read = os.path.join(vidDirectory,'frame%d.jpg' %count)
         cv2.imwrite(frame_read, image)     # save frame as JPEG file
@@ -84,5 +88,6 @@ def GenerateTheVideo(videoLocation,durationOfImage, numVideos=1):
     destroyAllFrames(vidDirectory,FrameCount)
 
 
-#GenerateTheVideo("C:/Python27/codes/opencv tut/test.avi",2,2) #path where the video is located
+GenerateTheVideo("C:/Python27/codes/opencv tut/test.avi",2,2) #path where the video is located
+
 
