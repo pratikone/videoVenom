@@ -9,6 +9,7 @@ import preview
 
 class Widget(QtGui.QWidget) :
 
+    SCALE_FACTOR = 1  #how original video is scaled compared to frame in this widget window
 
     def __init__(self, ui, sizeHandler = None):
         super(Widget, self).__init__()
@@ -16,7 +17,6 @@ class Widget(QtGui.QWidget) :
         self.sizeHandler = sizeHandler
         self.show_banner = False
         self.File = None
-
 
 
     def initUI(self):      
@@ -56,8 +56,11 @@ class Widget(QtGui.QWidget) :
 
     def preview_banner(self) :
             self.preview = preview.showPreview()
-            self.preview.moveStuff( self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
+            self.preview.closeApp.connect( self.destroying_preview ) #connecting destructor to signal
+            self.preview.moveStuff( self.SCALE_FACTOR, self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
 
+    def destroying_preview(self) :
+        self.preview = None
             
     def bannerToogle(self) :
         if self.show_banner is False :

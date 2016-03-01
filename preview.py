@@ -8,26 +8,38 @@ import preview_ui
 # Shows the preview window showcasing the changes made in the editor window
 class Preview(QtGui.QWidget) :
 
+    closeApp = QtCore.pyqtSignal() #signal , slot to be with caller
+    
     def __init__(self, ui):
         super(Preview, self).__init__()
         self.ui = ui
+        
 
     def setup_connections(self) :
         self.ui.pushButton.clicked.connect( self.closeWidget )
 
-    def moveStuff(self, bannerCoords, bannerLabelCoords, bannerLabelText, font, color, image = None) :
+    def moveStuff(self, scaleFactor, bannerCoords, bannerLabelCoords, bannerLabelText, font, color, image = None) :
         self.ui.bannerlImage.setGeometry( bannerCoords )
+        self.ui.bannerlImage.geometry().setWidth( scaleFactor * self.ui.bannerlImage.geometry().width() )
+        self.ui.bannerlImage.geometry().setHeight( scaleFactor * self.ui.bannerlImage.geometry().height() )
+
         self.ui.bannerLabel.setGeometry( bannerLabelCoords )
+        self.ui.bannerLabel.geometry().setWidth( scaleFactor * self.ui.bannerLabel.geometry().width() )
+        self.ui.bannerLabel.geometry().setHeight( scaleFactor * self.ui.bannerLabel.geometry().height() )
+
         self.ui.bannerLabel.setText( bannerLabelText )
         self.ui.bannerLabel.setFont(font)
         self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % color.name())
         
         pixmap = QtGui.QPixmap( image )
         self.ui.bannerlImage.setPixmap( pixmap.scaled( self.ui.bannerlImage.width(), self.ui.bannerlImage.height()))
+        
         self.ui.bannerLabel.raise_() #raise banner text on top of banner image
+
         self.repaint()
 
     def closeWidget(self) :
+        self.closeApp.emit()
         self.close()
 
 
@@ -36,6 +48,7 @@ def showPreview(  ) :
     widget = Preview( ui )
     ui.setupUi(widget)
     widget.setup_connections()
+
     widget.show()
     return widget
 
