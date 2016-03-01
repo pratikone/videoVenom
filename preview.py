@@ -19,13 +19,14 @@ class Preview(QtGui.QWidget) :
         self.ui.pushButton.clicked.connect( self.closeWidget )
 
     def moveStuff(self, scaleFactor, bannerCoords, bannerLabelCoords, bannerLabelText, font, color, image) :
+        self.resize( scaleFactor * self.geometry().width(), scaleFactor * self.geometry().height() )
+        self.ui.bgLabel.resize( scaleFactor * self.ui.bgLabel.geometry().width(), scaleFactor * self.ui.bgLabel.geometry().height() )
+        
         self.ui.bannerlImage.setGeometry( bannerCoords )
-        self.ui.bannerlImage.geometry().setWidth( scaleFactor * self.ui.bannerlImage.geometry().width() )
-        self.ui.bannerlImage.geometry().setHeight( scaleFactor * self.ui.bannerlImage.geometry().height() )
+        self.ui.bannerlImage.resize(scaleFactor * self.ui.bannerlImage.geometry().width(),  scaleFactor * self.ui.bannerlImage.geometry().height())
 
         self.ui.bannerLabel.setGeometry( bannerLabelCoords )
-        self.ui.bannerLabel.geometry().setWidth( scaleFactor * self.ui.bannerLabel.geometry().width() )
-        self.ui.bannerLabel.geometry().setHeight( scaleFactor * self.ui.bannerLabel.geometry().height() )
+        self.ui.bannerLabel.resize( scaleFactor * self.ui.bannerLabel.geometry().width(), scaleFactor * self.ui.bannerLabel.geometry().height() )
 
         self.ui.bannerLabel.setText( bannerLabelText )
         if font is not None :
