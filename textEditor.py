@@ -16,7 +16,9 @@ class Widget(QtGui.QWidget) :
         self.ui = ui
         self.sizeHandler = sizeHandler
         self.show_banner = False
-        self.File = None
+        self.file = None
+        self.color = None
+        self.font = None
 
 
     def initUI(self):      
