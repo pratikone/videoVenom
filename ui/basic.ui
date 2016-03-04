@@ -14,61 +14,121 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="Phonon::VideoPlayer" name="videoPlayer">
+   <widget class="Phonon::VideoPlayer" name="videoPlayer" native="true">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>50</y>
-      <width>300</width>
-      <height>200</height>
+      <x>281</x>
+      <y>11</y>
+      <width>439</width>
+      <height>281</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(0, 0, 0, 100)</string>
+    </property>
    </widget>
-   <widget class="Phonon::SeekSlider" name="seekSlider">
+   <widget class="Phonon::SeekSlider" name="seekSlider" native="true">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>280</x>
+      <y>330</y>
+      <width>441</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 100)</string>
+    </property>
+   </widget>
+   <widget class="Phonon::VolumeSlider" name="volumeSlider" native="true">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
       <y>300</y>
-      <width>301</width>
-      <height>19</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="Phonon::VolumeSlider" name="volumeSlider">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>270</y>
       <width>109</width>
-      <height>22</height>
+      <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 100)</string>
+    </property>
    </widget>
-   <widget class="QPushButton" name="playButton">
+   <widget class="QPushButton" name="bannerBtn">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>330</y>
-      <width>75</width>
-      <height>23</height>
+      <x>70</x>
+      <y>270</y>
+      <width>131</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Play</string>
+     <string>Banner and Text</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="stopButton">
+   <widget class="QLabel" name="logoLabel">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>330</y>
-      <width>75</width>
-      <height>23</height>
+      <x>10</x>
+      <y>10</y>
+      <width>241</width>
+      <height>221</height>
      </rect>
     </property>
     <property name="text">
-     <string>Stop</string>
+     <string>Video Venom logo</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>370</y>
+      <width>269</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="playButton">
+       <property name="text">
+        <string>Play</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pauseButton">
+       <property name="text">
+        <string>Pause</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="stopButton">
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>241</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QTimeEdit" name="startTimeWidget"/>
+     </item>
+     <item>
+      <widget class="QTimeEdit" name="endTimeWidget"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -77,7 +137,7 @@
      <x>0</x>
      <y>0</y>
      <width>792</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
