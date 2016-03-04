@@ -40,8 +40,8 @@ class Window(QtGui.QMainWindow):
     def paintEvent(self, e):
         print "paintEvent called"
         
-        start = {"x" : 170, "y" : 410 }
-        end = {"x" : 430, "y" : 500}
+        start = {"x" : 310, "y" : 450 }
+        end = {"x" : 720, "y" : 500}
         lines = { "short" : 5, "long" : 12 }
 
         qp = QtGui.QPainter()

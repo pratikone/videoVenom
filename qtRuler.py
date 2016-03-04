@@ -112,7 +112,6 @@ class Example(QtGui.QWidget):
         self.c = Communicate()        
         self.wid = BurningWidget()
         self.c.updateBW[int].connect(self.wid.setValue)
-
         sld.valueChanged[int].connect(self.changeValue)
         hbox = QtGui.QHBoxLayout()
         hbox.addWidget(self.wid)
