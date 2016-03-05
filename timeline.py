@@ -102,10 +102,11 @@ class AnotherTimeline(QtGui.QWidget):
         self.setMinimumSize(1, 30 )
         self.value = 75
         self.num = []
-        for x in range( my_range[0], my_range[1] + 1 ) :
+        self.my_range = my_range
+        for x in range( my_range + 1 ) :
             if x % 60 == 0 :
                 self.num.append( x )
-        print self.num
+
 
 
     def setValue(self, value):
@@ -127,45 +128,36 @@ class AnotherTimeline(QtGui.QWidget):
         qp.setFont(font)
 
         size = self.size()
-        w = size.width()
+        w = 400
         h = size.height()
+        # step = int(round(w / 10.0))
+        magnification = w / (1.0 * self.my_range) # width per sec
+        step = int(magnification * 60) #minute wise
 
-        step = int(round(w / 10.0))
+        till = int(((w / (1.0 * self.my_range)) * self.value))
+        full = int(((w / (1.0 * self.my_range)) * (self.my_range)))
 
-        till = int(((w / 750.0) * self.value))
-        full = int(((w / 750.0) * 700))
-
-        if self.value >= 700:
-        
-            qp.setPen(QtGui.QColor(255, 255, 255))
-            qp.setBrush(QtGui.QColor(255, 255, 184))
-            qp.drawRect(0, 0, full, h)
-            qp.setPen(QtGui.QColor(255, 175, 175))
-            qp.setBrush(QtGui.QColor(255, 175, 175))
-            qp.drawRect(full, 0, till-full, h)
-            
-        else:
-            qp.setPen(QtGui.QColor(255, 255, 255))
-            qp.setBrush(QtGui.QColor(255, 255, 184))
-            qp.drawRect(0, 0, till, h)
+        # video progress bar
+        qp.setPen(QtGui.QColor(255, 255, 255))
+        qp.setBrush(QtGui.QColor(255, 255, 184))
+        qp.drawRect(0, 0, till, h)
 
 
-        pen = QtGui.QPen(QtGui.QColor(20, 20, 20), 1, 
-            QtCore.Qt.SolidLine)
+        pen = QtGui.QPen(QtGui.QColor(20, 20, 20), 1, QtCore.Qt.SolidLine)
             
         qp.setPen(pen)
         qp.setBrush(QtCore.Qt.NoBrush)
         qp.drawRect(0, 0, w-1, h-1)
 
         j = 0
-
-        for i in range(step, 10*step, step):
-          
+        timed = 60
+        for i in range(step, w, step):
             qp.drawLine(i, 0, i, 5)
             metrics = qp.fontMetrics()
-            fw = metrics.width(str(self.num[j]))
-            qp.drawText(i-fw/2, h/2, str(self.num[j]))
+            fw = metrics.width(str(timed))
+            qp.drawText(i-fw/2, h/2, str(timed))
             j = j + 1
+            timed = timed + 60
             
 
 
@@ -186,7 +178,7 @@ class Example(QtGui.QWidget):
 
         sld = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         sld.setFocusPolicy(QtCore.Qt.NoFocus)
-        sld.setRange(my_range[0], my_range[1])
+        sld.setRange(0, my_range)
         sld.setValue(75)
         sld.setGeometry(30, 40, 150, 30)
 
@@ -223,7 +215,7 @@ def main():
     #ex = Timeline()
     #widget = Widget(ex)
     ey = Example()
-    ey.initUI((0, 480))
+    ey.initUI(840)
     sys.exit(app.exec_())
 
 
