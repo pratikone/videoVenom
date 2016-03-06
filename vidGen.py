@@ -72,21 +72,22 @@ def GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount):
                 i = i-1
     return RandomFrame
 
-def GenerateTheVideo(videoLocation,durationOfImage, numVideos=1):
+def GenerateTheVideo(videoLocation,durationOfImage, numVideos=1, t1, t2, x, y, ImageLocation):
     FrameCount = GenerateFrames(videoLocation)
     vidDirectory = os.path.dirname(videoLocation)
     RandomFrame = GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount)
 
     for numVideo_i in range(0,numVideos): 
+        OverlayImage = ImageLocation #Location Of Image/Banner
+        ovrImgClip = ImageClip(OverlayImage,duration=t2-t1) #Create a clip for the duration start
         frame_to_use = os.path.join(vidDirectory,'frame%d.jpg' %RandomFrame[numVideo_i])
         clip1 = ImageClip(frame_to_use, duration = GivemMeARandomNumber(5))
         clip2 = VideoFileClip(videoLocation)
-        Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)])
+        Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1),ovrImgClip.set_start(t1).set_pos((x,y))]) #Overlay the video
         newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])
         Video.write_videofile(newFileLocation,fps=25)
     
     destroyAllFrames(vidDirectory,FrameCount)
-
 
 GenerateTheVideo("C:/Python27/codes/opencv tut/test.avi",2,2) #path where the video is located
 
