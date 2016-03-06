@@ -1,7 +1,6 @@
 import sys
 import os
 import basic_ui
-import signals_slots
 from timeline import AnotherTimeline, Communicate
 from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon 
@@ -13,10 +12,8 @@ class Window(QtGui.QMainWindow):
 
     def __init__(self):
         super(Window, self).__init__()
-        self.ctr = 0
         self.c = Communicate() 
         self.timeline = AnotherTimeline( self, 600, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
-        self.signals_slots = signals_slots.Signal_Slots()
 
         #timer for animation
         #self.timer = QtCore.QTimer(self)
@@ -27,9 +24,9 @@ class Window(QtGui.QMainWindow):
     
     def setup_connections( self, ui ) :
         ui.actionExit.triggered.connect(QtCore.QCoreApplication.instance().quit )
-        ui.actionOpen.triggered.connect(lambda: self.signals_slots.open_file(self, ui))
-        ui.playButton.clicked.connect(lambda: self.signals_slots.start_playback(self, ui))
-        ui.stopButton.clicked.connect(lambda: self.signals_slots.stop_playback(self, ui))
+        ui.actionOpen.triggered.connect(lambda: self.open_file(self, ui))
+        ui.playButton.clicked.connect(lambda: self.start_playback(self, ui))
+        ui.stopButton.clicked.connect(lambda: self.stop_playback(self, ui))
         ui.seekSlider.setMediaObject(ui.videoPlayer.mediaObject())
         ui.volumeSlider.setAudioOutput(ui.videoPlayer.audioOutput())
 
@@ -46,8 +43,28 @@ class Window(QtGui.QMainWindow):
    
     def tick(self, time):
         displayTime = QtCore.QTime(0, (time / 60000) % 60, (time / 1000) % 60).second()
-        self.c.updateBW.emit(displayTime*60)        
+        print displayTime
+        self.c.updateBW.emit(displayTime)        
         self.repaint()
+
+    def open_file( self, window, ui) :
+        file = QtGui.QFileDialog.getOpenFileName(window, 'Open movie file')
+        unified_file = os.path.normpath(unicode(file)) 
+        mediaSource = Phonon.MediaSource( unified_file )
+        ui.videoPlayer.load( mediaSource )
+        print unified_file
+
+
+    def start_playback( self, window, ui ) :
+        ui.videoPlayer.play()
+        self.timeline.my_range = ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
+        print self.timeline.my_range
+
+
+    def stop_playback( self, window, ui ) :
+        ui.videoPlayer.stop()
+
+ 
 
 
 

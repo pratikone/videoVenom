@@ -120,7 +120,6 @@ class AnotherTimeline(QtGui.QWidget):
 
 
     def paintEvent(self, e):
-        print self.value
         qp = QtGui.QPainter()
         qp.begin(self.parent)
         self.drawWidget(qp)
