@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
+    <width>568</width>
     <height>457</height>
    </rect>
   </property>
@@ -78,19 +78,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>441</x>
-     <y>390</y>
-     <width>156</width>
-     <height>59</height>
-    </rect>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="previewBtn">
    <property name="geometry">
     <rect>
@@ -157,13 +144,26 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>410</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
   <zorder>frame</zorder>
   <zorder>bannerBtn</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>layoutWidget_2</zorder>
-  <zorder>buttonBox</zorder>
   <zorder>previewBtn</zorder>
   <zorder>bannerLabel</zorder>
+  <zorder>okButton</zorder>
  </widget>
  <resources/>
  <connections/>

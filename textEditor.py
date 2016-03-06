@@ -7,12 +7,13 @@ from size_handler import SizeHandler
 import preview
 
 
-class Widget(QtGui.QWidget) :
+class BannerandTextClass(QtGui.QWidget) :
 
     SCALE_FACTOR = 1  #how original video is scaled compared to frame in this widget window
+    closeApp = QtCore.pyqtSignal() #signal , slot to be with caller
 
     def __init__(self, ui, sizeHandler = None):
-        super(Widget, self).__init__()
+        super(BannerandTextClass, self).__init__()
         self.ui = ui
         self.sizeHandler = sizeHandler
         self.show_banner = False
@@ -28,6 +29,7 @@ class Widget(QtGui.QWidget) :
         self.ui.colorBtn.clicked.connect(self.color_choice)
         self.ui.bannerBtn.clicked.connect( self.bannerToogle )
         self.ui.previewBtn.clicked.connect( self.preview_banner )
+        self.ui.okButton.clicked.connect( self.closeWidget )
 
         self.bounds = QtCore.QRect(70, 50, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
@@ -51,6 +53,8 @@ class Widget(QtGui.QWidget) :
 
     def file_open(self):
         self.file = QtGui.QFileDialog.getOpenFileName(self, 'Open File')
+        if self.file.isEmpty() :
+            self.file = None
         return self.file
 
     def file_close(self):
@@ -68,9 +72,11 @@ class Widget(QtGui.QWidget) :
         if self.show_banner is False :
             if self.file_open() is not None :
                 self.show_banner = True
+                self.ui.bannerBtn.setText("Remove banner")
         elif self.show_banner is True :
             self.file_close()
             self.show_banner = False
+            self.ui.bannerBtn.setText("Add banner")
         self.repaint()
 
     def paintEvent(self, event):
@@ -117,7 +123,21 @@ class Widget(QtGui.QWidget) :
                 self.sizeHandler.can_move is True:
 
                 self.repaint()
+
+    def closeWidget(self) :
+        self.closeApp.emit()
+        self.close()
+
       
+
+def showBannerandText(  ) :
+    ui = banner_ui.Ui_Form()
+    widget = BannerandTextClass(ui)
+    ui.setupUi(widget)
+    widget.initUI()
+    widget.show()
+    widget.show()
+    return widget
 
 
 
@@ -126,11 +146,7 @@ class Widget(QtGui.QWidget) :
 def main():
     
     app = QtGui.QApplication(sys.argv)
-    ui = banner_ui.Ui_Form()
-    widget = Widget(ui)
-    ui.setupUi(widget)
-    widget.initUI()
-    widget.show()
+    widget = showBannerandText()    
     sys.exit(app.exec_())
 
 

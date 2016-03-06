@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\pratika\Documents\GitHub\video venom\ui\banner.ui'
+# Form implementation generated from reading ui file 'ui\banner.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(621, 457)
+        Form.resize(568, 457)
         self.bannerBtn = QtGui.QPushButton(Form)
         self.bannerBtn.setGeometry(QtCore.QRect(52, 241, 491, 41))
         self.bannerBtn.setObjectName(_fromUtf8("bannerBtn"))
@@ -51,10 +51,6 @@ class Ui_Form(object):
         self.colorBtn = QtGui.QPushButton(self.layoutWidget_2)
         self.colorBtn.setObjectName(_fromUtf8("colorBtn"))
         self.horizontalLayout_3.addWidget(self.colorBtn)
-        self.buttonBox = QtGui.QDialogButtonBox(Form)
-        self.buttonBox.setGeometry(QtCore.QRect(441, 390, 156, 59))
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.previewBtn = QtGui.QPushButton(Form)
         self.previewBtn.setGeometry(QtCore.QRect(340, 410, 75, 23))
         self.previewBtn.setObjectName(_fromUtf8("previewBtn"))
@@ -74,13 +70,16 @@ class Ui_Form(object):
         self.frame.setFrameShadow(QtGui.QFrame.Sunken)
         self.frame.setText(_fromUtf8(""))
         self.frame.setObjectName(_fromUtf8("frame"))
+        self.okButton = QtGui.QPushButton(Form)
+        self.okButton.setGeometry(QtCore.QRect(450, 410, 75, 23))
+        self.okButton.setObjectName(_fromUtf8("okButton"))
         self.frame.raise_()
         self.bannerBtn.raise_()
         self.layoutWidget.raise_()
         self.layoutWidget_2.raise_()
-        self.buttonBox.raise_()
         self.previewBtn.raise_()
         self.bannerLabel.raise_()
+        self.okButton.raise_()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -94,14 +93,5 @@ class Ui_Form(object):
         self.colorBtn.setText(_translate("Form", "Set Font Color", None))
         self.previewBtn.setText(_translate("Form", "Preview ...", None))
         self.bannerLabel.setText(_translate("Form", "Banner Text", None))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    Form = QtGui.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())
+        self.okButton.setText(_translate("Form", "OK", None))
 
