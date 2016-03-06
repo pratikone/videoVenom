@@ -2,7 +2,7 @@ import sys
 import os
 import basic_ui
 import signals_slots
-from timeline import Timeline
+from timeline import AnotherTimeline, Communicate
 from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon 
 
@@ -14,7 +14,8 @@ class Window(QtGui.QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
         self.ctr = 0
-        self.timeline = Timeline()
+        self.c = Communicate() 
+        self.timeline = AnotherTimeline( self, 600, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
         self.signals_slots = signals_slots.Signal_Slots()
 
         #timer for animation
@@ -34,36 +35,18 @@ class Window(QtGui.QMainWindow):
 
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
+        self.c.updateBW[int].connect(self.timeline.setValue)
 
 
 
     def paintEvent(self, e):
-        print "paintEvent called"
-        
-        start = {"x" : 310, "y" : 450 }
-        end = {"x" : 720, "y" : 500}
-        lines = { "short" : 5, "long" : 12 }
-
-        qp = QtGui.QPainter()
-        qp.begin(self)
-        self.timeline.drawRectangles(qp, start, end, lines)
-        self.timeline.drawLines(qp, start, end, lines)
-
-        self.timeline.drawTicker(qp, start, end, lines, self.ctr)
-
-        qp.end()    
+        self.timeline.paintEvent(e )
 
 
-    #def update( self) :
-    #    print "something"
-    #    self.ctr = self.ctr + 1
-    #    print self.ctr
-    #    self.repaint()
-
+   
     def tick(self, time):
         displayTime = QtCore.QTime(0, (time / 60000) % 60, (time / 1000) % 60).second()
-        print displayTime * 10
-        self.ctr = displayTime * 10
+        self.c.updateBW.emit(displayTime*60)        
         self.repaint()
 
 

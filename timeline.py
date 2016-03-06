@@ -92,15 +92,20 @@ class Widget(QtGui.QWidget) :
 
 class AnotherTimeline(QtGui.QWidget):
   
-    def __init__(self, my_range):      
+    def __init__(self, parent, my_range, loc, interval=60):      
         super(AnotherTimeline, self).__init__()
-        
+        self.parent = parent
+        self.w = loc["w"]
+        self.h = loc["h"]
+        self.startX = loc["x"]
+        self.startY = loc["y"]
+        self.interval = interval
         self.initUI(my_range)
         
     def initUI(self, my_range):
         
         self.setMinimumSize(1, 30 )
-        self.value = 75
+        self.value = 0
         self.num = []
         self.my_range = my_range
         for x in range( my_range + 1 ) :
@@ -115,47 +120,44 @@ class AnotherTimeline(QtGui.QWidget):
 
 
     def paintEvent(self, e):
-      
+        print self.value
         qp = QtGui.QPainter()
-        qp.begin(self)
+        qp.begin(self.parent)
         self.drawWidget(qp)
         qp.end()
       
       
     def drawWidget(self, qp):
-      
         font = QtGui.QFont('Serif', 7, QtGui.QFont.Light)
         qp.setFont(font)
 
         size = self.size()
-        w = 400
-        h = size.height()
         # step = int(round(w / 10.0))
-        magnification = w / (1.0 * self.my_range) # width per sec
+        magnification = self.w / (1.0 * self.my_range) # width per sec
         step = int(magnification * 60) #minute wise
 
-        till = int(((w / (1.0 * self.my_range)) * self.value))
-        full = int(((w / (1.0 * self.my_range)) * (self.my_range)))
+        till = int(((self.w / (1.0 * self.my_range)) * self.value))
+        full = int(((self.w / (1.0 * self.my_range)) * (self.my_range)))
 
         # video progress bar
         qp.setPen(QtGui.QColor(255, 255, 255))
         qp.setBrush(QtGui.QColor(255, 255, 184))
-        qp.drawRect(0, 0, till, h)
+        qp.drawRect(self.startX, self.startY, till, self.h)
 
 
         pen = QtGui.QPen(QtGui.QColor(20, 20, 20), 1, QtCore.Qt.SolidLine)
             
         qp.setPen(pen)
         qp.setBrush(QtCore.Qt.NoBrush)
-        qp.drawRect(0, 0, w-1, h-1)
+        qp.drawRect(self.startX, self.startY, self.w-1, self.h-1)
 
         j = 0
-        timed = 60
-        for i in range(step, w, step):
-            qp.drawLine(i, 0, i, 5)
+        timed = self.interval
+        for i in range(step, self.w, step):
+            qp.drawLine( self.startX + i, self.startY, self.startX + i, self.startY + 5)
             metrics = qp.fontMetrics()
             fw = metrics.width(str(timed))
-            qp.drawText(i-fw/2, h/2, str(timed))
+            qp.drawText( self.startX + i-fw, self.startY + 15, str(timed))
             j = j + 1
             timed = timed + 60
             
@@ -183,15 +185,9 @@ class Example(QtGui.QWidget):
         sld.setGeometry(30, 40, 150, 30)
 
         self.c = Communicate()        
-        self.wid = AnotherTimeline( my_range )
+        self.wid = AnotherTimeline( self, my_range, {"w" : 400, "h" : 50, "x" : 100, "y" : 100} )
         self.c.updateBW[int].connect(self.wid.setValue)
         sld.valueChanged[int].connect(self.changeValue)
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(self.wid)
-        vbox = QtGui.QVBoxLayout()
-        vbox.addStretch(1)
-        vbox.addLayout(hbox)
-        self.setLayout(vbox)
         
         self.setGeometry(300, 300, 390, 210)
         self.setWindowTitle('Burning widget')
@@ -200,9 +196,12 @@ class Example(QtGui.QWidget):
     def changeValue(self, value):
              
         self.c.updateBW.emit(value)        
-        self.wid.repaint()
+        self.repaint()
         
-        
+    def paintEvent(self, e):
+        self.wid.paintEvent(e)
+
+          
 
 
 
