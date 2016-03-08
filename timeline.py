@@ -92,7 +92,7 @@ class Widget(QtGui.QWidget) :
 
 class AnotherTimeline(QtGui.QWidget):
   
-    def __init__(self, parent, my_range, loc, interval=60):      
+    def __init__(self, parent, my_range, loc):      
         super(AnotherTimeline, self).__init__()
         self.parent = parent
         self.w = loc["w"]
@@ -100,7 +100,7 @@ class AnotherTimeline(QtGui.QWidget):
         self.startX = loc["x"]
         self.startY = loc["y"]
         self.bannerStart = self.bannerEnd = 0
-        self.interval = interval
+        self.smallest_val = 10
         self.initUI(my_range)
         
     def initUI(self, my_range):
@@ -112,7 +112,6 @@ class AnotherTimeline(QtGui.QWidget):
         for x in range( my_range + 1 ) :
             if x % 60 == 0 :
                 self.num.append( x )
-
 
 
     def setValue(self, value):
@@ -136,14 +135,16 @@ class AnotherTimeline(QtGui.QWidget):
         qp.setFont(font)
 
         size = self.size()
+        
         # step = int(round(w / 10.0))
-        magnification = self.w / (1.0 * self.my_range) # width per sec
-        step = int(math.ceil(magnification * 5)) #minute wise
 
-        till = int(((self.w / (1.0 * self.my_range)) * self.value))
+        count_of_steps = self.my_range / ( 1.0 * self.smallest_val)
+        step = self.w / (1.0 * count_of_steps)   # size of each count
+
+        till = (step / self.smallest_val)  * self.value
         full = self.w
 
-        print "till %s full %s value %s" %( str(till), str(full), str(self.value) )
+        # print "till %s full %s value %s" %( str(till), str(full), str(self.value) )
         # video progress bar
         qp.setPen(QtGui.QColor(255, 255, 255))
         qp.setBrush(QtGui.QColor(255, 255, 184))
@@ -155,21 +156,21 @@ class AnotherTimeline(QtGui.QWidget):
         qp.drawRect(self.bannerStart , self.startY, self.bannerEnd - self.bannerStart, self.h)
         
 
+        
+        #main timeline box
         pen = QtGui.QPen(QtGui.QColor(20, 20, 20), 1, QtCore.Qt.SolidLine)
-            
         qp.setPen(pen)
         qp.setBrush(QtCore.Qt.NoBrush)
-        qp.drawRect(self.startX, self.startY, self.w-1, self.h-1)
+        qp.drawRect(self.startX, self.startY, full, self.h)
 
         j = 0
-        timed = self.interval
-        for i in range(step, self.w, step):
+        countNumber = int(self.smallest_val)
+        for i in range(int(step), self.w, int(step)):
             qp.drawLine( self.startX + i, self.startY, self.startX + i, self.startY + 5)
             metrics = qp.fontMetrics()
-            fw = metrics.width(str(timed))
-            qp.drawText( self.startX + i-fw, self.startY + 15, str(timed))
-            j = j + 1
-            timed = timed + 60
+            fw = metrics.width(str( countNumber))
+            qp.drawText( self.startX + i-fw, self.startY + 15, str(countNumber))
+            countNumber = countNumber + self.smallest_val
             
 
 

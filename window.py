@@ -14,7 +14,7 @@ class Window(QtGui.QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
         self.c = Communicate() 
-        self.timeline = AnotherTimeline( self, 600, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
+        self.timeline = AnotherTimeline( self, 80, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
         self.bannerAndText = False
         self.bannerWidget = None
         #timer for animation
@@ -48,6 +48,7 @@ class Window(QtGui.QMainWindow):
    
     def tick(self, time):
         self.timeline.my_range = self.ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
+        self.timeline.smallest_val = 30
         if self.errorConditionsBannerTime() is True : #check for errors
             return
         displayTime = time / 1000  #seconds
@@ -70,7 +71,7 @@ class Window(QtGui.QMainWindow):
 
     def stop_playback( self) :
         self.ui.videoPlayer.stop()
-        self.timeline.my_range = 600
+        self.timeline.my_range = 80
 
     def bannerToogle(self) :
         if self.bannerAndText is False :
