@@ -53,6 +53,11 @@ class Window(QtGui.QMainWindow):
         self.timeline.smallest_val = 30
         if self.errorConditionsBannerTime() is True : #check for errors
             return
+
+        # video width and height
+        self.videoWidth = self.ui.videoPlayer.videoWidget().sizeHint().width()
+        self.videoHeight = self.ui.videoPlayer.videoWidget().sizeHint().height()
+
         displayTime = time / 1000  #seconds
         self.c.updateBW.emit(displayTime)        
         self.repaint()
@@ -63,6 +68,7 @@ class Window(QtGui.QMainWindow):
         mediaSource = Phonon.MediaSource( unified_file )
         self.ui.videoPlayer.load( mediaSource )
         print unified_file
+        self.start_playback() #start playback auto so that video data gets populated.
 
 
     def start_playback( self) :
@@ -85,6 +91,7 @@ class Window(QtGui.QMainWindow):
     def bannerToogle(self) :
         if self.bannerAndText is False :
                 self.bannerWidget = textEditor.showBannerandText()
+                # self.bannerWidget.setScaleFactor( self.videoWidth, self.videoHeight ) not working yet
                 #banner and text
                 self.bannerWidget.closeApp.connect( self.destroying_bannerWidget ) #connecting destructor to signal
 

@@ -9,7 +9,7 @@ import preview
 
 class BannerandTextClass(QtGui.QWidget) :
 
-    SCALE_FACTOR = 1  #how original video is scaled compared to frame in this widget window
+    SCALE_FACTOR = {"X" : 1, "Y" : 1  }  #how original video is scaled compared to frame in this widget window
     closeApp = QtCore.pyqtSignal() #signal , slot to be with caller
 
     def __init__(self, ui, sizeHandler = None):
@@ -36,7 +36,9 @@ class BannerandTextClass(QtGui.QWidget) :
         self.ui.frame.setMouseTracking(True)
         self.ui.bannerLabel.setMouseTracking(True)
 
-
+    def setScaleFactor( self, original_width, original_height ) :
+        self.SCALE_FACTOR["X"] = original_width /  self.ui.frame.width()
+        self.SCALE_FACTOR["Y"] = original_height /  self.ui.frame.height()
         
 
     def labelUpdate(self):
@@ -44,6 +46,7 @@ class BannerandTextClass(QtGui.QWidget) :
 
     def font_choice(self):
         self.font, valid = QtGui.QFontDialog.getFont()
+        
         if valid:
             self.ui.bannerLabel.setFont(self.font)
 
@@ -63,9 +66,11 @@ class BannerandTextClass(QtGui.QWidget) :
     def preview_banner(self) :
             self.preview = preview.showPreview()
             self.preview.closeApp.connect( self.destroying_preview ) #connecting destructor to signal
-            self.preview.moveStuff( self.SCALE_FACTOR, self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
+            self.preview.moveStuff( self.SCALE_FACTOR, self.ui.frame.width(), self.ui.frame.height(), self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
 
     def destroying_preview(self) :
+        print "yo"
+        self.preview.deleteLater()
         self.preview = None
             
     def bannerToogle(self) :

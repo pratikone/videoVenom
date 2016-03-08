@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
+import sys, math
 from PyQt4 import QtGui, QtCore
 import preview_ui
 
@@ -14,35 +14,36 @@ class Preview(QtGui.QWidget) :
         super(Preview, self).__init__()
         self.ui = ui
         self.font = self.color = self.image = None
+        print "construction"
         
 
     def setup_connections(self) :
         self.ui.pushButton.clicked.connect( self.closeWidget )
 
-    def moveStuff(self, scaleFactor, bannerCoords, bannerLabelCoords, bannerLabelText, font, color, image) :
-
+    def moveStuff(self, scaleFactor, frameWidth, frameHeight, bannerCoords, bannerLabelCoords, bannerLabelText, font, color, image) :
         
-
-        self.resize( scaleFactor * self.geometry().width(), scaleFactor * self.geometry().height() )
-        self.ui.bgLabel.resize( scaleFactor * self.ui.bgLabel.geometry().width(), scaleFactor * self.ui.bgLabel.geometry().height() )
+        print scaleFactor["X"] * frameWidth
+        # self.resize( scaleFactor["X"] * self.geometry().width(), scaleFactor["Y"] * self.geometry().height() )
+        self.ui.bgLabel.resize( scaleFactor["X"] * frameWidth, scaleFactor["Y"] * frameHeight )
         
         self.ui.bannerlImage.setGeometry( bannerCoords )
-        self.ui.bannerlImage.resize(scaleFactor * self.ui.bannerlImage.geometry().width(),  scaleFactor * self.ui.bannerlImage.geometry().height())
+        self.ui.bannerlImage.resize(scaleFactor["X"] * self.ui.bannerlImage.geometry().width(),  scaleFactor["Y"] * self.ui.bannerlImage.geometry().height())
 
         self.ui.bannerLabel.setGeometry( bannerLabelCoords )
-        self.ui.bannerLabel.resize( scaleFactor * self.ui.bannerLabel.geometry().width(), scaleFactor * self.ui.bannerLabel.geometry().height() )
+        self.ui.bannerLabel.resize( scaleFactor["X"] * self.ui.bannerLabel.geometry().width(), scaleFactor["Y"] * self.ui.bannerLabel.geometry().height() )
 
         self.ui.bannerLabel.setText( bannerLabelText )
         if font is not None :
             self.font = font
-            self.ui.bannerLabel.setFont(font)
+            self.font.setPointSize( font.pointSize() *  int(math.sqrt( scaleFactor["X"] ** 2 + scaleFactor["Y"] ** 2 )  ) ) #don't know why I am using hypotenuse formula, seems to be the best bet right now
+            self.ui.bannerLabel.setFont(self.font)
         if color is not None :
             self.color = color
             self.ui.bannerLabel.setStyleSheet("QLabel { color: %s}" % color.name())
         
         if image is not None :
             pixmap = QtGui.QPixmap( image )
-            self.ui.bannerlImage.setPixmap( pixmap.scaled( self.ui.bannerlImage.width(), self.ui.bannerlImage.height()))
+            self.ui.bannerlImage.setPixmap( pixmap.scaled( scaleFactor["X"] * self.ui.bannerlImage.width(), scaleFactor["Y"] * self.ui.bannerlImage.height()))
             self.image = image
         
         self.ui.bannerLabel.raise_() #raise banner text on top of banner image
@@ -68,6 +69,10 @@ class Preview(QtGui.QWidget) :
         qp.drawText( self.ui.bannerLabel.geometry(), QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter,  self.ui.bannerLabel.text());
         image.save("output.png")
         qp.end()
+
+        def __del__(self):
+            print "destruction"
+
 
 
     def closeWidget(self) :
