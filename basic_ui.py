@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/pratika/Documents/github/videoVenom/ui/basic.ui'
+# Form implementation generated from reading ui file 'ui/basic.ui'
 #
-# Created: Fri Mar  4 11:02:11 2016
+# Created: Mon Mar  7 16:15:34 2016
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,11 +35,11 @@ class Ui_MainWindow(object):
         self.videoPlayer.setObjectName(_fromUtf8("videoPlayer"))
         self.seekSlider = phonon.Phonon.SeekSlider(self.centralwidget)
         self.seekSlider.setGeometry(QtCore.QRect(280, 330, 441, 20))
-        self.seekSlider.setStyleSheet(_fromUtf8("background-color: rgba(255, 255, 255, 100)"))
+        self.seekSlider.setStyleSheet(_fromUtf8("background-color: rgba(255, 255, 255, 0)"))
         self.seekSlider.setObjectName(_fromUtf8("seekSlider"))
         self.volumeSlider = phonon.Phonon.VolumeSlider(self.centralwidget)
         self.volumeSlider.setGeometry(QtCore.QRect(610, 300, 109, 21))
-        self.volumeSlider.setStyleSheet(_fromUtf8("background-color: rgba(255, 255, 255, 100)"))
+        self.volumeSlider.setStyleSheet(_fromUtf8("background-color: rgba(255, 255, 255, 0)"))
         self.volumeSlider.setObjectName(_fromUtf8("volumeSlider"))
         self.bannerBtn = QtGui.QPushButton(self.centralwidget)
         self.bannerBtn.setGeometry(QtCore.QRect(70, 270, 131, 41))
@@ -47,31 +47,31 @@ class Ui_MainWindow(object):
         self.logoLabel = QtGui.QLabel(self.centralwidget)
         self.logoLabel.setGeometry(QtCore.QRect(10, 10, 241, 221))
         self.logoLabel.setObjectName(_fromUtf8("logoLabel"))
-        self.widget = QtGui.QWidget(self.centralwidget)
-        self.widget.setGeometry(QtCore.QRect(360, 370, 269, 28))
-        self.widget.setObjectName(_fromUtf8("widget"))
-        self.horizontalLayout = QtGui.QHBoxLayout(self.widget)
+        self.layoutWidget = QtGui.QWidget(self.centralwidget)
+        self.layoutWidget.setGeometry(QtCore.QRect(360, 370, 269, 28))
+        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
+        self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setMargin(0)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.playButton = QtGui.QPushButton(self.widget)
+        self.playButton = QtGui.QPushButton(self.layoutWidget)
         self.playButton.setObjectName(_fromUtf8("playButton"))
         self.horizontalLayout.addWidget(self.playButton)
-        self.pauseButton = QtGui.QPushButton(self.widget)
+        self.pauseButton = QtGui.QPushButton(self.layoutWidget)
         self.pauseButton.setObjectName(_fromUtf8("pauseButton"))
         self.horizontalLayout.addWidget(self.pauseButton)
-        self.stopButton = QtGui.QPushButton(self.widget)
+        self.stopButton = QtGui.QPushButton(self.layoutWidget)
         self.stopButton.setObjectName(_fromUtf8("stopButton"))
         self.horizontalLayout.addWidget(self.stopButton)
-        self.widget1 = QtGui.QWidget(self.centralwidget)
-        self.widget1.setGeometry(QtCore.QRect(10, 320, 241, 41))
-        self.widget1.setObjectName(_fromUtf8("widget1"))
-        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.widget1)
+        self.layoutWidget1 = QtGui.QWidget(self.centralwidget)
+        self.layoutWidget1.setGeometry(QtCore.QRect(10, 320, 241, 41))
+        self.layoutWidget1.setObjectName(_fromUtf8("layoutWidget1"))
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.layoutWidget1)
         self.horizontalLayout_2.setMargin(0)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.startTimeWidget = QtGui.QTimeEdit(self.widget1)
+        self.startTimeWidget = QtGui.QTimeEdit(self.layoutWidget1)
         self.startTimeWidget.setObjectName(_fromUtf8("startTimeWidget"))
         self.horizontalLayout_2.addWidget(self.startTimeWidget)
-        self.endTimeWidget = QtGui.QTimeEdit(self.widget1)
+        self.endTimeWidget = QtGui.QTimeEdit(self.layoutWidget1)
         self.endTimeWidget.setObjectName(_fromUtf8("endTimeWidget"))
         self.horizontalLayout_2.addWidget(self.endTimeWidget)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -103,18 +103,10 @@ class Ui_MainWindow(object):
         self.playButton.setText(_translate("MainWindow", "Play", None))
         self.pauseButton.setText(_translate("MainWindow", "Pause", None))
         self.stopButton.setText(_translate("MainWindow", "Stop", None))
+        self.startTimeWidget.setDisplayFormat(_translate("MainWindow", "h:mm:ss", None))
+        self.endTimeWidget.setDisplayFormat(_translate("MainWindow", "h:mm:ss", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
 
 from PyQt4 import phonon
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    MainWindow = QtGui.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
-

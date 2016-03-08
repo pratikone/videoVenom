@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(255, 255, 255, 100)</string>
+     <string notr="true">background-color: rgba(255, 255, 255, 0)</string>
     </property>
    </widget>
    <widget class="Phonon::VolumeSlider" name="volumeSlider" native="true">
@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgba(255, 255, 255, 100)</string>
+     <string notr="true">background-color: rgba(255, 255, 255, 0)</string>
     </property>
    </widget>
    <widget class="QPushButton" name="bannerBtn">
@@ -79,7 +79,7 @@
      <string>Video Venom logo</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -112,7 +112,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -123,10 +123,18 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QTimeEdit" name="startTimeWidget"/>
+      <widget class="QTimeEdit" name="startTimeWidget">
+       <property name="displayFormat">
+        <string>h:mm:ss</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QTimeEdit" name="endTimeWidget"/>
+      <widget class="QTimeEdit" name="endTimeWidget">
+       <property name="displayFormat">
+        <string>h:mm:ss</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

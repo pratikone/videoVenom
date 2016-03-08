@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
+import sys, math
 from PyQt4 import QtGui, QtCore
 
 DELAY = 100 * 1 #  5 seconds in milli-seconds
@@ -92,14 +92,15 @@ class Widget(QtGui.QWidget) :
 
 class AnotherTimeline(QtGui.QWidget):
   
-    def __init__(self, parent, my_range, loc, interval=60):      
+    def __init__(self, parent, my_range, loc):      
         super(AnotherTimeline, self).__init__()
         self.parent = parent
         self.w = loc["w"]
         self.h = loc["h"]
         self.startX = loc["x"]
         self.startY = loc["y"]
-        self.interval = interval
+        self.bannerStart = self.bannerEnd = 0
+        self.smallest_val = 10
         self.initUI(my_range)
         
     def initUI(self, my_range):
@@ -113,11 +114,14 @@ class AnotherTimeline(QtGui.QWidget):
                 self.num.append( x )
 
 
-
     def setValue(self, value):
 
         self.value = value
 
+
+    def setBannerDuration(self, start, end) :
+        self.bannerStart = start
+        self.bannerEnd = end
 
     def paintEvent(self, e):
         qp = QtGui.QPainter()
@@ -131,34 +135,42 @@ class AnotherTimeline(QtGui.QWidget):
         qp.setFont(font)
 
         size = self.size()
+        
         # step = int(round(w / 10.0))
-        magnification = self.w / (1.0 * self.my_range) # width per sec
-        step = int(magnification * 60) #minute wise
 
-        till = int(((self.w / (1.0 * self.my_range)) * self.value))
-        full = int(((self.w / (1.0 * self.my_range)) * (self.my_range)))
+        count_of_steps = self.my_range / ( 1.0 * self.smallest_val)
+        step = self.w / (1.0 * count_of_steps)   # size of each count
+        step_per_unit = (step / self.smallest_val)
+        till =  step_per_unit * self.value
+        full = self.w
 
+        # print "till %s full %s value %s" %( str(till), str(full), str(self.value) )
         # video progress bar
         qp.setPen(QtGui.QColor(255, 255, 255))
         qp.setBrush(QtGui.QColor(255, 255, 184))
         qp.drawRect(self.startX, self.startY, till, self.h)
 
+        #banner duration
+        qp.setPen(QtGui.QColor(255, 255, 255))
+        qp.setBrush(QtGui.QColor("red"))
+        qp.drawRect(self.startX + step_per_unit * self.bannerStart , self.startY, step_per_unit * (self.bannerEnd - self.bannerStart), self.h)
+        
 
+        
+        #main timeline box
         pen = QtGui.QPen(QtGui.QColor(20, 20, 20), 1, QtCore.Qt.SolidLine)
-            
         qp.setPen(pen)
         qp.setBrush(QtCore.Qt.NoBrush)
-        qp.drawRect(self.startX, self.startY, self.w-1, self.h-1)
+        qp.drawRect(self.startX, self.startY, full, self.h)
 
         j = 0
-        timed = self.interval
-        for i in range(step, self.w, step):
+        countNumber = int(self.smallest_val)
+        for i in range(int(step), self.w, int(step)):
             qp.drawLine( self.startX + i, self.startY, self.startX + i, self.startY + 5)
             metrics = qp.fontMetrics()
-            fw = metrics.width(str(timed))
-            qp.drawText( self.startX + i-fw, self.startY + 15, str(timed))
-            j = j + 1
-            timed = timed + 60
+            fw = metrics.width(str( countNumber))
+            qp.drawText( self.startX + i-fw, self.startY + 15, str(countNumber))
+            countNumber = countNumber + self.smallest_val
             
 
 
@@ -180,7 +192,7 @@ class Example(QtGui.QWidget):
         sld = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         sld.setFocusPolicy(QtCore.Qt.NoFocus)
         sld.setRange(0, my_range)
-        sld.setValue(75)
+        sld.setValue(5)
         sld.setGeometry(30, 40, 150, 30)
 
         self.c = Communicate()        
@@ -213,7 +225,7 @@ def main():
     #ex = Timeline()
     #widget = Widget(ex)
     ey = Example()
-    ey.initUI(840)
+    ey.initUI(84)
     sys.exit(app.exec_())
 
 

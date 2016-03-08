@@ -14,7 +14,7 @@ class Window(QtGui.QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
         self.c = Communicate() 
-        self.timeline = AnotherTimeline( self, 600, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
+        self.timeline = AnotherTimeline( self, 80, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
         self.bannerAndText = False
         self.bannerWidget = None
         #timer for animation
@@ -27,12 +27,15 @@ class Window(QtGui.QMainWindow):
     def setup_connections( self, ui ) :
         self.ui = ui
         ui.actionExit.triggered.connect(QtCore.QCoreApplication.instance().quit )
-        ui.actionOpen.triggered.connect(lambda: self.open_file(self, ui))
-        ui.playButton.clicked.connect(lambda: self.start_playback(self, ui))
-        ui.stopButton.clicked.connect(lambda: self.stop_playback(self, ui))
+        ui.actionOpen.triggered.connect(self.open_file)
+        ui.playButton.clicked.connect(self.start_playback)
+        ui.pauseButton.clicked.connect(self.pause_playback)
+        ui.stopButton.clicked.connect(self.stop_playback)
         ui.seekSlider.setMediaObject(ui.videoPlayer.mediaObject())
         ui.volumeSlider.setAudioOutput(ui.videoPlayer.audioOutput())
         ui.bannerBtn.clicked.connect(self.bannerToogle)
+        ui.startTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
+        ui.endTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
@@ -46,27 +49,38 @@ class Window(QtGui.QMainWindow):
 
    
     def tick(self, time):
-        displayTime = QtCore.QTime(0, (time / 60000) % 60, (time / 1000) % 60).second()
-        print displayTime
+        self.timeline.my_range = self.ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
+        self.timeline.smallest_val = 30
+        if self.errorConditionsBannerTime() is True : #check for errors
+            return
+        displayTime = time / 1000  #seconds
         self.c.updateBW.emit(displayTime)        
         self.repaint()
 
-    def open_file( self, window, ui) :
-        file = QtGui.QFileDialog.getOpenFileName(window, 'Open movie file')
+    def open_file( self) :
+        file = QtGui.QFileDialog.getOpenFileName(self, 'Open movie file')
         unified_file = os.path.normpath(unicode(file)) 
         mediaSource = Phonon.MediaSource( unified_file )
-        ui.videoPlayer.load( mediaSource )
+        self.ui.videoPlayer.load( mediaSource )
         print unified_file
 
 
-    def start_playback( self, window, ui ) :
-        ui.videoPlayer.play()
-        self.timeline.my_range = ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
-        print self.timeline.my_range
+    def start_playback( self) :
+        self.ui.videoPlayer.play()
 
+    def pause_playback( self) :
+        self.ui.videoPlayer.pause()
 
-    def stop_playback( self, window, ui ) :
-        ui.videoPlayer.stop()
+    def stop_playback( self) :
+        self.ui.videoPlayer.stop()
+        self.timeline.my_range = 80
+
+    def moveBannerInTimeline(self) : 
+        if self.errorConditionsBannerTime( takeAction = False ) is False : 
+            startTimeInSec = self.ui.startTimeWidget.time().hour() * 3600 + self.ui.startTimeWidget.time().minute() * 60 + self.ui.startTimeWidget.time().second()
+            endTimeInSec = self.ui.endTimeWidget.time().hour() * 3600 + self.ui.endTimeWidget.time().minute() * 60 + self.ui.endTimeWidget.time().second()
+            self.timeline.setBannerDuration( startTimeInSec, endTimeInSec )
+
 
     def bannerToogle(self) :
         if self.bannerAndText is False :
@@ -84,6 +98,23 @@ class Window(QtGui.QMainWindow):
     def destroying_bannerWidget(self) :
         self.bannerWidget = None
      
+    def errorConditionsBannerTime(self, takeAction = True) :
+        if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000 )] ) :
+               if takeAction is True :
+                   self.stop_playback()
+                   print "Error. Start or End time for banner is more than video's length."
+                   QtGui.QMessageBox.critical(self, "Error in playback", "Start or End time for banner is more than video's length.")
+               return True
+        
+        if any( [ self.ui.startTimeWidget.time() > self.ui.endTimeWidget.time()] ) :
+               if takeAction is True :
+                   self.stop_playback()
+                   print "Error. Start time cannot be more than the  End time."
+                   QtGui.QMessageBox.critical(self, "Error in playback", " Start time cannot be more than the  End time.")
+               return True
+
+        return False
+
 
 
 def run():
