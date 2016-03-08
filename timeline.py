@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
+import sys, math
 from PyQt4 import QtGui, QtCore
 
 DELAY = 100 * 1 #  5 seconds in milli-seconds
@@ -99,6 +99,7 @@ class AnotherTimeline(QtGui.QWidget):
         self.h = loc["h"]
         self.startX = loc["x"]
         self.startY = loc["y"]
+        self.bannerStart = self.bannerEnd = 0
         self.interval = interval
         self.initUI(my_range)
         
@@ -119,6 +120,10 @@ class AnotherTimeline(QtGui.QWidget):
         self.value = value
 
 
+    def setBannerDuration(self, start, end) :
+        self.bannerStart = start
+        self.bannerEnd = end
+
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self.parent)
@@ -133,16 +138,22 @@ class AnotherTimeline(QtGui.QWidget):
         size = self.size()
         # step = int(round(w / 10.0))
         magnification = self.w / (1.0 * self.my_range) # width per sec
-        step = int(magnification * 60) #minute wise
+        step = int(math.ceil(magnification * 5)) #minute wise
 
         till = int(((self.w / (1.0 * self.my_range)) * self.value))
-        full = int(((self.w / (1.0 * self.my_range)) * (self.my_range)))
+        full = self.w
 
+        print "till %s full %s value %s" %( str(till), str(full), str(self.value) )
         # video progress bar
         qp.setPen(QtGui.QColor(255, 255, 255))
         qp.setBrush(QtGui.QColor(255, 255, 184))
         qp.drawRect(self.startX, self.startY, till, self.h)
 
+        #banner duration
+        qp.setPen(QtGui.QColor(255, 255, 255))
+        qp.setBrush(QtGui.QColor("red"))
+        qp.drawRect(self.bannerStart , self.startY, self.bannerEnd - self.bannerStart, self.h)
+        
 
         pen = QtGui.QPen(QtGui.QColor(20, 20, 20), 1, QtCore.Qt.SolidLine)
             
@@ -180,7 +191,7 @@ class Example(QtGui.QWidget):
         sld = QtGui.QSlider(QtCore.Qt.Horizontal, self)
         sld.setFocusPolicy(QtCore.Qt.NoFocus)
         sld.setRange(0, my_range)
-        sld.setValue(75)
+        sld.setValue(5)
         sld.setGeometry(30, 40, 150, 30)
 
         self.c = Communicate()        
@@ -213,7 +224,7 @@ def main():
     #ex = Timeline()
     #widget = Widget(ex)
     ey = Example()
-    ey.initUI(840)
+    ey.initUI(84)
     sys.exit(app.exec_())
 
 

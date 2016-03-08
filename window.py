@@ -48,13 +48,9 @@ class Window(QtGui.QMainWindow):
    
     def tick(self, time):
         self.timeline.my_range = self.ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
-        if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range / 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range / 1000 )] ) :
-               print "Error"
-               self.stop_playback()
-
-
-        displayTime = QtCore.QTime(0, (time / 60000) % 60, (time / 1000) % 60).second()
-        print displayTime
+        if self.errorConditionsBannerTime() is True : #check for errors
+            return
+        displayTime = time / 1000  #seconds
         self.c.updateBW.emit(displayTime)        
         self.repaint()
 
@@ -72,10 +68,9 @@ class Window(QtGui.QMainWindow):
     def pause_playback( self) :
         self.ui.videoPlayer.pause()
 
-
-
     def stop_playback( self) :
         self.ui.videoPlayer.stop()
+        self.timeline.my_range = 600
 
     def bannerToogle(self) :
         if self.bannerAndText is False :
@@ -93,6 +88,20 @@ class Window(QtGui.QMainWindow):
     def destroying_bannerWidget(self) :
         self.bannerWidget = None
      
+    def errorConditionsBannerTime(self) :
+        if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000 )] ) :
+               self.stop_playback()
+               print "Error. Start or End time for banner is more than video's length."
+               QtGui.QMessageBox.critical(self, "Error in playback", "Start or End time for banner is more than video's length.")
+               return True
+        
+        if any( [ self.ui.startTimeWidget.time() > self.ui.endTimeWidget.time()] ) :
+               self.stop_playback()
+               print "Error. Start time cannot be more than the  End time."
+               QtGui.QMessageBox.critical(self, "Error in playback", " Start time cannot be more than the  End time.")
+               return True
+
+        return False
 
 
 def run():
