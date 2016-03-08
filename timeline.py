@@ -140,8 +140,8 @@ class AnotherTimeline(QtGui.QWidget):
 
         count_of_steps = self.my_range / ( 1.0 * self.smallest_val)
         step = self.w / (1.0 * count_of_steps)   # size of each count
-
-        till = (step / self.smallest_val)  * self.value
+        step_per_unit = (step / self.smallest_val)
+        till =  step_per_unit * self.value
         full = self.w
 
         # print "till %s full %s value %s" %( str(till), str(full), str(self.value) )
@@ -153,7 +153,7 @@ class AnotherTimeline(QtGui.QWidget):
         #banner duration
         qp.setPen(QtGui.QColor(255, 255, 255))
         qp.setBrush(QtGui.QColor("red"))
-        qp.drawRect(self.bannerStart , self.startY, self.bannerEnd - self.bannerStart, self.h)
+        qp.drawRect(self.startX + step_per_unit * self.bannerStart , self.startY, step_per_unit * (self.bannerEnd - self.bannerStart), self.h)
         
 
         

@@ -34,6 +34,8 @@ class Window(QtGui.QMainWindow):
         ui.seekSlider.setMediaObject(ui.videoPlayer.mediaObject())
         ui.volumeSlider.setAudioOutput(ui.videoPlayer.audioOutput())
         ui.bannerBtn.clicked.connect(self.bannerToogle)
+        ui.startTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
+        ui.endTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
@@ -73,6 +75,13 @@ class Window(QtGui.QMainWindow):
         self.ui.videoPlayer.stop()
         self.timeline.my_range = 80
 
+    def moveBannerInTimeline(self) : 
+        if self.errorConditionsBannerTime( takeAction = False ) is False : 
+            startTimeInSec = self.ui.startTimeWidget.time().hour() * 3600 + self.ui.startTimeWidget.time().minute() * 60 + self.ui.startTimeWidget.time().second()
+            endTimeInSec = self.ui.endTimeWidget.time().hour() * 3600 + self.ui.endTimeWidget.time().minute() * 60 + self.ui.endTimeWidget.time().second()
+            self.timeline.setBannerDuration( startTimeInSec, endTimeInSec )
+
+
     def bannerToogle(self) :
         if self.bannerAndText is False :
                 self.bannerWidget = textEditor.showBannerandText()
@@ -89,20 +98,23 @@ class Window(QtGui.QMainWindow):
     def destroying_bannerWidget(self) :
         self.bannerWidget = None
      
-    def errorConditionsBannerTime(self) :
+    def errorConditionsBannerTime(self, takeAction = True) :
         if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000 )] ) :
-               self.stop_playback()
-               print "Error. Start or End time for banner is more than video's length."
-               QtGui.QMessageBox.critical(self, "Error in playback", "Start or End time for banner is more than video's length.")
+               if takeAction is True :
+                   self.stop_playback()
+                   print "Error. Start or End time for banner is more than video's length."
+                   QtGui.QMessageBox.critical(self, "Error in playback", "Start or End time for banner is more than video's length.")
                return True
         
         if any( [ self.ui.startTimeWidget.time() > self.ui.endTimeWidget.time()] ) :
-               self.stop_playback()
-               print "Error. Start time cannot be more than the  End time."
-               QtGui.QMessageBox.critical(self, "Error in playback", " Start time cannot be more than the  End time.")
+               if takeAction is True :
+                   self.stop_playback()
+                   print "Error. Start time cannot be more than the  End time."
+                   QtGui.QMessageBox.critical(self, "Error in playback", " Start time cannot be more than the  End time.")
                return True
 
         return False
+
 
 
 def run():
