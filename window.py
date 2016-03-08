@@ -27,9 +27,10 @@ class Window(QtGui.QMainWindow):
     def setup_connections( self, ui ) :
         self.ui = ui
         ui.actionExit.triggered.connect(QtCore.QCoreApplication.instance().quit )
-        ui.actionOpen.triggered.connect(lambda: self.open_file(self, ui))
-        ui.playButton.clicked.connect(lambda: self.start_playback(self, ui))
-        ui.stopButton.clicked.connect(lambda: self.stop_playback(self, ui))
+        ui.actionOpen.triggered.connect(self.open_file)
+        ui.playButton.clicked.connect(self.start_playback)
+        ui.pauseButton.clicked.connect(self.pause_playback)
+        ui.stopButton.clicked.connect(self.stop_playback)
         ui.seekSlider.setMediaObject(ui.videoPlayer.mediaObject())
         ui.volumeSlider.setAudioOutput(ui.videoPlayer.audioOutput())
         ui.bannerBtn.clicked.connect(self.bannerToogle)
@@ -46,27 +47,35 @@ class Window(QtGui.QMainWindow):
 
    
     def tick(self, time):
+        self.timeline.my_range = self.ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
+        if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range / 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range / 1000 )] ) :
+               print "Error"
+               self.stop_playback()
+
+
         displayTime = QtCore.QTime(0, (time / 60000) % 60, (time / 1000) % 60).second()
         print displayTime
         self.c.updateBW.emit(displayTime)        
         self.repaint()
 
-    def open_file( self, window, ui) :
-        file = QtGui.QFileDialog.getOpenFileName(window, 'Open movie file')
+    def open_file( self) :
+        file = QtGui.QFileDialog.getOpenFileName(self, 'Open movie file')
         unified_file = os.path.normpath(unicode(file)) 
         mediaSource = Phonon.MediaSource( unified_file )
-        ui.videoPlayer.load( mediaSource )
+        self.ui.videoPlayer.load( mediaSource )
         print unified_file
 
 
-    def start_playback( self, window, ui ) :
-        ui.videoPlayer.play()
-        self.timeline.my_range = ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
-        print self.timeline.my_range
+    def start_playback( self) :
+        self.ui.videoPlayer.play()
+
+    def pause_playback( self) :
+        self.ui.videoPlayer.pause()
 
 
-    def stop_playback( self, window, ui ) :
-        ui.videoPlayer.stop()
+
+    def stop_playback( self) :
+        self.ui.videoPlayer.stop()
 
     def bannerToogle(self) :
         if self.bannerAndText is False :
