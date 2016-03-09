@@ -91,7 +91,7 @@ class Window(QtGui.QMainWindow):
     def bannerToogle(self) :
         if self.bannerAndText is False :
                 self.bannerWidget = textEditor.showBannerandText()
-                # self.bannerWidget.setScaleFactor( self.videoWidth, self.videoHeight ) not working yet
+                self.bannerWidget.setScaleFactor( self.videoWidth, self.videoHeight )
                 #banner and text
                 self.bannerWidget.closeApp.connect( self.destroying_bannerWidget ) #connecting destructor to signal
 

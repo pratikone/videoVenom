@@ -9,7 +9,7 @@ import preview
 
 class BannerandTextClass(QtGui.QWidget) :
 
-    SCALE_FACTOR = {"X" : 1, "Y" : 1  }  #how original video is scaled compared to frame in this widget window
+    SCALE_FACTOR = 1  #how original video is scaled compared to frame in this widget window
     closeApp = QtCore.pyqtSignal() #signal , slot to be with caller
 
     def __init__(self, ui, sizeHandler = None):
@@ -37,9 +37,11 @@ class BannerandTextClass(QtGui.QWidget) :
         self.ui.bannerLabel.setMouseTracking(True)
 
     def setScaleFactor( self, original_width, original_height ) :
-        self.SCALE_FACTOR["X"] = original_width /  self.ui.frame.width()
-        self.SCALE_FACTOR["Y"] = original_height /  self.ui.frame.height()
-        
+        #adjusting the workspace
+        self.SCALE_FACTOR = (1.0 * original_height) / self.ui.frame.height()
+        self.ui.frame.setFixedWidth( original_width / self.SCALE_FACTOR )            
+
+
 
     def labelUpdate(self):
         self.ui.bannerLabel.setText(self.ui.bannerText.text())
@@ -66,11 +68,9 @@ class BannerandTextClass(QtGui.QWidget) :
     def preview_banner(self) :
             self.preview = preview.showPreview()
             self.preview.closeApp.connect( self.destroying_preview ) #connecting destructor to signal
-            self.preview.moveStuff( self.SCALE_FACTOR, self.ui.frame.width(), self.ui.frame.height(), self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
+            self.preview.moveStuff( self.SCALE_FACTOR, self.ui.frame.geometry(), self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.color, self.file )
 
     def destroying_preview(self) :
-        print "yo"
-        self.preview.deleteLater()
         self.preview = None
             
     def bannerToogle(self) :
@@ -128,6 +128,10 @@ class BannerandTextClass(QtGui.QWidget) :
                 self.sizeHandler.can_move is True:
 
                 self.repaint()
+
+    def closeEvent(self, event) :
+        self.closeWidget()
+
 
     def closeWidget(self) :
         self.closeApp.emit()
