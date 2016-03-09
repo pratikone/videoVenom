@@ -4,6 +4,7 @@
 import os
 import cv2
 import random
+import datetime
 from PIL import *
 import numpy as np
 from moviepy.editor import *
@@ -72,26 +73,37 @@ def GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount):
                 i = i-1
     return RandomFrame
 
-def GenerateTheVideo(videoLocation, t1, t2, x, y, ImageLocation, numVideos=1):
+def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None ):
     FrameCount = GenerateFrames(videoLocation)
     vidDirectory = os.path.dirname(videoLocation)
     RandomFrame = GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount)
     durationOfImage = GivemMeARandomNumber(5)
 
     for numVideo_i in range(0,numVideos): 
-        OverlayImage = ImageLocation #Location Of Image/Banner
-        ovrImgClip = ImageClip(OverlayImage,duration=t2-t1) #Create a clip for the duration start
+        if ImageLocation is not None :
+            OverlayImage = ImageLocation #Location Of Image/Banner
+            ovrImgClip = ImageClip(OverlayImage,duration=t2-t1) #Create a clip for the duration start
+            
+
         frame_to_use = os.path.join(vidDirectory,'frame%d.jpg' %RandomFrame[numVideo_i])
         clip1 = ImageClip(frame_to_use,duration=durationOfImage)
         clip2 = VideoFileClip(videoLocation)
-        Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1),ovrImgClip.set_start(t1+durationOfImage).set_pos((x,y))]) #Overlay the video
+        if ImageLocation is not None :
+            Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1), \
+                    ovrImgClip.set_start(t1+durationOfImage).set_pos((x,y))]) #Overlay the video
+        else :
+            Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)]) #Overlay the video            
+        
         newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])
         Video.write_videofile(newFileLocation,fps=25)
     
     destroyAllFrames(vidDirectory,FrameCount)
 
 if __name__ == "__main__":
-    main()
-    #GenerateTheVideo("C:/Python27/codes/opencv tut/test.avi",2,2) #path where the video is located
+    # main()
+    
+    print datetime.datetime.now()
+    GenerateTheVideo("C:/Users/pratika/Desktop/valve.avi" ) #path where the video is located
+    print datetime.datetime.now()
 
 
