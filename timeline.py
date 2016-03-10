@@ -100,7 +100,7 @@ class AnotherTimeline(QtGui.QWidget):
         self.startX = loc["x"]
         self.startY = loc["y"]
         self.bannerStart = self.bannerEnd = 0
-        self.smallest_val = 10
+
         self.initUI(my_range)
         
     def initUI(self, my_range):
@@ -131,6 +131,19 @@ class AnotherTimeline(QtGui.QWidget):
       
       
     def drawWidget(self, qp):
+        if self.my_range < 10 :
+            self.interval = 1    # 1 sec for 10 sec
+        if self.my_range < 60 :
+            self.interval = 5   # 5 sec for 60 sec          
+        elif self.my_range < 180 :
+            self.interval = 10
+        elif self.my_range < 300 :
+            self.interval = 30
+        elif self.my_range < 600 :
+            self.interval = 60
+        else :
+            self.interval = 600
+
         font = QtGui.QFont('Serif', 7, QtGui.QFont.Light)
         qp.setFont(font)
 
@@ -138,9 +151,9 @@ class AnotherTimeline(QtGui.QWidget):
         
         # step = int(round(w / 10.0))
 
-        count_of_steps = self.my_range / ( 1.0 * self.smallest_val)
+        count_of_steps = self.my_range / ( 1.0 * self.interval)
         step = self.w / (1.0 * count_of_steps)   # size of each count
-        step_per_unit = (step / self.smallest_val)
+        step_per_unit = (step / self.interval)
         till =  step_per_unit * self.value
         full = self.w
 
@@ -164,13 +177,13 @@ class AnotherTimeline(QtGui.QWidget):
         qp.drawRect(self.startX, self.startY, full, self.h)
 
         j = 0
-        countNumber = int(self.smallest_val)
+        countNumber = int(self.interval)
         for i in range(int(step), self.w, int(step)):
             qp.drawLine( self.startX + i, self.startY, self.startX + i, self.startY + 5)
             metrics = qp.fontMetrics()
             fw = metrics.width(str( countNumber))
             qp.drawText( self.startX + i-fw, self.startY + 15, str(countNumber))
-            countNumber = countNumber + self.smallest_val
+            countNumber = countNumber + self.interval
             
 
 

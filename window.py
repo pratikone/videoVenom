@@ -90,6 +90,7 @@ class Window(QtGui.QMainWindow):
             startTimeInSec = self.ui.startTimeWidget.time().hour() * 3600 + self.ui.startTimeWidget.time().minute() * 60 + self.ui.startTimeWidget.time().second()
             endTimeInSec = self.ui.endTimeWidget.time().hour() * 3600 + self.ui.endTimeWidget.time().minute() * 60 + self.ui.endTimeWidget.time().second()
             self.timeline.setBannerDuration( startTimeInSec, endTimeInSec )
+            self.repaint()
 
 
     def bannerToogle(self) :
