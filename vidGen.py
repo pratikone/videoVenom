@@ -103,7 +103,7 @@ if __name__ == "__main__":
     # main()
     
     print datetime.datetime.now()
-    GenerateTheVideo("/home/pratika/Downloads/my_composition.mp4" ) #path where the video is located
+    GenerateTheVideo("/home/pratika/Downloads/my_composition.mp4", 2 ) #path where the video is located
     print datetime.datetime.now()
 
 
