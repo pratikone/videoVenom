@@ -20,12 +20,7 @@ class Window(QtGui.QMainWindow):
         self.bannerWidget = None
         self.publishWidget = None
         self.file = None
-        #timer for animation
-        #self.timer = QtCore.QTimer(self)
-        #self.connect(self.timer,
-        #             QtCore.SIGNAL("timeout()"),
-        #             self.update)
-        #self.timer.start(DELAY)
+        self.startTimeInSec = self.endTimeInSec = 0
     
     def setup_connections( self, ui ) :
         self.ui = ui
@@ -54,7 +49,6 @@ class Window(QtGui.QMainWindow):
    
     def tick(self, time):
         self.timeline.my_range = self.ui.videoPlayer.mediaObject().totalTime() / 1000  #converting millisecond to second
-        self.timeline.smallest_val = 30
         if self.errorConditionsBannerTime() is True : #check for errors
             return
 
@@ -83,13 +77,12 @@ class Window(QtGui.QMainWindow):
 
     def stop_playback( self) :
         self.ui.videoPlayer.stop()
-        self.timeline.my_range = 80
 
     def moveBannerInTimeline(self) : 
         if self.errorConditionsBannerTime( takeAction = False ) is False : 
-            startTimeInSec = self.ui.startTimeWidget.time().hour() * 3600 + self.ui.startTimeWidget.time().minute() * 60 + self.ui.startTimeWidget.time().second()
-            endTimeInSec = self.ui.endTimeWidget.time().hour() * 3600 + self.ui.endTimeWidget.time().minute() * 60 + self.ui.endTimeWidget.time().second()
-            self.timeline.setBannerDuration( startTimeInSec, endTimeInSec )
+            self.startTimeInSec = self.ui.startTimeWidget.time().hour() * 3600 + self.ui.startTimeWidget.time().minute() * 60 + self.ui.startTimeWidget.time().second()
+            self.endTimeInSec = self.ui.endTimeWidget.time().hour() * 3600 + self.ui.endTimeWidget.time().minute() * 60 + self.ui.endTimeWidget.time().second()
+            self.timeline.setBannerDuration( self.startTimeInSec, self.endTimeInSec )
             self.repaint()
 
 
@@ -112,7 +105,8 @@ class Window(QtGui.QMainWindow):
      
 
     def showPublishWidget(self):
-        self.publishWidget = videoProcessing.showProcessing( process = False )
+        self.publishWidget = videoProcessing.showProcessing( videoLocation = self.file, numVideos=1, \
+                                        t1=self.startTimeInSec, t2=self.endTimeInSec, x=0, y=0, ImageLocation="output.png")
         self.publishWidget.closeApp.connect( self.destroyPublishWidget ) #connecting destructor to signal
 
     def destroyPublishWidget(self):

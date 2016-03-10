@@ -116,9 +116,11 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
         clip1 = ImageClip(frame_to_use,duration=durationOfImage)
         clip2 = VideoFileClip(videoLocation)
         if ImageLocation is not None :
+            print "image loc received"
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1), \
                     ovrImgClip.set_start(t1+durationOfImage).set_pos((x,y))]) #Overlay the video
         else :
+            print "NOT received"
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)]) #Overlay the video            
         
         newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])

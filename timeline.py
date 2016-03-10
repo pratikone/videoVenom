@@ -131,18 +131,20 @@ class AnotherTimeline(QtGui.QWidget):
       
       
     def drawWidget(self, qp):
-        if self.my_range < 10 :
+
+        if self.my_range <= 30 :
             self.interval = 1    # 1 sec for 10 sec
-        if self.my_range < 60 :
+        elif self.my_range <= 60 :
             self.interval = 5   # 5 sec for 60 sec          
-        elif self.my_range < 180 :
+        elif self.my_range <= 180 :
             self.interval = 10
-        elif self.my_range < 300 :
+        elif self.my_range <= 300 :
             self.interval = 30
-        elif self.my_range < 600 :
+        elif self.my_range <= 600 :
             self.interval = 60
         else :
             self.interval = 600
+
 
         font = QtGui.QFont('Serif', 7, QtGui.QFont.Light)
         qp.setFont(font)

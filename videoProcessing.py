@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys, math
+import sys, math, time
 import thread
 from PyQt4 import QtGui, QtCore
 import processing_ui
@@ -50,20 +50,18 @@ class Processing(QtGui.QWidget) :
         self.close()
 
 
-def showProcessing( process ) :
+def showProcessing( videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None  ) :
     ui = processing_ui.Ui_Dialog()
     widget = Processing( ui )
     ui.setupUi(widget)
     widget.setup_connections()
     widget.show()
-
-    if process is True :
-        completion(widget, "yo yo")
-
+    createVideos( widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation )
     return widget
 
-def completion( widget, text ) :
-    vidGen.GenerateTheVideo("/home/pratika/Downloads/my_composition.mp4" ) #path where the video is located
+def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None ) :
+    print ImageLocation
+    vidGen.GenerateTheVideo(str(videoLocation), numVideos, t1, t2, x, y, ImageLocation ) #path where the video is located in string from unicode
     widget.setText("Completed")
     widget.dontAnimate = True
     widget.ui.animatedDial.setValue(0)
