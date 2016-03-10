@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Video Venom</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="Phonon::VideoPlayer" name="videoPlayer" native="true">
@@ -133,6 +133,32 @@
       <widget class="QTimeEdit" name="endTimeWidget">
        <property name="displayFormat">
         <string>h:mm:ss</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>241</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="tagsButton">
+       <property name="text">
+        <string>Set Tags</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="publishButton">
+       <property name="text">
+        <string>Publish videos</string>
        </property>
       </widget>
      </item>

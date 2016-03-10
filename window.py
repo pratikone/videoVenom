@@ -5,6 +5,7 @@ from timeline import AnotherTimeline, Communicate
 from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon 
 import textEditor
+import videoProcessing
 
 DELAY = 100 * 1 #  5 seconds in milli-seconds
 
@@ -17,6 +18,7 @@ class Window(QtGui.QMainWindow):
         self.timeline = AnotherTimeline( self, 80, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
         self.bannerAndText = False
         self.bannerWidget = None
+        self.publishWidget = None
         #timer for animation
         #self.timer = QtCore.QTimer(self)
         #self.connect(self.timer,
@@ -36,6 +38,7 @@ class Window(QtGui.QMainWindow):
         ui.bannerBtn.clicked.connect(self.bannerToogle)
         ui.startTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
         ui.endTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
+        ui.publishButton.clicked.connect( self.showPublishWidget )
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
@@ -105,6 +108,14 @@ class Window(QtGui.QMainWindow):
     def destroying_bannerWidget(self) :
         self.bannerWidget = None
      
+
+    def showPublishWidget(self):
+        self.publishWidget = videoProcessing.showProcessing( process = False )
+        self.publishWidget.closeApp.connect( self.destroyPublishWidget ) #connecting destructor to signal
+
+    def destroyPublishWidget(self):
+        self.publishWidget = None
+    
     def errorConditionsBannerTime(self, takeAction = True) :
         if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000 )] ) :
                if takeAction is True :
@@ -125,6 +136,8 @@ class Window(QtGui.QMainWindow):
     def closeEvent(self, event) :
         if self.bannerWidget is not None :
             self.bannerWidget.closeEvent(event)
+        if self.publishWidget is not None :
+            self.publishWidget.closeEvent(event)
 
 
 def run():

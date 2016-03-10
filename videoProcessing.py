@@ -50,13 +50,16 @@ class Processing(QtGui.QWidget) :
         self.close()
 
 
-def showProcessing(  ) :
+def showProcessing( process ) :
     ui = processing_ui.Ui_Dialog()
     widget = Processing( ui )
     ui.setupUi(widget)
     widget.setup_connections()
-
     widget.show()
+
+    if process is True :
+        completion(widget, "yo yo")
+
     return widget
 
 def completion( widget, text ) :
@@ -69,8 +72,8 @@ def completion( widget, text ) :
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showProcessing()
-    completion(widget, "yo yo")
+    widget = showProcessing( True )
+    
     sys.exit(app.exec_())
 
 

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/basic.ui'
 #
-# Created: Mon Mar  7 16:15:34 2016
+# Created: Thu Mar 10 17:46:47 2016
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -74,6 +74,18 @@ class Ui_MainWindow(object):
         self.endTimeWidget = QtGui.QTimeEdit(self.layoutWidget1)
         self.endTimeWidget.setObjectName(_fromUtf8("endTimeWidget"))
         self.horizontalLayout_2.addWidget(self.endTimeWidget)
+        self.widget = QtGui.QWidget(self.centralwidget)
+        self.widget.setGeometry(QtCore.QRect(10, 370, 241, 28))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.horizontalLayout_3 = QtGui.QHBoxLayout(self.widget)
+        self.horizontalLayout_3.setMargin(0)
+        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
+        self.tagsButton = QtGui.QPushButton(self.widget)
+        self.tagsButton.setObjectName(_fromUtf8("tagsButton"))
+        self.horizontalLayout_3.addWidget(self.tagsButton)
+        self.publishButton = QtGui.QPushButton(self.widget)
+        self.publishButton.setObjectName(_fromUtf8("publishButton"))
+        self.horizontalLayout_3.addWidget(self.publishButton)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 792, 25))
@@ -97,7 +109,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Video Venom", None))
         self.bannerBtn.setText(_translate("MainWindow", "Banner and Text", None))
         self.logoLabel.setText(_translate("MainWindow", "Video Venom logo", None))
         self.playButton.setText(_translate("MainWindow", "Play", None))
@@ -105,8 +117,20 @@ class Ui_MainWindow(object):
         self.stopButton.setText(_translate("MainWindow", "Stop", None))
         self.startTimeWidget.setDisplayFormat(_translate("MainWindow", "h:mm:ss", None))
         self.endTimeWidget.setDisplayFormat(_translate("MainWindow", "h:mm:ss", None))
+        self.tagsButton.setText(_translate("MainWindow", "Set Tags", None))
+        self.publishButton.setText(_translate("MainWindow", "Publish videos", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
 
 from PyQt4 import phonon
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    MainWindow = QtGui.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+
