@@ -130,6 +130,8 @@ class BannerandTextClass(QtGui.QWidget) :
                 self.repaint()
 
     def closeEvent(self, event) :
+        if self.preview is not None :
+            self.preview.closeEvent(event)
         self.closeWidget()
 
 

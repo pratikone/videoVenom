@@ -122,6 +122,9 @@ class Window(QtGui.QMainWindow):
 
         return False
 
+    def closeEvent(self, event) :
+        if self.bannerWidget is not None :
+            self.bannerWidget.closeEvent(event)
 
 
 def run():
