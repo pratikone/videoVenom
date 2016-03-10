@@ -104,15 +104,15 @@ class BannerandTextClass(QtGui.QWidget) :
 
     def mousePressEvent(self, event):
 
-        if self.show_banner is True and self.bounds.contains( event.pos()) :
-            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
-                self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
-            self.sizeHandler.mousePressEvent(event)
-
-        elif self.ui.bannerLabel.geometry().contains( event.pos() ) : #label
+        if self.ui.bannerLabel.geometry().contains( event.pos() ) : #label
             if self.sizeHandler is None or self.sizeHandler.bounds != self.ui.bannerLabel.geometry() :
                 self.sizeHandler = SizeHandler(self, self.ui.bannerLabel)
                 # self.sizeHandler.enable_Hresize = self.sizeHandler.enable_Vresize = False  #disabling handlers
+            self.sizeHandler.mousePressEvent(event)
+
+        elif self.show_banner is True and self.bounds.contains( event.pos()) :
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
+                self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
             self.sizeHandler.mousePressEvent(event)
 
         self.repaint()

@@ -45,16 +45,17 @@ class Widget(QtGui.QWidget) :
 
         
     def mousePressEvent(self, event):
-        if self.bounds.contains( event.pos()) :
-            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
-                self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
-            self.sizeHandler.mousePressEvent(event)
-
-        elif self.label.geometry().contains( event.pos() ) :
+        if self.label.geometry().contains( event.pos() ) :
             if self.sizeHandler is None or self.sizeHandler.bounds != self.label.geometry() :
                 self.sizeHandler = SizeHandler(self, self.label)
                 self.sizeHandler.enable_Hresize = self.sizeHandler.enable_Vresize = False  #disabling handlers
             self.sizeHandler.mousePressEvent(event)
+
+        elif self.bounds.contains( event.pos()) :
+            if self.sizeHandler is None or self.sizeHandler.bounds != self.bounds : #selection
+                self.sizeHandler = SizeHandler(self, "rectangle", self.bounds)
+            self.sizeHandler.mousePressEvent(event)
+
 
         self.repaint()
 
