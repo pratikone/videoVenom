@@ -19,6 +19,7 @@ class Window(QtGui.QMainWindow):
         self.bannerAndText = False
         self.bannerWidget = None
         self.publishWidget = None
+        self.file = None
         #timer for animation
         #self.timer = QtCore.QTimer(self)
         #self.connect(self.timer,
@@ -67,10 +68,10 @@ class Window(QtGui.QMainWindow):
 
     def open_file( self) :
         file = QtGui.QFileDialog.getOpenFileName(self, 'Open movie file')
-        unified_file = os.path.normpath(unicode(file)) 
-        mediaSource = Phonon.MediaSource( unified_file )
+        self.file = os.path.normpath(unicode(file)) 
+        mediaSource = Phonon.MediaSource( self.file )
         self.ui.videoPlayer.load( mediaSource )
-        print unified_file
+        print self.file
         self.start_playback() #start playback auto so that video data gets populated.
 
 
@@ -93,7 +94,7 @@ class Window(QtGui.QMainWindow):
 
     def bannerToogle(self) :
         if self.bannerAndText is False :
-                self.bannerWidget = textEditor.showBannerandText()
+                self.bannerWidget = textEditor.showBannerandText( self)
                 self.bannerWidget.setScaleFactor( self.videoWidth, self.videoHeight )
                 #banner and text
                 self.bannerWidget.closeApp.connect( self.destroying_bannerWidget ) #connecting destructor to signal

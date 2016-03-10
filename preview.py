@@ -3,6 +3,7 @@
 import sys, math
 from PyQt4 import QtGui, QtCore
 import preview_ui
+from vidGen import getFrameFromVideo
 
 
 # Shows the preview window showcasing the changes made in the editor window
@@ -25,6 +26,10 @@ class Preview(QtGui.QWidget) :
         
         #resize video frame
         self.ui.bgLabel.resize( scaleFactor * frameCoords.width(), scaleFactor * frameCoords.height() )
+        originalVideoLocation = self.caller.caller.file #calling main window
+        if originalVideoLocation is not None :
+            bgPixmap = QtGui.QPixmap( getFrameFromVideo( originalVideoLocation, 20 ) ) #make sure asked frame count is less than that of video
+            self.ui.bgLabel.setPixmap( bgPixmap) 
 
         #resize banner image
         self.ui.bannerlImage.setGeometry( bannerCoords )
@@ -95,12 +100,12 @@ class Preview(QtGui.QWidget) :
 
 
 
-def showPreview(  ) :
+def showPreview( caller  ) :
     ui = preview_ui.Ui_Preview()
     widget = Preview( ui )
     ui.setupUi(widget)
     widget.setup_connections()
-
+    widget.caller = caller
     widget.show()
     return widget
 
@@ -109,7 +114,7 @@ def showPreview(  ) :
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showPreview()
+    widget = showPreview(app)
     sys.exit(app.exec_())
 
 

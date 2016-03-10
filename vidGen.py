@@ -48,6 +48,22 @@ def GenerateFrames(videoLocation):
     vidcap.release()
     return count
 
+#need for the preview window
+def getFrameFromVideo( videoLocation, frameCount ) : 
+    vidcap = cv2.VideoCapture(videoLocation) 
+    success,image = vidcap.read()
+    count = 1
+    vidDirectory = os.path.dirname(videoLocation)
+
+    while (count < frameCount) and (success): 
+        success,image = vidcap.read()
+        frame_read = os.path.join(vidDirectory,'frame%d.jpg' %count)
+        count += 1
+
+    cv2.imwrite(frame_read, image)     # save frame as JPEG file
+    vidcap.release()
+    return frame_read
+
 #Gives an array of numbers but those numbers corresponds to unidentical frames
 def GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount):
     RandomFrame = []
@@ -103,7 +119,7 @@ if __name__ == "__main__":
     # main()
     
     print datetime.datetime.now()
-    GenerateTheVideo("/home/pratika/Downloads/my_composition.mp4", 2 ) #path where the video is located
+    GenerateTheVideo("C:/Users/pratika/Desktop/valve.avi", 2 ) #path where the video is located
     print datetime.datetime.now()
 
 

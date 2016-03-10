@@ -20,6 +20,7 @@ class BannerandTextClass(QtGui.QWidget) :
         self.file = None
         self.color = None
         self.font = None
+        self.preview = None
 
 
     def initUI(self):      
@@ -66,7 +67,7 @@ class BannerandTextClass(QtGui.QWidget) :
         self.file = None
 
     def preview_banner(self) :
-            self.preview = preview.showPreview()
+            self.preview = preview.showPreview( self )
             self.preview.closeApp.connect( self.destroying_preview ) #connecting destructor to signal
             self.preview.moveStuff( self.SCALE_FACTOR, self.ui.frame.geometry(), self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.color, self.file )
 
@@ -141,11 +142,12 @@ class BannerandTextClass(QtGui.QWidget) :
 
       
 
-def showBannerandText(  ) :
+def showBannerandText( caller  ) :
     ui = banner_ui.Ui_Form()
     widget = BannerandTextClass(ui)
     ui.setupUi(widget)
     widget.initUI()
+    widget.caller = caller #setting main window as caller here for accessing variables
     widget.show()
     widget.show()
     return widget
@@ -157,7 +159,8 @@ def showBannerandText(  ) :
 def main():
     
     app = QtGui.QApplication(sys.argv)
-    widget = showBannerandText()    
+    app.file = None
+    widget = showBannerandText( app )    
     sys.exit(app.exec_())
 
 
