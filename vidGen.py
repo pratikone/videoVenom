@@ -5,7 +5,6 @@ import os
 import cv2
 import random
 import datetime
-from PIL import *
 import numpy as np
 from moviepy.editor import *
 
@@ -23,22 +22,30 @@ def compare_image(imageA, imageB):
 def GivemMeARandomNumber(count):
     return random.randrange(1,count)
 
-def destroyAllFrames(pathOfVideo,count): 
+def destroyAllFrames(pathOfFrames,count): 
     for i in range(1,count+1):
-        pathToremove = os.path.join(pathOfVideo,'frame%d.jpg' %i)
+        pathToremove = os.path.join(pathOfFrames,'frame%d.jpg' %i)
         if os.path.isfile(pathToremove):
             os.remove(pathToremove)
-
+    os.removedirs(pathOfFrames)
+    
 #Function to generate an array of frames from the video
-def GenerateFrames(videoLocation):
+def GenerateFrames(videoLocation,FrameDirectory):
     vidcap = cv2.VideoCapture(videoLocation) 
     success,image = vidcap.read()
     count = 1
     vidDirectory = os.path.dirname(videoLocation)
 
+    # Find OpenCV version
+    (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')     
+    if int(major_ver)  < 3 :
+        fps = vidcap.get(cv2.cv.CV_CAP_PROP_FPS)
+    else :
+        fps = vidcap.get(cv2.CAP_PROP_FPS)
+        
     while (count < 200) and (success): 
         success,image = vidcap.read()
-        frame_read = os.path.join(vidDirectory,'frame%d.jpg' %count)
+        frame_read = os.path.join(FrameDirectory,'frame%d.jpg' %count)
         cv2.imwrite(frame_read, image)     # save frame as JPEG file
         if cv2.waitKey(10) == 27:                     # exit if Escape is hit
             break
@@ -46,10 +53,10 @@ def GenerateFrames(videoLocation):
 
     cv2.destroyAllWindows()
     vidcap.release()
-    return count
+    return count,fps
 
 #Gives an array of numbers but those numbers corresponds to unidentical frames
-def GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount):
+def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
     RandomFrame = []
     RandomFrameData = GivemMeARandomNumber(FrameCount)
     RandomFrame.append(RandomFrameData)
@@ -61,8 +68,8 @@ def GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount):
         for i in range(0,numVideos):
             RandomFrameData = GivemMeARandomNumber(FrameCount)
             for imgNum in range(0,len(RandomFrame)):
-                imgA = cv2.imread(os.path.join(vidDirectory,'frame%d.jpg' %RandomFrame[imgNum]))
-                imgB = cv2.imread(os.path.join(vidDirectory,'frame%d.jpg' %RandomFrameData))
+                imgA = cv2.imread(os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrame[imgNum]))
+                imgB = cv2.imread(os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrameData))
                 mse = compare_image(imgA,imgB)
                 if mse < 2000:
                     Match = True
@@ -74,9 +81,14 @@ def GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount):
     return RandomFrame
 
 def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None ):
-    FrameCount = GenerateFrames(videoLocation)
     vidDirectory = os.path.dirname(videoLocation)
-    RandomFrame = GiveUnidenticalFrames(numVideos,vidDirectory,FrameCount)
+    #Make directory where you put all images
+    FrameDirectory = os.path.join(vidDirectory,'Frames')
+    if not os.path.exists(FrameDirectory):
+        os.makedirs(FrameDirectory)
+
+    FrameCount,frame_rate = GenerateFrames(videoLocation,FrameDirectory)
+    RandomFrame = GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory)
     durationOfImage = GivemMeARandomNumber(5)
 
     for numVideo_i in range(0,numVideos): 
@@ -84,8 +96,7 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
             OverlayImage = ImageLocation #Location Of Image/Banner
             ovrImgClip = ImageClip(OverlayImage,duration=t2-t1) #Create a clip for the duration start
             
-
-        frame_to_use = os.path.join(vidDirectory,'frame%d.jpg' %RandomFrame[numVideo_i])
+        frame_to_use = os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrame[numVideo_i])
         clip1 = ImageClip(frame_to_use,duration=durationOfImage)
         clip2 = VideoFileClip(videoLocation)
         if ImageLocation is not None :
@@ -95,15 +106,16 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)]) #Overlay the video            
         
         newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])
-        Video.write_videofile(newFileLocation,fps=25)
+        Video.write_videofile(newFileLocation,fps=frame_rate)
     
-    destroyAllFrames(vidDirectory,FrameCount)
+    destroyAllFrames(FrameDirectory,FrameCount)
+
 
 if __name__ == "__main__":
     # main()
-    
     print datetime.datetime.now()
-    GenerateTheVideo("/home/pratika/Downloads/my_composition.mp4", 2 ) #path where the video is located
+    #GenerateTheVideo("/home/pratika/Downloads/my_composition.mp4", 2 ) #path where the video is located
+    GenerateTheVideo("C:\Python27\codes\/vide_mani\/test.avi")
     print datetime.datetime.now()
 
 
