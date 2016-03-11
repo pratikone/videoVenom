@@ -76,12 +76,13 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
     RandomFrame = []
     RandomFrameData = GivemMeARandomNumber(FrameCount)
     RandomFrame.append(RandomFrameData)
-    Match = False
+    i = 1
 
     if numVideos == 1:
         return RandomFrame
     else:
-        for i in range(0,numVideos):
+        while (i<numVideos):
+            Match = False
             RandomFrameData = GivemMeARandomNumber(FrameCount)
             for imgNum in range(0,len(RandomFrame)):
                 imgA = cv2.imread(os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrame[imgNum]))
@@ -92,6 +93,7 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
                     break
             if(Match is False):
                 RandomFrame.append(RandomFrameData)
+                i = i+1
             else:
                 i = i-1
     return RandomFrame
@@ -111,16 +113,14 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
         if ImageLocation is not None :
             OverlayImage = ImageLocation #Location Of Image/Banner
             ovrImgClip = ImageClip(OverlayImage,duration=t2-t1) #Create a clip for the duration start
-            
+        
         frame_to_use = os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrame[numVideo_i])
         clip1 = ImageClip(frame_to_use,duration=durationOfImage)
         clip2 = VideoFileClip(videoLocation)
         if ImageLocation is not None :
-            print "image loc received"
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1), \
                     ovrImgClip.set_start(t1+durationOfImage).set_pos((x,y))]) #Overlay the video
         else :
-            print "NOT received"
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)]) #Overlay the video            
         
         newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])
@@ -132,7 +132,7 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
 if __name__ == "__main__":
     # main()
     print datetime.datetime.now()
-    GenerateTheVideo("C:/Users/pratika/Desktop/valve.avi", 2 ) #path where the video is located
+    GenerateTheVideo("/home/pratika/Desktop/my_composition.mp4", 2 ) #path where the video is located
     print datetime.datetime.now()
 
 

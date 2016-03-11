@@ -20,7 +20,7 @@ class Preview(QtGui.QWidget) :
     def setup_connections(self) :
         self.ui.pushButton.clicked.connect( self.closeWidget )
 
-    def moveStuff(self, scaleFactor, frameCoords, bannerCoords, bannerLabelCoords, bannerLabelText, color, image) :
+    def moveStuff(self, scaleFactor, frameCoords, bannerCoords, bannerLabelCoords, bannerLabelText, font, color, image) :
         #resize whole widget
         self.resize( scaleFactor * frameCoords.width() + 30 , scaleFactor * frameCoords.height() + 30 )
         
@@ -28,7 +28,7 @@ class Preview(QtGui.QWidget) :
         self.ui.bgLabel.resize( scaleFactor * frameCoords.width(), scaleFactor * frameCoords.height() )
         originalVideoLocation = self.caller.caller.file #calling main window
         if originalVideoLocation is not None :
-            bgPixmap = QtGui.QPixmap( getFrameFromVideo( originalVideoLocation, 20 ) ) #make sure asked frame count is less than that of video
+            bgPixmap = QtGui.QPixmap( getFrameFromVideo( originalVideoLocation, 200 ) ) #make sure asked frame count is less than that of video
             self.ui.bgLabel.setPixmap( bgPixmap) 
 
         #resize banner image
@@ -52,7 +52,7 @@ class Preview(QtGui.QWidget) :
 
         self.ui.bannerLabel.setText( bannerLabelText )
         
-        self.font = self.ui.bannerLabel.font()
+        self.font = font
         self.font.setPointSize( self.font.pointSize() * scaleFactor ) #resize font
         self.ui.bannerLabel.setFont(self.font)
         if color is not None :
