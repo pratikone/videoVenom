@@ -60,7 +60,7 @@ def showProcessing( videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocat
     return widget
 
 def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None ) :
-    print ImageLocation
+    # ImageLocation = "C:/Users/pratika/Documents/GitHub/video venom/output.png"
     vidGen.GenerateTheVideo(str(videoLocation), numVideos, t1, t2, x, y, ImageLocation ) #path where the video is located in string from unicode
     widget.setText("Completed")
     widget.dontAnimate = True
@@ -70,7 +70,7 @@ def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, Imag
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showProcessing( True )
+    widget = showProcessing( "" )
     
     sys.exit(app.exec_())
 
