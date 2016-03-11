@@ -161,6 +161,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     app.file = None
     widget = showBannerandText( app )    
+    widget.setScaleFactor(1024, 768)
     sys.exit(app.exec_())
 
 

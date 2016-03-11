@@ -52,7 +52,7 @@ class Preview(QtGui.QWidget) :
 
         self.ui.bannerLabel.setText( bannerLabelText )
         
-        self.font = font
+        self.font = QtGui.QFont(font) 
         self.font.setPointSize( self.font.pointSize() * scaleFactor ) #resize font
         self.ui.bannerLabel.setFont(self.font)
         if color is not None :
