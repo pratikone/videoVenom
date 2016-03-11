@@ -132,7 +132,7 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
 if __name__ == "__main__":
     # main()
     print datetime.datetime.now()
-    GenerateTheVideo("/home/pratika/Desktop/my_composition.mp4", 2 ) #path where the video is located
+    GenerateTheVideo("/home/pratika/Desktop/Avengers.mp4", 2 ) #path where the video is located
     print datetime.datetime.now()
 
 
