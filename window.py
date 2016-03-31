@@ -105,7 +105,7 @@ class Window(QtGui.QMainWindow):
      
 
     def showPublishWidget(self):
-        self.publishWidget = videoProcessing.showProcessing( videoLocation = self.file, numVideos=1, \
+        self.publishWidget = videoProcessing.showProcessing( videoLocation = self.file, numVideos=2, \
                                         t1=self.startTimeInSec, t2=self.endTimeInSec, x=0, y=0, ImageLocation=os.getcwd() + "/output.png")
         self.publishWidget.closeApp.connect( self.destroyPublishWidget ) #connecting destructor to signal
 

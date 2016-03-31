@@ -69,7 +69,7 @@ class BannerandTextClass(QtGui.QWidget) :
     def preview_banner(self) :
             self.preview = preview.showPreview( self )
             self.preview.closeApp.connect( self.destroying_preview ) #connecting destructor to signal
-            self.preview.moveStuff( self.SCALE_FACTOR, self.ui.frame.geometry(), self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.color, self.file )
+            self.preview.moveStuff( self.SCALE_FACTOR, self.ui.frame.geometry(), self.bounds, self.ui.bannerLabel.geometry(), self.ui.bannerLabel.text(), self.font, self.color, self.file )
 
     def destroying_preview(self) :
         self.preview = None
@@ -161,6 +161,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     app.file = None
     widget = showBannerandText( app )    
+    widget.setScaleFactor(1024, 768)
     sys.exit(app.exec_())
 
 
