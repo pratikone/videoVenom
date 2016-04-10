@@ -67,7 +67,6 @@ def showProcessing( videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocat
 
 def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback=None ) :
     # ImageLocation = "C:/Users/pratika/Documents/GitHub/video venom/output.png"
-    print "start"
     vidGen.GenerateTheVideo(str(videoLocation), numVideos, t1, t2, x, y, ImageLocation, callback ) #path where the video is located in string from unicode
     widget.setText("Completed")
     widget.dontAnimate = True
@@ -80,12 +79,10 @@ class callbackProcessing() :
         
         
    def videoProgressSignal( self,videoNum ) :
-        print "yo here"
         self.hello(videoNum)
         
 
    def hello( self, i) :
-        print "hello hello" + str(i + 1)
         self.widget.setText("Processing video " + str(i+1))
 
 
