@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys, math, time
-import thread
+import threading
 from PyQt4 import QtGui, QtCore
 import processing_ui
 import vidGen
+
 
 DELAY = 100 #  1 second in milli-seconds
 
@@ -57,7 +58,10 @@ def showProcessing( videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocat
     ui.setupUi(widget)
     widget.setup_connections()
     widget.show()
-    createVideos( widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal )
+
+    t = threading.Thread(target=createVideos, args = (widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal))
+    t.start()
+    # createVideos( widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal )
     return widget
 
 def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback=None ) :
@@ -87,7 +91,7 @@ class callbackProcessing() :
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showProcessing( "C:/Users/pratika/Desktop/valve.avi", 2 )
+    widget = showProcessing( "C:/Users/pratika/Desktop/valve.avi", 1 )
     
     sys.exit(app.exec_())
 

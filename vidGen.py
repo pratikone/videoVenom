@@ -99,6 +99,7 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
     return RandomFrame
 
 def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
+    print "generatring videos"
     vidDirectory = os.path.dirname(videoLocation)
     #Make directory where you put all images
     FrameDirectory = os.path.join(vidDirectory,'Frames')
@@ -110,6 +111,7 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
     durationOfImage = GivemMeARandomNumber(5)
 
     for numVideo_i in range(0,numVideos): 
+        print "looping " + str(numVideo_i)
         if callback is not None:
             callback( numVideo_i )
         else :
