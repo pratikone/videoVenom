@@ -16,6 +16,7 @@ class Processing(QtGui.QWidget) :
     def __init__(self, ui):
         super(Processing, self).__init__()
         self.ui = ui
+        self.signals = callbackProcessing( self )
 
         
 
@@ -56,21 +57,37 @@ def showProcessing( videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocat
     ui.setupUi(widget)
     widget.setup_connections()
     widget.show()
-    createVideos( widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation )
+    createVideos( widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal )
     return widget
 
-def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None ) :
+def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback=None ) :
     # ImageLocation = "C:/Users/pratika/Documents/GitHub/video venom/output.png"
-    vidGen.GenerateTheVideo(str(videoLocation), numVideos, t1, t2, x, y, ImageLocation ) #path where the video is located in string from unicode
+    print "start"
+    vidGen.GenerateTheVideo(str(videoLocation), numVideos, t1, t2, x, y, ImageLocation, callback ) #path where the video is located in string from unicode
     widget.setText("Completed")
     widget.dontAnimate = True
     widget.ui.animatedDial.setValue(0)
+
+class callbackProcessing() :
+
+   def __init__(self, widget):
+        self.widget = widget
+        
+        
+   def videoProgressSignal( self,videoNum ) :
+        print "yo here"
+        self.hello(videoNum)
+        
+
+   def hello( self, i) :
+        print "hello hello" + str(i + 1)
+        self.widget.setText("Processing video " + str(i+1))
 
 
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showProcessing( "" )
+    widget = showProcessing( "C:/Users/pratika/Desktop/valve.avi", 2 )
     
     sys.exit(app.exec_())
 

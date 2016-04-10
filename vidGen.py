@@ -98,7 +98,7 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
                 i = i-1
     return RandomFrame
 
-def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None ):
+def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
     vidDirectory = os.path.dirname(videoLocation)
     #Make directory where you put all images
     FrameDirectory = os.path.join(vidDirectory,'Frames')
@@ -110,6 +110,10 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
     durationOfImage = GivemMeARandomNumber(5)
 
     for numVideo_i in range(0,numVideos): 
+        if callback is not None:
+            callback( numVideo_i )
+        else :
+            print "No callback"
         if ImageLocation is not None :
             OverlayImage = ImageLocation #Location Of Image/Banner
             ovrImgClip = ImageClip(OverlayImage,duration=t2-t1) #Create a clip for the duration start
