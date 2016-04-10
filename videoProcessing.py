@@ -22,6 +22,7 @@ class Processing(QtGui.QWidget) :
         
 
     def setup_connections(self) :
+        self.ui.loadingLabel.resize(self.ui.loadingLabel.width() * 2, self.ui.loadingLabel.height())
         self.dontAnimate = False
         self.ui.animatedDial.setRange(0, 360)
         self.ui.animatedDial.setValue(0)
@@ -91,7 +92,7 @@ class callbackProcessing() :
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showProcessing( "C:/Users/pratika/Desktop/valve.avi", 1 )
+    widget = showProcessing( "C:/Users/pratika/Desktop/valve.avi", 2 )
     
     sys.exit(app.exec_())
 

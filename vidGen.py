@@ -44,6 +44,7 @@ def GenerateFrames(videoLocation,FrameDirectory):
         fps = vidcap.get(cv2.CAP_PROP_FPS)
         
     while (count < 200) and (success): 
+        print "frame count %d" %(count)
         success,image = vidcap.read()
         frame_read = os.path.join(FrameDirectory,'frame%d.jpg' %count)
         cv2.imwrite(frame_read, image)     # save frame as JPEG file
@@ -51,8 +52,10 @@ def GenerateFrames(videoLocation,FrameDirectory):
             break
         count += 1
 
+    print "after the while"
     cv2.destroyAllWindows()
     vidcap.release()
+    print "returning from frame generation"
     return count,fps
 
 #need for the preview window
@@ -82,6 +85,7 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
         return RandomFrame
     else:
         while (i<numVideos):
+            print "unidentical frames counter i = %d numVideos=%d" %(i, numVideos)
             Match = False
             RandomFrameData = GivemMeARandomNumber(FrameCount)
             for imgNum in range(0,len(RandomFrame)):
@@ -94,8 +98,7 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
             if(Match is False):
                 RandomFrame.append(RandomFrameData)
                 i = i+1
-            else:
-                i = i-1
+                
     return RandomFrame
 
 def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
@@ -105,8 +108,9 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
     FrameDirectory = os.path.join(vidDirectory,'Frames')
     if not os.path.exists(FrameDirectory):
         os.makedirs(FrameDirectory)
-
+    print "generatring frames"
     FrameCount,frame_rate = GenerateFrames(videoLocation,FrameDirectory)
+    print "give unidentical frames"
     RandomFrame = GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory)
     durationOfImage = GivemMeARandomNumber(5)
 
