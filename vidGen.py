@@ -5,7 +5,9 @@ import os
 import cv2
 import random
 import datetime
+import argparse
 import numpy as np
+import uploadvideo as uv
 from moviepy.editor import *
 
 def compare_image(imageA, imageB):
@@ -100,6 +102,11 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
                 
     return RandomFrame
 
+#Call upload to upload the videos
+def upload(VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
+    args = argparse.Namespace(file=vidLocation,title=titleVid,description=description,keywords=tags,category=category,privacyStatus=privacy)
+    uv.get_authenticated_service(args)
+
 def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
     vidDirectory = os.path.dirname(videoLocation)
     #Make directory where you put all images
@@ -130,8 +137,9 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
         
         newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])
         Video.write_videofile(newFileLocation,fps=frame_rate)
-    
+
     destroyAllFrames(FrameDirectory,FrameCount)
+
 
 
 if __name__ == "__main__":
