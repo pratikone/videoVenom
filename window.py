@@ -1,11 +1,17 @@
 import sys
 import os
+# os.putenv("IMAGEIO_FFMPEG_EXE", os.getcwd() + 'ffmpeg.win32.exe')
+os.environ['IMAGEIO_FFMPEG_EXE'] = os.getcwd() + '/moviepy/ffmpeg.win32.exe'
+
+
 import basic_ui
 from timeline import AnotherTimeline, Communicate
 from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon 
 import textEditor
 import videoProcessing
+
+
 
 DELAY = 100 * 1 #  5 seconds in milli-seconds
 
