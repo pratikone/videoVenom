@@ -3,6 +3,7 @@
 import sys, math
 from PyQt4 import QtGui, QtCore
 import upload_ui
+from PyDictionary import PyDictionary
 
 
 # Shows the preview window showcasing the changes made in the editor window
@@ -16,9 +17,22 @@ class Upload(QtGui.QWizard) :
         
 
     def setup_connections(self) :
-        pass
-        # self.ui.pushButton.clicked.connect( self.closeWidget )
+        self.ui.seedTagBtn.clicked.connect( self.populateTextBoxWithSynonyms )
 
+    def getSynonyms( self, seedTag ):
+        dictionary=PyDictionary()
+        list_of_syn = dictionary.synonym(str(seedTag))
+        return list_of_syn
+        
+    def populateTextBoxWithSynonyms( self ) :
+        seedTag = self.ui.seedTagTextBox.text()
+        list_of_syn = self.getSynonyms( seedTag )
+        string_of_syn = ",".join( list_of_syn )
+        self.ui.textEdit.setText( string_of_syn )
+
+
+    def accept(self):  # gets triggered on exiting the wizard
+        print "yo"
 
     def closeEvent(self, event) :
         self.closeWidget()
