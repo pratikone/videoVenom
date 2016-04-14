@@ -105,7 +105,7 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
 #Call upload to upload the videos
 def upload(VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
     args = argparse.Namespace(file=vidLocation,title=titleVid,description=description,keywords=tags,category=category,privacyStatus=privacy)
-    uv.get_authenticated_service(args)
+    uv.uploadMyVideo(args)
 
 def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
     vidDirectory = os.path.dirname(videoLocation)
