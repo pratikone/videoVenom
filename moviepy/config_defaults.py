@@ -46,6 +46,14 @@ IMAGEMAGICK_BINARY
     IMAGEMAGICK_BINARY = r"C:\Program Files\ImageMagick-6.8.8-Q16\convert.exe"
 
 """
+import sys, os
 
-FFMPEG_BINARY = 'ffmpeg-imageio'
+if "win" in sys.platform :
+    location = r"moviepy/ffmpeg.win32.exe"
+elif "linux" in sys.platform :
+    location = r"moviepy/ffmpeg.linux32"
+else :
+    location = r"moviepy/ffmpeg.osx.snowleopardandabove"
+
+FFMPEG_BINARY = location
 IMAGEMAGICK_BINARY = 'auto-detect'
