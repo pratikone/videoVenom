@@ -46,6 +46,7 @@ class Upload(QtGui.QWizard) :
 
     def accept(self):  # gets triggered on exiting the wizard
         print "yo"
+        self.closeWidget()
 
     def closeEvent(self, event) :
         self.closeWidget()
