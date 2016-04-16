@@ -10,6 +10,7 @@ from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon 
 import textEditor
 import videoProcessing
+import upload
 
 
 
@@ -40,7 +41,7 @@ class Window(QtGui.QMainWindow):
         ui.bannerBtn.clicked.connect(self.bannerToogle)
         ui.startTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
         ui.endTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
-        ui.publishButton.clicked.connect( self.showPublishWidget )
+        ui.publishButton.clicked.connect( self.showTagsWindow )
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
@@ -109,8 +110,13 @@ class Window(QtGui.QMainWindow):
     def destroying_bannerWidget(self) :
         self.bannerWidget = None
      
+    def showTagsWindow(self) :
+        self.tagsWidget = upload.showUpload(self)
+        self.tagsWidget.closeApp.connect( self.destroytagshWidget ) #connecting destructor to signal
+        
 
-    def showPublishWidget(self):
+
+    def showPublishWidget(self) :
         self.publishWidget = videoProcessing.showProcessing( videoLocation = self.file, numVideos=2, \
                                         t1=self.startTimeInSec, t2=self.endTimeInSec, x=0, y=0, ImageLocation=os.getcwd() + "/output.png")
         self.publishWidget.closeApp.connect( self.destroyPublishWidget ) #connecting destructor to signal
@@ -118,6 +124,11 @@ class Window(QtGui.QMainWindow):
     def destroyPublishWidget(self):
         self.publishWidget = None
     
+    def destroytagshWidget(self):
+        self.tagsWidget = None
+        
+    
+
     def errorConditionsBannerTime(self, takeAction = True) :
         if any( [ self.ui.startTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000), self.ui.endTimeWidget.time() > QtCore.QTime(0,0,0,0).addMSecs(self.timeline.my_range * 1000 )] ) :
                if takeAction is True :

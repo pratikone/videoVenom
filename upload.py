@@ -17,6 +17,8 @@ class Upload(QtGui.QWizard) :
     def __init__(self, ui):
         super(Upload, self).__init__()
         self.ui = ui
+        self.list_of_syn = None
+        self.youtubeObj = None
         
 
     def setup_connections(self) :
@@ -31,9 +33,9 @@ class Upload(QtGui.QWizard) :
         
     def populateTextBoxWithSynonyms( self ) :
         seedTag = self.ui.seedTagTextBox.text()
-        list_of_syn = self.getSynonyms( seedTag )
-        string_of_syn = ",".join( list_of_syn )
-        self.ui.textEdit.setText( string_of_syn )
+        self.list_of_syn = self.getSynonyms( seedTag )
+        string_of_syn = ",".join( self.list_of_syn )
+        self.ui.textEdit.setText( self.string_of_syn )
 
     def authenticateYoutube( self ):
         args = argparse.Namespace(file="",title="",description="",keywords="",category="",privacyStatus="",auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
@@ -45,7 +47,12 @@ class Upload(QtGui.QWizard) :
 
 
     def accept(self):  # gets triggered on exiting the wizard
-        print "yo"
+        if self.list_of_syn : 
+            self.caller.list_of_tags = self.list_of_syn
+        
+        #add youtube, vimeo etc here
+        self.caller.youtubeObj = self.youtubeObj
+        self.caller.showPublishWidget()
         self.closeWidget()
 
     def closeEvent(self, event) :
