@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 import sys, math
 from PyQt4 import QtGui, QtCore
-import upload_ui
 from PyDictionary import PyDictionary
+import upload_ui
+import argparse
+import uploadvideo as uv
+
 
 
 # Shows the preview window showcasing the changes made in the editor window
@@ -18,6 +21,8 @@ class Upload(QtGui.QWizard) :
 
     def setup_connections(self) :
         self.ui.seedTagBtn.clicked.connect( self.populateTextBoxWithSynonyms )
+        self.ui.youtubeBtn.clicked.connect( self.authenticateYoutube )
+        
 
     def getSynonyms( self, seedTag ):
         dictionary=PyDictionary()
@@ -29,6 +34,14 @@ class Upload(QtGui.QWizard) :
         list_of_syn = self.getSynonyms( seedTag )
         string_of_syn = ",".join( list_of_syn )
         self.ui.textEdit.setText( string_of_syn )
+
+    def authenticateYoutube( self ):
+        args = argparse.Namespace(file="",title="",description="",keywords="",category="",privacyStatus="",auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
+        self.youtubeObj = uv.authenticateWithYoutube(args)
+        if self.youtubeObj is not None :
+            self.ui.youtubeBtn.setText("Auth successful")
+
+                
 
 
     def accept(self):  # gets triggered on exiting the wizard

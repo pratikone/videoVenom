@@ -106,7 +106,10 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
 def upload(VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
     #Look at the auth params if there is a trouble
     args = argparse.Namespace(file=vidLocation,title=titleVid,description=description,keywords=tags,category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
-    uv.uploadMyVideo(args)
+    youtubeObj = uv.authenticateWithYoutube(args)
+    uploadMyVideo( youtubeObj, args )
+
+
 
 def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
     vidDirectory = os.path.dirname(videoLocation)
