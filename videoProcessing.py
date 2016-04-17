@@ -53,21 +53,21 @@ class Processing(QtGui.QWidget) :
         self.close()
 
 
-def showProcessing( videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None  ) :
+def showProcessing( caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0, x=0, y=0, ImageLocation=None  ) :
     ui = processing_ui.Ui_Dialog()
     widget = Processing( ui )
     ui.setupUi(widget)
     widget.setup_connections()
     widget.show()
 
-    t = threading.Thread(target=createVideos, args = (widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal))
+    t = threading.Thread(target=createVideos, args = (caller, widget, videoLocation, numVideos, tags, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal))
     t.start()
     # createVideos( widget, videoLocation, numVideos, t1, t2, x, y, ImageLocation, widget.signals.videoProgressSignal )
     return widget
 
-def createVideos( widget, videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback=None ) :
+def createVideos( caller, widget, videoLocation, numVideos=1, tags = None, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback=None ) :
     # ImageLocation = "C:/Users/pratika/Documents/GitHub/video venom/output.png"
-    vidGen.GenerateTheVideo(str(videoLocation), numVideos, t1, t2, x, y, ImageLocation, callback ) #path where the video is located in string from unicode
+    vidGen.GenerateTheVideo(caller, str(videoLocation), numVideos, tags,  t1, t2, x, y, ImageLocation, callback) #path where the video is located in string from unicode
     widget.setText("Completed")
     widget.dontAnimate = True
     widget.ui.animatedDial.setValue(0)
@@ -89,7 +89,7 @@ class callbackProcessing() :
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showProcessing( "C:/Users/pratika/Desktop/valve.avi", 2 )
+    widget = showProcessing( app, "C:/Users/pratika/Desktop/valve.avi", 2 )
     
     sys.exit(app.exec_())
 

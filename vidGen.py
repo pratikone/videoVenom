@@ -103,15 +103,15 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
     return RandomFrame
 
 #Call upload to upload the videos
-def upload(VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
+def upload(youtubeObj, VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
     #Look at the auth params if there is a trouble
-    args = argparse.Namespace(file=vidLocation,title=titleVid,description=description,keywords=tags,category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
-    youtubeObj = uv.authenticateWithYoutube(args)
+    args = argparse.Namespace(file=vidLocation,title=titleVid,description=description,keywords= ",".join(tags), category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
+    # youtubeObj = uv.authenticateWithYoutube(args)
     uploadMyVideo( youtubeObj, args )
 
 
 
-def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
+def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
     vidDirectory = os.path.dirname(videoLocation)
     #Make directory where you put all images
     FrameDirectory = os.path.join(vidDirectory,'Frames')
@@ -138,9 +138,16 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
                     ovrImgClip.set_start(t1+durationOfImage).set_pos((x,y))]) #Overlay the video
         else :
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)]) #Overlay the video            
+        if tags is not None :
+            video_name = tags[numVideo_i]
+        else : 
+            video_name = "video"
+
+        newFileLocation = os.path.join(vidDirectory,video_name)
         
-        newFileLocation = os.path.join(vidDirectory,'new_video_kind%d.mp4' %RandomFrame[numVideo_i])
         Video.write_videofile(newFileLocation,fps=frame_rate)
+        if caller is not None :        
+            upload( caller.youtubeObj, VidLocation =newFileLocation ,titleVid = video_name, description = video_name, tags=tags, category='22',privacy='public' )
 
     destroyAllFrames(FrameDirectory,FrameCount)
 
@@ -149,7 +156,7 @@ def GenerateTheVideo(videoLocation, numVideos=1, t1=0, t2=0, x=0, y=0, ImageLoca
 if __name__ == "__main__":
     # main()
     print datetime.datetime.now()
-    GenerateTheVideo("/home/pratika/Desktop/Avengers.mp4", 2 ) #path where the video is located
+    GenerateTheVideo(None, "/home/pratika/Desktop/Avengers.mp4", 2 ) #path where the video is located
     print datetime.datetime.now()
 
 
