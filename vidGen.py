@@ -46,7 +46,7 @@ def GenerateFrames(videoLocation,FrameDirectory):
         fps = vidcap.get(cv2.CAP_PROP_FPS)
         
     while (count < 200) and (success): 
-        print "frame count %d" %(count)
+        print "frame Count %d" %count
         success,image = vidcap.read()
         frame_read = os.path.join(FrameDirectory,'frame%d.jpg' %count)
         cv2.imwrite(frame_read, image)     # save frame as JPEG file
@@ -54,10 +54,8 @@ def GenerateFrames(videoLocation,FrameDirectory):
             break
         count += 1
 
-    print "after the while"
     cv2.destroyAllWindows()
     vidcap.release()
-    print "returning from frame generation"
     return count,fps
 
 #need for the preview window
@@ -78,36 +76,46 @@ def getFrameFromVideo( videoLocation, frameCount ) :
 
 #Gives an array of numbers but those numbers corresponds to unidentical frames
 def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
+    print "give me unidentical frames"
     RandomFrame = []
     RandomFrameData = GivemMeARandomNumber(FrameCount)
     RandomFrame.append(RandomFrameData)
     i = 1
-
+    UNIDENTICAL_THRESHOLD = 2000
+    counter_for_loop = 300
     if numVideos == 1:
         return RandomFrame
     else:
-        while (i<numVideos):
+        while (i<numVideos and counter_for_loop > 0 ):
+            print "frames %d counter_for_loop %d" % (i, counter_for_loop)
             Match = False
             RandomFrameData = GivemMeARandomNumber(FrameCount)
             for imgNum in range(0,len(RandomFrame)):
                 imgA = cv2.imread(os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrame[imgNum]))
                 imgB = cv2.imread(os.path.join(FrameDirectory,'frame%d.jpg' %RandomFrameData))
                 mse = compare_image(imgA,imgB)
-                if mse < 2000:
+                if mse < UNIDENTICAL_THRESHOLD:
                     Match = True
                     break
             if(Match is False):
                 RandomFrame.append(RandomFrameData)
                 i = i+1
-                
+
+            counter_for_loop = counter_for_loop - 1
+
+        if counter_for_loop <= 0 : #when loop is stopeed abruptly and we need to fill up the list
+             while len(RandomFrame) < numVideos :
+                RandomFrameData = GivemMeARandomNumber(FrameCount)
+                RandomFrame.append(RandomFrameData)
+
     return RandomFrame
 
 #Call upload to upload the videos
 def upload(youtubeObj, VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
     #Look at the auth params if there is a trouble
-    args = argparse.Namespace(file=vidLocation,title=titleVid,description=description,keywords= ",".join(tags), category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
+    args = argparse.Namespace(file=VidLocation,title=titleVid,description=description,keywords= ",".join(tags), category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
     # youtubeObj = uv.authenticateWithYoutube(args)
-    uploadMyVideo( youtubeObj, args )
+    uv.uploadMyVideo( youtubeObj, args )
 
 
 
@@ -139,9 +147,9 @@ def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0
         else :
             Video = CompositeVideoClip([clip1,clip2.set_start(durationOfImage).crossfadein(1)]) #Overlay the video            
         if tags is not None :
-            video_name = tags[numVideo_i]
+            video_name = tags[numVideo_i] + ".mp4"
         else : 
-            video_name = "video"
+            video_name = "video" + ".mp4"
 
         newFileLocation = os.path.join(vidDirectory,video_name)
         
@@ -156,7 +164,7 @@ def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0
 if __name__ == "__main__":
     # main()
     print datetime.datetime.now()
-    GenerateTheVideo(None, "/home/pratika/Desktop/Avengers.mp4", 2 ) #path where the video is located
+    GenerateTheVideo(None, "C:/Users/pratika/Desktop/valve.avi", 2 ) #path where the video is located
     print datetime.datetime.now()
 
 
