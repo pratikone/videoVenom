@@ -11,6 +11,7 @@ from PyQt4.phonon import Phonon
 import textEditor
 import videoProcessing
 import upload
+# import qdarkstyle
 
 
 
@@ -52,6 +53,8 @@ class Window(QtGui.QMainWindow):
         self.ui.startTimeWidget.setEnabled(False)
         self.ui.endTimeWidget.setEnabled(False)
 
+        pixmap = QtGui.QPixmap( "resources/file-video-icon.png" ) 
+        self.ui.logoLabel.setPixmap( pixmap.scaled( self.ui.logoLabel.width(), self.ui.logoLabel.height())) #resize image
 
     def paintEvent(self, e):
         self.timeline.paintEvent(e )
@@ -176,6 +179,10 @@ class Window(QtGui.QMainWindow):
 
 def run():
     app = QtGui.QApplication(sys.argv)
+
+    # setup stylesheet
+    # app.setStyleSheet(qdarkstyle.load_stylesheet(pyside=False))
+
     MainWindow = Window()
     ui = basic_ui.Ui_MainWindow()
     ui.setupUi(MainWindow)
