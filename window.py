@@ -26,6 +26,7 @@ class Window(QtGui.QMainWindow):
         self.bannerAndText = False
         self.bannerWidget = None
         self.publishWidget = None
+        self.tagsWidget = None
         self.file = None
         self.startTimeInSec = self.endTimeInSec = 0
     
@@ -46,7 +47,10 @@ class Window(QtGui.QMainWindow):
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
 
-
+        #disabling stuff at init
+        self.ui.bannerBtn.setEnabled(False)
+        self.ui.startTimeWidget.setEnabled(False)
+        self.ui.endTimeWidget.setEnabled(False)
 
 
     def paintEvent(self, e):
@@ -74,6 +78,7 @@ class Window(QtGui.QMainWindow):
         self.ui.videoPlayer.load( mediaSource )
         print self.file
         self.start_playback() #start playback auto so that video data gets populated.
+        self.ui.bannerBtn.setEnabled(True)
 
 
     def start_playback( self) :
@@ -101,18 +106,27 @@ class Window(QtGui.QMainWindow):
                 self.bannerWidget.closeApp.connect( self.destroying_bannerWidget ) #connecting destructor to signal
 
                 self.bannerAndText = True
+                self.ui.startTimeWidget.setEnabled(True)
+                self.ui.endTimeWidget.setEnabled(True)
                 self.ui.bannerBtn.setText("Remove banner")
+
         elif self.bannerAndText is True :
                 self.bannerAndText = False
+                self.ui.startTimeWidget.setTime(QtCore.QTime(0,0,0,0))
+                self.ui.endTimeWidget.setTime(QtCore.QTime(0,0,0,0))
+                self.ui.startTimeWidget.setEnabled(False)
+                self.ui.endTimeWidget.setEnabled(False)
                 self.ui.bannerBtn.setText("Add banner")
+
         self.repaint()
 
     def destroying_bannerWidget(self) :
         self.bannerWidget = None
      
     def showTagsWindow(self) :
-        self.tagsWidget = upload.showUpload(self)
-        self.tagsWidget.closeApp.connect( self.destroytagshWidget ) #connecting destructor to signal
+        if self.errorConditionsBannerTime() is False :
+            self.tagsWidget = upload.showUpload(self)
+            self.tagsWidget.closeApp.connect( self.destroytagshWidget ) #connecting destructor to signal
         
 
 
@@ -156,6 +170,8 @@ class Window(QtGui.QMainWindow):
             self.bannerWidget.closeEvent(event)
         if self.publishWidget is not None :
             self.publishWidget.closeEvent(event)
+        if self.tagsWidget is not None :
+                self.tagsWidget.closeEvent(event)
 
 
 def run():
