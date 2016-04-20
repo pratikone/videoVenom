@@ -54,11 +54,14 @@ class Ui_Wizard(object):
         self.wizardPage2 = QtGui.QWizardPage()
         self.wizardPage2.setObjectName(_fromUtf8("wizardPage2"))
         self.uploadBox = QtGui.QGroupBox(self.wizardPage2)
-        self.uploadBox.setGeometry(QtCore.QRect(10, 10, 401, 311))
+        self.uploadBox.setGeometry(QtCore.QRect(10, 10, 401, 261))
         self.uploadBox.setObjectName(_fromUtf8("uploadBox"))
         self.youtubeBtn = QtGui.QPushButton(self.uploadBox)
-        self.youtubeBtn.setGeometry(QtCore.QRect(30, 40, 91, 61))
+        self.youtubeBtn.setGeometry(QtCore.QRect(50, 40, 121, 91))
         self.youtubeBtn.setObjectName(_fromUtf8("youtubeBtn"))
+        self.vimeoBtn = QtGui.QPushButton(self.uploadBox)
+        self.vimeoBtn.setGeometry(QtCore.QRect(230, 40, 121, 91))
+        self.vimeoBtn.setObjectName(_fromUtf8("vimeoBtn"))
         Wizard.addPage(self.wizardPage2)
 
         self.retranslateUi(Wizard)
@@ -73,6 +76,7 @@ class Ui_Wizard(object):
         self.label_2.setText(_translate("Wizard", "Comma separated tags. Enter custom tags too", None))
         self.uploadBox.setTitle(_translate("Wizard", "Uploading to video sharing sites", None))
         self.youtubeBtn.setText(_translate("Wizard", "Youtube", None))
+        self.vimeoBtn.setText(_translate("Wizard", "Vimeo", None))
 
 
 if __name__ == "__main__":

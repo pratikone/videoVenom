@@ -6,7 +6,7 @@ from PyDictionary import PyDictionary
 import upload_ui
 import argparse
 import uploadvideo as uv
-
+import videoVimeo
 
 
 # Shows the preview window showcasing the changes made in the editor window
@@ -24,7 +24,7 @@ class Upload(QtGui.QWizard) :
     def setup_connections(self) :
         self.ui.seedTagBtn.clicked.connect( self.populateTextBoxWithSynonyms )
         self.ui.youtubeBtn.clicked.connect( self.authenticateYoutube )
-        
+        self.ui.vimeoBtn.clicked.connect( self.authenticateVimeo )
 
     def getSynonyms( self, seedTag ):
         dictionary=PyDictionary()
@@ -43,7 +43,13 @@ class Upload(QtGui.QWizard) :
         if self.youtubeObj is not None :
             self.ui.youtubeBtn.setText("Auth successful")
 
-                
+    def authenticateVimeo(self) :
+        videoVimeo.caller = self.caller
+        videoVimeo.requestOAuth()
+        if self.vimeoObj is not None :
+            self.ui.vimeoBtn.setText("Auth successful")
+
+
 
 
     def accept(self):  # gets triggered on exiting the wizard

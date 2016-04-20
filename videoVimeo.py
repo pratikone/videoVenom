@@ -1,7 +1,17 @@
+import threading
 import vimeo
 import webbrowser
+import oauth2Server
+
+
+caller = None
 
 def requestOAuth() :
+  oauth2Server.callback = processResoponse
+  
+  t = threading.Thread(target=oauth2Server.run, args = ())
+  t.start()
+
   v = vimeo.VimeoClient(
       key="3baa464c8b42baf01019bacfef971e9e939a42c0",
       secret="8vNFwEfVmT+nu6okpSmzkFXuUTvjJPyUTIySqyEPYlbQsr+C2OAPhY+uunbY3RE0P9tFVrwxpKbznbErzpcuue6UMhTdn70bJKQVl4OAgHFGif2pVq/aspdxE/5neJjJ")
@@ -21,8 +31,17 @@ def processResoponse(CODE_FROM_URL) :
       print scope
   except vimeo.auth.GrantFailed:
       print "tokening failed"
-      # Handle the failure to get a token from the provided code and redirect.
-  video_uri = v.upload('C:/Users/pratika/Desktop/valve.avi')
-  v.patch(video_uri, data={'name': 'Video title', 'description': '...'})
+
+  print caller
+  caller.vimeoObj = v
+  
   # Store
 
+def upload(vimeoObj, VidLocation, titleVid, description, tag) :
+  video_uri = vimeoObj.upload(VidLocation)
+  vimeoObj.patch(video_uri, data={'name': titleVid, 'description': description })
+
+
+if __name__ == "__main__":
+  caller = "ABC"
+  requestOAuth()

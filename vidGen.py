@@ -9,6 +9,7 @@ import argparse
 import numpy as np
 import uploadvideo as uv
 from moviepy.editor import *
+import videoVimeo
 
 def compare_image(imageA, imageB):
     # the 'Mean Squared Error' between the two images is the
@@ -46,7 +47,6 @@ def GenerateFrames(videoLocation,FrameDirectory):
         fps = vidcap.get(cv2.CAP_PROP_FPS)
         
     while (count < 200) and (success): 
-        print "frame Count %d" %count
         success,image = vidcap.read()
         frame_read = os.path.join(FrameDirectory,'frame%d.jpg' %count)
         cv2.imwrite(frame_read, image)     # save frame as JPEG file
@@ -76,7 +76,6 @@ def getFrameFromVideo( videoLocation, frameCount ) :
 
 #Gives an array of numbers but those numbers corresponds to unidentical frames
 def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
-    print "give me unidentical frames"
     RandomFrame = []
     RandomFrameData = GivemMeARandomNumber(FrameCount)
     RandomFrame.append(RandomFrameData)
@@ -112,11 +111,20 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
 
 #Call upload to upload the videos
 def upload(youtubeObj, VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
+    if youtubeObj is None :
+        return
     #Look at the auth params if there is a trouble
     args = argparse.Namespace(file=VidLocation,title=titleVid,description=description,keywords= ",".join(tags), category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
     # youtubeObj = uv.authenticateWithYoutube(args)
     uv.uploadMyVideo( youtubeObj, args )
 
+
+def uploadVimeo(vimeoObj, VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
+    if vimeoObj is None :
+        return
+    videoVimeo.upload(vimeoObj, VidLocation,titleVid, description, tags)
+
+    
 
 
 def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0, x=0, y=0, ImageLocation=None, callback = None ):
@@ -156,6 +164,8 @@ def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0
         Video.write_videofile(newFileLocation,fps=frame_rate)
         if caller is not None :        
             upload( caller.youtubeObj, VidLocation =newFileLocation ,titleVid = video_name, description = video_name, tags=tags, category='22',privacy='public' )
+            uploadVimeo(caller.vimeoObj, VidLocation =newFileLocation ,titleVid = video_name, description = video_name, tags=tags)
+
 
     destroyAllFrames(FrameDirectory,FrameCount)
 

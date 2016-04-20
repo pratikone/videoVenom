@@ -110,7 +110,7 @@
       <x>10</x>
       <y>10</y>
       <width>401</width>
-      <height>311</height>
+      <height>261</height>
      </rect>
     </property>
     <property name="title">
@@ -119,14 +119,27 @@
     <widget class="QPushButton" name="youtubeBtn">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>50</x>
        <y>40</y>
-       <width>91</width>
-       <height>61</height>
+       <width>121</width>
+       <height>91</height>
       </rect>
      </property>
      <property name="text">
       <string>Youtube</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="vimeoBtn">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>40</y>
+       <width>121</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vimeo</string>
      </property>
     </widget>
    </widget>
