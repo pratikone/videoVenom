@@ -49,11 +49,11 @@ IMAGEMAGICK_BINARY
 import sys, os
 
 if "win" in sys.platform :
-    location = r"moviepy/ffmpeg.win32.exe"
+    location = os.getcwd() + "/moviepy/ffmpeg.win32.exe"
 elif "linux" in sys.platform :
-    location = r"moviepy/ffmpeg.linux32"
+    location = os.getcwd() + "/moviepy/ffmpeg.linux32"
 else :
-    location = r"moviepy/ffmpeg.osx.snowleopardandabove"
+    location = os.getcwd() + "/moviepy/ffmpeg.osx.snowleopardandabove"
 
 FFMPEG_BINARY = location
 IMAGEMAGICK_BINARY = 'auto-detect'

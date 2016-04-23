@@ -86,7 +86,6 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
         return RandomFrame
     else:
         while (i<numVideos and counter_for_loop > 0 ):
-            print "frames %d counter_for_loop %d" % (i, counter_for_loop)
             Match = False
             RandomFrameData = GivemMeARandomNumber(FrameCount)
             for imgNum in range(0,len(RandomFrame)):
@@ -113,16 +112,20 @@ def GiveUnidenticalFrames(numVideos,FrameCount,FrameDirectory):
 def upload(youtubeObj, VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
     if youtubeObj is None :
         return
+    print "Uploading in Youtube"
     #Look at the auth params if there is a trouble
     args = argparse.Namespace(file=VidLocation,title=titleVid,description=description,keywords= ",".join(tags), category=category,privacyStatus=privacy,auth_host_name='localhost', auth_host_port=[8080, 8090],logging_level='ERROR', noauth_local_webserver=False)
     # youtubeObj = uv.authenticateWithYoutube(args)
     uv.uploadMyVideo( youtubeObj, args )
+    print "Upload completed for youtube"
 
 
 def uploadVimeo(vimeoObj, VidLocation,titleVid,description,tags,category='22',privacy='private'): #keywords are string of tags separated by commas, description is also a string
     if vimeoObj is None :
         return
+    print "Uploading in Vimeo"
     videoVimeo.upload(vimeoObj, VidLocation,titleVid, description, tags)
+    print "Upload completed for vimeo"
 
     
 
@@ -162,6 +165,9 @@ def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0
         newFileLocation = os.path.join(vidDirectory,video_name)
         
         Video.write_videofile(newFileLocation,fps=frame_rate)
+
+        print "Video creation completed"
+        
         if caller is not None :        
             upload( caller.youtubeObj, VidLocation =newFileLocation ,titleVid = tags.split(",")[numVideo_i], description = video_name, tags=tags, category='22',privacy='public' )
             uploadVimeo(caller.vimeoObj, VidLocation =newFileLocation ,titleVid = tags.split(",")[numVideo_i], description = video_name, tags=tags)

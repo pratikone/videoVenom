@@ -53,7 +53,7 @@ class Window(QtGui.QMainWindow):
         self.ui.startTimeWidget.setEnabled(False)
         self.ui.endTimeWidget.setEnabled(False)
 
-        pixmap = QtGui.QPixmap( "resources/file-video-icon.png" ) 
+        pixmap = QtGui.QPixmap( "moviepy/resources/file-video-icon.png" ) 
         self.ui.logoLabel.setPixmap( pixmap.scaled( self.ui.logoLabel.width(), self.ui.logoLabel.height())) #resize image
 
     def paintEvent(self, e):
@@ -137,10 +137,14 @@ class Window(QtGui.QMainWindow):
         num_videos = 1
         if self.string_of_tags :
             num_videos = len(self.string_of_tags.split(","))
-
+        
+        if self.bannerAndText is True :
+            imgLoc = os.getcwd() + "/output.png"
+        else :
+            imgLoc = None
         self.publishWidget = videoProcessing.showProcessing( self, videoLocation = self.file, numVideos=num_videos, \
                                         tags = self.string_of_tags, t1=self.startTimeInSec, t2=self.endTimeInSec, \
-                                        x=0, y=0, ImageLocation=os.getcwd() + "/output.png")
+                                        x=0, y=0, ImageLocation=imgLoc)
         self.publishWidget.closeApp.connect( self.destroyPublishWidget ) #connecting destructor to signal
 
     def destroyPublishWidget(self):
