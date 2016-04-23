@@ -48,7 +48,6 @@ def upload(vimeoObj, VidLocation, titleVid, description, tag, count = 1) :
           secret=SECRET)
     try :
       video_uri = v.upload(VidLocation)
-      print dir(video_uri)
       v.patch(video_uri, data={'name': titleVid, 'description': description })
       print "upload complete"
     except :
