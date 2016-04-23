@@ -2,6 +2,7 @@ import threading
 import vimeo
 import webbrowser
 import oauth2Server
+import sys
 
 
 caller = None
@@ -37,13 +38,23 @@ def processResoponse(CODE_FROM_URL) :
   caller.vimeoObj = token
   
   # Store
+def upload(vimeoObj, VidLocation, titleVid, description, tag, count = 1) :
+    if count == 5 :
+      print "Retring in upload failed"
+      return
 
-def upload(vimeoObj, VidLocation, titleVid, description, tag) :
     v = vimeo.VimeoClient(token=vimeoObj,
           key=KEY,
           secret=SECRET)
-    video_uri = v.upload(VidLocation)
-    v.patch(video_uri, data={'name': titleVid, 'description': description })
+    try :
+      video_uri = v.upload(VidLocation)
+      print dir(video_uri)
+      v.patch(video_uri, data={'name': titleVid, 'description': description })
+      print "upload complete"
+    except :
+      print "Upload failed. Retrying..."
+      upload(vimeoObj, VidLocation, titleVid, description, tag, count + 1)
+
 
 
 if __name__ == "__main__":

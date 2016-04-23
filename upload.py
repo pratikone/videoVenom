@@ -46,17 +46,16 @@ class Upload(QtGui.QWizard) :
     def authenticateVimeo(self) :
         videoVimeo.caller = self.caller
         videoVimeo.requestOAuth()
-        if self.vimeoObj is not None :
-            self.ui.vimeoBtn.setText("Auth successful")
+        self.ui.vimeoBtn.setText("Auth successful")
 
 
 
 
     def accept(self):  # gets triggered on exiting the wizard
         if self.list_of_syn : 
-            self.caller.list_of_tags = self.list_of_syn
+            self.caller.string_of_tags = str(self.ui.textEdit.toPlainText())
         else :
-            self.caller.list_of_tags = None
+            self.caller.string_of_tags = None
         
         #add youtube, vimeo etc here
         self.caller.youtubeObj = self.youtubeObj
