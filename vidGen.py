@@ -163,8 +163,8 @@ def GenerateTheVideo(caller, videoLocation, numVideos=1, tags = None, t1=0, t2=0
         
         Video.write_videofile(newFileLocation,fps=frame_rate)
         if caller is not None :        
-            upload( caller.youtubeObj, VidLocation =newFileLocation ,titleVid = tags[numVideo_i], description = video_name, tags=tags, category='22',privacy='public' )
-            uploadVimeo(caller.vimeoObj, VidLocation =newFileLocation ,titleVid = tags[numVideo_i], description = video_name, tags=tags)
+            upload( caller.youtubeObj, VidLocation =newFileLocation ,titleVid = tags.split(",")[numVideo_i], description = video_name, tags=tags, category='22',privacy='public' )
+            uploadVimeo(caller.vimeoObj, VidLocation =newFileLocation ,titleVid = tags.split(",")[numVideo_i], description = video_name, tags=tags)
 
 
     destroyAllFrames(FrameDirectory,FrameCount)
