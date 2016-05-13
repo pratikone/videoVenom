@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 import sys, math
 from PyQt4 import QtGui, QtCore
-from PyDictionary import PyDictionary
+import requests
+import simplejson
 import upload_ui
 import argparse
 import uploadvideo as uv
@@ -27,8 +28,8 @@ class Upload(QtGui.QWizard) :
         self.ui.vimeoBtn.clicked.connect( self.authenticateVimeo )
 
     def getSynonyms( self, seedTag ):
-        dictionary=PyDictionary()
-        list_of_syn = dictionary.synonym(str(seedTag))
+        resp =  requests.get("http://suggestqueries.google.com/complete/search?client=youtube&ds=yt&client=firefox&q=" + str(seedTag))
+        list_of_syn = simplejson.loads(str(resp.text))[1] # [0] is Query word
         return list_of_syn
         
     def populateTextBoxWithSynonyms( self ) :
@@ -50,7 +51,6 @@ class Upload(QtGui.QWizard) :
 
 
 
-
     def accept(self):  # gets triggered on exiting the wizard
         if self.list_of_syn : 
             self.caller.string_of_tags = str(self.ui.textEdit.toPlainText())
@@ -68,6 +68,10 @@ class Upload(QtGui.QWizard) :
     def closeWidget(self) :
         self.closeApp.emit()
         self.close()
+
+
+
+
 
 
 
