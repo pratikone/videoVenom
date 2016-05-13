@@ -77,6 +77,10 @@ def showUpload( caller  ) :
     ui.setupUi(widget)
     widget.setup_connections()
     widget.caller = caller
+    if caller is not None :
+        widget.setGeometry( caller.geometry() )
+        widget.show()
+        widget.caller.hide()
     widget.show()
     return widget
 
@@ -85,7 +89,7 @@ def showUpload( caller  ) :
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    widget = showUpload(app)
+    widget = showUpload(None)
     sys.exit(app.exec_())
 
 

@@ -124,8 +124,11 @@ class Window(QtGui.QMainWindow):
         self.repaint()
 
     def destroying_bannerWidget(self) :
-        self.bannerWidget = None
-     
+        if self.bannerWidget is not None :
+            self.setGeometry( self.bannerWidget.geometry() )
+            self.show()
+            self.bannerWidget = None
+
     def showTagsWindow(self) :
         if self.errorConditionsBannerTime() is False :
             self.tagsWidget = upload.showUpload(self)

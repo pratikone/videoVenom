@@ -148,6 +148,9 @@ def showBannerandText( caller  ) :
     ui.setupUi(widget)
     widget.initUI()
     widget.caller = caller #setting main window as caller here for accessing variables
+    if caller is not None :
+        widget.caller.hide()
+        widget.setGeometry( caller.geometry() )
     widget.show()
     widget.show()
     return widget
@@ -160,7 +163,7 @@ def main():
     
     app = QtGui.QApplication(sys.argv)
     app.file = None
-    widget = showBannerandText( app )    
+    widget = showBannerandText( None )    
     widget.setScaleFactor(1024, 768)
     sys.exit(app.exec_())
 
