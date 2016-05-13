@@ -25,6 +25,7 @@ class Window(QtGui.QMainWindow):
         self.c = Communicate() 
         self.timeline = AnotherTimeline( self, 80, {"w" : 450, "h" : 50, "x" : 280, "y" : 450} )
         self.bannerAndText = False
+        self.hasBanner = False
         self.bannerWidget = None
         self.publishWidget = None
         self.tagsWidget = None
@@ -40,18 +41,15 @@ class Window(QtGui.QMainWindow):
         ui.stopButton.clicked.connect(self.stop_playback)
         ui.seekSlider.setMediaObject(ui.videoPlayer.mediaObject())
         ui.volumeSlider.setAudioOutput(ui.videoPlayer.audioOutput())
-        ui.bannerBtn.clicked.connect(self.bannerToogle)
+        ui.nextBtn.clicked.connect(self.nextButtonToogle)
         ui.startTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
         ui.endTimeWidget.timeChanged.connect( self.moveBannerInTimeline )
-        ui.publishButton.clicked.connect( self.showTagsWindow )
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
 
         #disabling stuff at init
-        self.ui.bannerBtn.setEnabled(False)
-        self.ui.startTimeWidget.setEnabled(False)
-        self.ui.endTimeWidget.setEnabled(False)
+        self.ui.bannerBox.hide()
 
         pixmap = QtGui.QPixmap( "moviepy/resources/file-video-icon.png" ) 
         self.ui.logoLabel.setPixmap( pixmap.scaled( self.ui.logoLabel.width(), self.ui.logoLabel.height())) #resize image
@@ -80,12 +78,15 @@ class Window(QtGui.QMainWindow):
         mediaSource = Phonon.MediaSource( self.file )
         self.ui.videoPlayer.load( mediaSource )
         print self.file
-        self.start_playback() #start playback auto so that video data gets populated.
-        self.ui.bannerBtn.setEnabled(True)
+        self.ui.videoPlayer.play() #start playback auto so that video data gets populated.
 
 
     def start_playback( self) :
-        self.ui.videoPlayer.play()
+
+        if self.ui.videoPlayer.mediaObject().hasVideo() is False :
+            self.open_file()
+        else :
+            self.ui.videoPlayer.play()
 
     def pause_playback( self) :
         self.ui.videoPlayer.pause()
@@ -101,25 +102,23 @@ class Window(QtGui.QMainWindow):
             self.repaint()
 
 
-    def bannerToogle(self) :
+    def nextButtonToogle(self) :
         if self.bannerAndText is False :
                 self.bannerWidget = textEditor.showBannerandText( self)
                 self.bannerWidget.setScaleFactor( self.videoWidth, self.videoHeight )
                 #banner and text
                 self.bannerWidget.closeApp.connect( self.destroying_bannerWidget ) #connecting destructor to signal
-
                 self.bannerAndText = True
-                self.ui.startTimeWidget.setEnabled(True)
-                self.ui.endTimeWidget.setEnabled(True)
-                self.ui.bannerBtn.setText("Remove banner")
 
         elif self.bannerAndText is True :
-                self.bannerAndText = False
+                self.ui.bannerBox.show()
+                self.ui.logoLabel.hide()
                 self.ui.startTimeWidget.setTime(QtCore.QTime(0,0,0,0))
                 self.ui.endTimeWidget.setTime(QtCore.QTime(0,0,0,0))
-                self.ui.startTimeWidget.setEnabled(False)
-                self.ui.endTimeWidget.setEnabled(False)
-                self.ui.bannerBtn.setText("Add banner")
+                self.ui.nextLabel.setText("Step 3/5")
+                self.ui.nextBtn.setText("Get tags")
+                self.ui.nextBtn.clicked.connect( self.showTagsWindow )
+
 
         self.repaint()
 
@@ -128,6 +127,7 @@ class Window(QtGui.QMainWindow):
             self.setGeometry( self.bannerWidget.geometry() )
             self.show()
             self.bannerWidget = None
+            self.nextButtonToogle()
 
     def showTagsWindow(self) :
         if self.errorConditionsBannerTime() is False :
@@ -141,7 +141,7 @@ class Window(QtGui.QMainWindow):
         if self.string_of_tags :
             num_videos = len(self.string_of_tags.split(","))
         
-        if self.bannerAndText is True :
+        if self.hasBanner is True :
             imgLoc = os.getcwd() + "/output.png"
         else :
             imgLoc = None
