@@ -6,86 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>568</width>
-    <height>457</height>
+    <width>794</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Set Video Banner and Text</string>
   </property>
-  <widget class="QPushButton" name="bannerBtn">
-   <property name="geometry">
-    <rect>
-     <x>52</x>
-     <y>241</y>
-     <width>491</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Add Banner</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>52</x>
-     <y>292</y>
-     <width>481</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
-     <widget class="QLabel" name="textLabel">
-      <property name="text">
-       <string>Add banner text to the video</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="bannerText">
-      <property name="text">
-       <string>Banner Text</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>51</x>
-     <y>330</y>
-     <width>481</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
-    <item>
-     <widget class="QPushButton" name="fontBtn">
-      <property name="text">
-       <string>Select Font</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="colorBtn">
-      <property name="text">
-       <string>Set Font Color</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QPushButton" name="previewBtn">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>410</y>
-     <width>75</width>
-     <height>23</height>
+     <x>410</x>
+     <y>510</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <italic>false</italic>
+    </font>
    </property>
    <property name="text">
     <string>Preview ...</string>
@@ -94,11 +35,16 @@
   <widget class="QLabel" name="bannerLabel">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>170</y>
+     <x>180</x>
+     <y>230</y>
      <width>191</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
    </property>
    <property name="autoFillBackground">
     <bool>false</bool>
@@ -119,10 +65,10 @@
   <widget class="QLabel" name="frame">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>160</x>
      <y>20</y>
-     <width>481</width>
-     <height>201</height>
+     <width>571</width>
+     <height>271</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -144,26 +90,203 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="okButton">
+  <widget class="QGroupBox" name="progressBox">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>410</y>
-     <width>75</width>
-     <height>23</height>
+     <x>30</x>
+     <y>340</y>
+     <width>251</width>
+     <height>231</height>
     </rect>
    </property>
-   <property name="text">
-    <string>OK</string>
+   <property name="title">
+    <string/>
    </property>
+   <widget class="QLabel" name="nextLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>10</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Step 2/5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nextBtn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Set banner timeline</string>
+    </property>
+   </widget>
   </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>300</y>
+     <width>551</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
+   </property>
+   <property name="title">
+    <string>Banner controls</string>
+   </property>
+   <widget class="QPushButton" name="bannerBtn">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>551</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Add Banner</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>110</y>
+      <width>551</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="textLabel">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Add banner text to the video</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="bannerText">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Banner Text</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>150</y>
+      <width>551</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="fontBtn">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Select Font</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="colorBtn">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>Set Font Color</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>2</width>
+     <height>2</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout"/>
+  </widget>
+  <zorder>progressBox</zorder>
   <zorder>frame</zorder>
-  <zorder>bannerBtn</zorder>
   <zorder>layoutWidget</zorder>
-  <zorder>layoutWidget_2</zorder>
   <zorder>previewBtn</zorder>
+  <zorder>horizontalSpacer</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>nextBtn</zorder>
   <zorder>bannerLabel</zorder>
-  <zorder>okButton</zorder>
  </widget>
  <resources/>
  <connections/>

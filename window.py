@@ -8,10 +8,10 @@ import basic_ui
 from timeline import AnotherTimeline, Communicate
 from PyQt4 import QtGui, QtCore
 from PyQt4.phonon import Phonon 
+import time
 import textEditor
 import videoProcessing
 import upload
-# import qdarkstyle
 
 
 
@@ -79,16 +79,26 @@ class Window(QtGui.QMainWindow):
         self.ui.videoPlayer.load( mediaSource )
         print self.file
         self.ui.videoPlayer.play() #start playback auto so that video data gets populated.
+        time.sleep(1) #sleep is needed to load up video value
+        
+        if self.ui.videoPlayer.mediaObject().hasVideo() is False :
+            print "Error. Video format not supported. Install proper codecs"
+            QtGui.QMessageBox.critical(self, "Error in playback", "Video format not supported. Install proper codecs.")
+
+
+
+
 
 
     def start_playback( self) :
 
-        if self.ui.videoPlayer.mediaObject().hasVideo() is False :
+        if self.ui.videoPlayer.mediaObject().hasVideo() is False and self.bannerAndText is False:
             self.open_file()
         else :
             self.ui.videoPlayer.play()
 
     def pause_playback( self) :
+        
         self.ui.videoPlayer.pause()
 
     def stop_playback( self) :
@@ -132,7 +142,7 @@ class Window(QtGui.QMainWindow):
     def showTagsWindow(self) :
         if self.errorConditionsBannerTime() is False :
             self.tagsWidget = upload.showUpload(self)
-            self.tagsWidget.closeApp.connect( self.destroytagshWidget ) #connecting destructor to signal
+            self.tagsWidget.closeApp.connect( self.destroytagsWidget ) #connecting destructor to signal
         
 
 
@@ -153,7 +163,7 @@ class Window(QtGui.QMainWindow):
     def destroyPublishWidget(self):
         self.publishWidget = None
     
-    def destroytagshWidget(self):
+    def destroytagsWidget(self):
         self.tagsWidget = None
         
     
