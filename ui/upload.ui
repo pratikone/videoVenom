@@ -1,145 +1,328 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Wizard</class>
- <widget class="QWizard" name="Wizard">
+ <class>StackedWidget</class>
+ <widget class="QStackedWidget" name="StackedWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>482</width>
-    <height>369</height>
+    <width>791</width>
+    <height>605</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Publish and upload</string>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
   </property>
-  <widget class="QWizardPage" name="wizardPage1">
-   <widget class="QGroupBox" name="seedBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>401</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Seed Tag</string>
-    </property>
-    <widget class="QLineEdit" name="seedTagTextBox">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>80</y>
-       <width>113</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>211</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enter seed tag to generate multiple tags</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="seedTagBtn">
-     <property name="geometry">
-      <rect>
-       <x>170</x>
-       <y>80</y>
-       <width>91</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Generate tags</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="tagsBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>160</y>
-      <width>401</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Tags</string>
-    </property>
-    <widget class="QTextEdit" name="textEdit">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>40</y>
-       <width>351</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="inputMethodHints">
-      <set>Qt::ImhNone</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>20</y>
-       <width>251</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Comma separated tags. Enter custom tags too</string>
-     </property>
-    </widget>
-   </widget>
-  </widget>
-  <widget class="QWizardPage" name="wizardPage2">
-   <widget class="QGroupBox" name="uploadBox">
+  <property name="windowTitle">
+   <string>Video Venom</string>
+  </property>
+  <property name="currentIndex">
+   <number>0</number>
+  </property>
+  <widget class="QWidget" name="page">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>401</width>
-      <height>261</height>
+      <width>741</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="title">
-     <string>Uploading to video sharing sites</string>
+     <string>Generate tags for videos</string>
     </property>
-    <widget class="QPushButton" name="youtubeBtn">
+    <widget class="QGroupBox" name="progressBox">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>320</y>
+       <width>251</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <widget class="QLabel" name="nextLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>140</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Step 4/5</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="nextBtn">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>141</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+       </font>
+      </property>
+      <property name="text">
+       <string>Select websites to upload</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="seedBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>30</y>
+       <width>661</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Seed Tag</string>
+     </property>
+     <widget class="QLineEdit" name="seedTagTextBox">
+      <property name="geometry">
+       <rect>
+        <x>22</x>
+        <y>79</y>
+        <width>131</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>211</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Enter seed tag to generate multiple tags</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="seedTagBtn">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>72</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Generate Tags</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="tagsBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>180</y>
+       <width>661</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="title">
+      <string>Generated and Custom Tags</string>
+     </property>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>40</y>
+        <width>351</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhNone</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>251</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Tags (Powered by Youtube suggestions)</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="page">
+   <widget class="QGroupBox" name="uploadBox">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>681</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Authenticate to video sharing sites</string>
+    </property>
+    <widget class="QSplitter" name="splitter">
      <property name="geometry">
       <rect>
        <x>50</x>
        <y>40</y>
-       <width>121</width>
-       <height>91</height>
+       <width>571</width>
+       <height>161</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Youtube</string>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
+     <widget class="QPushButton" name="youtubeBtn">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Youtube</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="vimeoBtn">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Vimeo</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QPushButton" name="vimeoBtn">
+   </widget>
+   <widget class="QGroupBox" name="progressBox_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>330</y>
+      <width>251</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="nextLabel_2">
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>40</y>
-       <width>121</width>
-       <height>91</height>
+       <x>10</x>
+       <y>140</y>
+       <width>81</width>
+       <height>31</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+       <underline>true</underline>
+      </font>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="text">
-      <string>Vimeo</string>
+      <string>Step 5/5</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="finishBtn">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>Finish and start uploading</string>
      </property>
     </widget>
    </widget>

@@ -79,19 +79,20 @@ class Window(QtGui.QMainWindow):
         self.ui.videoPlayer.load( mediaSource )
         print self.file
         self.ui.videoPlayer.play() #start playback auto so that video data gets populated.
-        time.sleep(1) #sleep is needed to load up video value
-        
-        if self.ui.videoPlayer.mediaObject().hasVideo() is False :
+        self.ui.videoPlayer.mediaObject().stateChanged.connect(self.playbackSupported)
+
+    def playbackSupported(self, state):
+        if state == Phonon.ErrorState :
             print "Error. Video format not supported. Install proper codecs"
             QtGui.QMessageBox.critical(self, "Error in playback", "Video format not supported. Install proper codecs.")
-
+        else:
+            self.ui.videoPlayer.mediaObject().stateChanged.disconnect(self.playbackSupported)
 
 
 
 
 
     def start_playback( self) :
-
         if self.ui.videoPlayer.mediaObject().hasVideo() is False and self.bannerAndText is False:
             self.open_file()
         else :
@@ -103,6 +104,7 @@ class Window(QtGui.QMainWindow):
 
     def stop_playback( self) :
         self.ui.videoPlayer.stop()
+        self.ui.videoPlayer.mediaObject().clear() #remove media from video player
 
     def moveBannerInTimeline(self) : 
         if self.errorConditionsBannerTime( takeAction = False ) is False : 

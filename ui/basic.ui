@@ -14,7 +14,7 @@
    <string>Video Venom</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="Phonon::VideoPlayer" name="videoPlayer" native="true">
+   <widget class="Phonon::VideoPlayer" name="videoPlayer">
     <property name="geometry">
      <rect>
       <x>281</x>
@@ -27,7 +27,7 @@
      <string notr="true">background-color: rgba(0, 0, 0, 100)</string>
     </property>
    </widget>
-   <widget class="Phonon::SeekSlider" name="seekSlider" native="true">
+   <widget class="Phonon::SeekSlider" name="seekSlider">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -40,7 +40,7 @@
      <string notr="true">background-color: rgba(255, 255, 255, 0)</string>
     </property>
    </widget>
-   <widget class="Phonon::VolumeSlider" name="volumeSlider" native="true">
+   <widget class="Phonon::VolumeSlider" name="volumeSlider">
     <property name="geometry">
      <rect>
       <x>610</x>
@@ -131,7 +131,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>110</y>
+      <y>40</y>
       <width>191</width>
       <height>231</height>
      </rect>
@@ -207,13 +207,6 @@
       <string>End Time</string>
      </property>
     </widget>
-    <zorder>nextBtn</zorder>
-    <zorder>startTimeWidget</zorder>
-    <zorder>startTimeLabel</zorder>
-    <zorder>endTimeWidget</zorder>
-    <zorder>startTimeLabel</zorder>
-    <zorder>startTimeWidget</zorder>
-    <zorder>startTimeLabel_2</zorder>
    </widget>
    <widget class="QGroupBox" name="progressBox">
     <property name="geometry">

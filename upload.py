@@ -11,7 +11,7 @@ import videoVimeo
 
 
 # Shows the preview window showcasing the changes made in the editor window
-class Upload(QtGui.QWizard) :
+class Upload(QtGui.QStackedWidget) :
 
     closeApp = QtCore.pyqtSignal() #signal , slot to be with caller
 
@@ -23,9 +23,12 @@ class Upload(QtGui.QWizard) :
         
 
     def setup_connections(self) :
+        self.setCurrentIndex(0)
         self.ui.seedTagBtn.clicked.connect( self.populateTextBoxWithSynonyms )
         self.ui.youtubeBtn.clicked.connect( self.authenticateYoutube )
         self.ui.vimeoBtn.clicked.connect( self.authenticateVimeo )
+        self.ui.nextBtn.clicked.connect( self.next_page )
+        self.ui.finishBtn.clicked.connect( self.next_page )
 
     def getSynonyms( self, seedTag ):
         resp =  requests.get("http://suggestqueries.google.com/complete/search?client=youtube&ds=yt&client=firefox&q=" + str(seedTag))
@@ -50,17 +53,28 @@ class Upload(QtGui.QWizard) :
         self.ui.vimeoBtn.setText("Auth successful")
 
 
+    def next_page(self):
+        idx = self.currentIndex()
+        if idx < self.count() - 1:
+            self.setCurrentIndex(idx + 1)
+        elif idx is 1 :
+            self.accept()
+        else:
+            self.setCurrentIndex(0)
 
-    def accept(self):  # gets triggered on exiting the wizard
-        if self.list_of_syn : 
-            self.caller.string_of_tags = str(self.ui.textEdit.toPlainText())
-        else :
-            self.caller.string_of_tags = None
+
+
+    def accept(self):  
+        if self.caller is not None :
+            if self.list_of_syn : 
+                self.caller.string_of_tags = str(self.ui.textEdit.toPlainText())
+            else :
+                self.caller.string_of_tags = None
         
-        #add youtube, vimeo etc here
-        self.caller.youtubeObj = self.youtubeObj
-        self.caller.showPublishWidget()
-        self.closeWidget()
+            #add youtube, vimeo etc here
+            self.caller.youtubeObj = self.youtubeObj
+            self.caller.showPublishWidget()
+            self.closeWidget()
 
     def closeEvent(self, event) :
         self.closeWidget()
@@ -76,7 +90,7 @@ class Upload(QtGui.QWizard) :
 
 
 def showUpload( caller  ) :
-    ui = upload_ui.Ui_Wizard()
+    ui = upload_ui.Ui_StackedWidget()
     widget = Upload( ui )
     ui.setupUi(widget)
     widget.setup_connections()

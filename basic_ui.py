@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/basic.ui'
+# Form implementation generated from reading ui file 'ui\basic.ui'
 #
-# Created: Fri May 13 19:41:55 2016
-#      by: PyQt4 UI code generator 4.10.4
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -45,7 +44,6 @@ class Ui_MainWindow(object):
         self.layoutWidget.setGeometry(QtCore.QRect(290, 350, 401, 101))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget)
-        self.horizontalLayout.setMargin(0)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.playButton = QtGui.QPushButton(self.layoutWidget)
         font = QtGui.QFont()
@@ -70,7 +68,7 @@ class Ui_MainWindow(object):
         self.stopButton.setObjectName(_fromUtf8("stopButton"))
         self.horizontalLayout.addWidget(self.stopButton)
         self.bannerBox = QtGui.QGroupBox(self.centralwidget)
-        self.bannerBox.setGeometry(QtCore.QRect(30, 110, 191, 231))
+        self.bannerBox.setGeometry(QtCore.QRect(30, 40, 191, 231))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         font.setPointSize(9)
@@ -124,6 +122,13 @@ class Ui_MainWindow(object):
         self.logoLabel.setAutoFillBackground(False)
         self.logoLabel.setStyleSheet(_fromUtf8(""))
         self.logoLabel.setObjectName(_fromUtf8("logoLabel"))
+        self.bannerBox.raise_()
+        self.videoPlayer.raise_()
+        self.seekSlider.raise_()
+        self.volumeSlider.raise_()
+        self.layoutWidget.raise_()
+        self.progressBox.raise_()
+        self.logoLabel.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
