@@ -34,8 +34,6 @@ class Window(QtGui.QMainWindow):
     
     def setup_connections( self, ui ) :
         self.ui = ui
-        ui.actionExit.triggered.connect(QtCore.QCoreApplication.instance().quit )
-        ui.actionOpen.triggered.connect(self.open_file)
         ui.playButton.clicked.connect(self.start_playback)
         ui.pauseButton.clicked.connect(self.pause_playback)
         ui.stopButton.clicked.connect(self.stop_playback)
@@ -47,7 +45,7 @@ class Window(QtGui.QMainWindow):
         #ticker
         ui.videoPlayer.mediaObject().tick.connect(self.tick)
         self.c.updateBW[int].connect(self.timeline.setValue)
-
+        self.ui.nextBtn.setEnabled(False)
         #disabling stuff at init
         self.ui.bannerBox.hide()
 
@@ -87,6 +85,7 @@ class Window(QtGui.QMainWindow):
             QtGui.QMessageBox.critical(self, "Error in playback", "Video format not supported. Install proper codecs.")
         else:
             self.ui.videoPlayer.mediaObject().stateChanged.disconnect(self.playbackSupported)
+            self.ui.nextBtn.setEnabled(True)
 
 
 
@@ -105,6 +104,7 @@ class Window(QtGui.QMainWindow):
     def stop_playback( self) :
         self.ui.videoPlayer.stop()
         self.ui.videoPlayer.mediaObject().clear() #remove media from video player
+        self.ui.nextBtn.setEnabled(False)
 
     def moveBannerInTimeline(self) : 
         if self.errorConditionsBannerTime( takeAction = False ) is False : 
@@ -130,6 +130,7 @@ class Window(QtGui.QMainWindow):
                 self.ui.nextLabel.setText("Step 3/5")
                 self.ui.nextBtn.setText("Get tags")
                 self.ui.nextBtn.clicked.connect( self.showTagsWindow )
+                self.ui.stopButton.setEnabled(False)
 
 
         self.repaint()
@@ -140,6 +141,7 @@ class Window(QtGui.QMainWindow):
             self.show()
             self.bannerWidget = None
             self.nextButtonToogle()
+
 
     def showTagsWindow(self) :
         if self.errorConditionsBannerTime() is False :

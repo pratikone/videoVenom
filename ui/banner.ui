@@ -35,7 +35,7 @@
   <widget class="QLabel" name="bannerLabel">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>210</x>
      <y>230</y>
      <width>191</width>
      <height>31</height>
@@ -65,9 +65,9 @@
   <widget class="QLabel" name="frame">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>190</x>
      <y>20</y>
-     <width>571</width>
+     <width>541</width>
      <height>271</height>
     </rect>
    </property>
@@ -93,9 +93,9 @@
   <widget class="QGroupBox" name="progressBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>20</x>
      <y>340</y>
-     <width>251</width>
+     <width>161</width>
      <height>231</height>
     </rect>
    </property>
@@ -143,16 +143,16 @@
      </font>
     </property>
     <property name="text">
-     <string>Set banner timeline</string>
+     <string>NEXT : Set banner timeline</string>
     </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>300</y>
-     <width>551</width>
+     <width>531</width>
      <height>201</height>
     </rect>
    </property>
@@ -167,9 +167,9 @@
    <widget class="QPushButton" name="bannerBtn">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>40</x>
       <y>40</y>
-      <width>551</width>
+      <width>471</width>
       <height>41</height>
      </rect>
     </property>
@@ -182,12 +182,12 @@
      <string>Add Banner</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>110</y>
-      <width>551</width>
+      <x>40</x>
+      <y>100</y>
+      <width>471</width>
       <height>26</height>
      </rect>
     </property>
@@ -234,9 +234,9 @@
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>150</y>
-      <width>551</width>
+      <x>40</x>
+      <y>130</y>
+      <width>471</width>
       <height>51</height>
      </rect>
     </property>
@@ -268,7 +268,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -283,9 +283,7 @@
   <zorder>frame</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>previewBtn</zorder>
-  <zorder>horizontalSpacer</zorder>
   <zorder>groupBox</zorder>
-  <zorder>nextBtn</zorder>
   <zorder>bannerLabel</zorder>
  </widget>
  <resources/>
