@@ -27,12 +27,12 @@ class BannerandTextClass(QtGui.QWidget) :
         self.ui.bannerText.connect(self.ui.bannerText, QtCore.SIGNAL("textChanged(QString)"),
                     self.labelUpdate)
         self.ui.fontBtn.clicked.connect(self.font_choice)
-        self.ui.colorBtn.clicked.connect(self.color_choice)
+        self.ui.colorBtn.clicked.connect(self.color_choice)`
         self.ui.bannerBtn.clicked.connect( self.bannerToogle )
         self.ui.previewBtn.clicked.connect( self.preview_banner )
         self.ui.nextBtn.clicked.connect( self.closeWidget )
 
-        self.bounds = QtCore.QRect(70, 50, 250, 50)
+        self.bounds = QtCore.QRect(self.ui.frame.geometry().x() + 10, self.ui.frame.geometry().y() + 10, 250, 50)
         self.setMouseTracking(True)  #mouse move will always be called, unlike earlier when it meant drag
         self.ui.frame.setMouseTracking(True)
         self.ui.bannerLabel.setMouseTracking(True)

@@ -36,7 +36,7 @@ class Upload(QtGui.QStackedWidget) :
         return list_of_syn
         
     def populateTextBoxWithSynonyms( self ) :
-        seedTag = self.ui.seedTagTextBoqx.text()
+        seedTag = self.ui.seedTagTextBox.text()
         self.list_of_syn = self.getSynonyms( seedTag )
         string_of_syn = ",".join( self.list_of_syn )
         self.ui.textEdit.setText( string_of_syn )

@@ -87,7 +87,7 @@ class Ui_Form(object):
         self.bannerBtn.setFont(font)
         self.bannerBtn.setObjectName(_fromUtf8("bannerBtn"))
         self.layoutWidget = QtGui.QWidget(self.groupBox)
-        self.layoutWidget.setGeometry(QtCore.QRect(40, 100, 471, 26))
+        self.layoutWidget.setGeometry(QtCore.QRect(40, 85, 471, 41))
         self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
