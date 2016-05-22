@@ -200,10 +200,6 @@ class Window(QtGui.QMainWindow):
 
 def run():
     app = QtGui.QApplication(sys.argv)
-
-    # setup stylesheet
-    # app.setStyleSheet(qdarkstyle.load_stylesheet(pyside=False))
-
     MainWindow = Window()
     ui = basic_ui.Ui_MainWindow()
     ui.setupUi(MainWindow)
