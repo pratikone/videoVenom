@@ -27,7 +27,7 @@ class BannerandTextClass(QtGui.QWidget) :
         self.ui.bannerText.connect(self.ui.bannerText, QtCore.SIGNAL("textChanged(QString)"),
                     self.labelUpdate)
         self.ui.fontBtn.clicked.connect(self.font_choice)
-        self.ui.colorBtn.clicked.connect(self.color_choice)`
+        self.ui.colorBtn.clicked.connect(self.color_choice)
         self.ui.bannerBtn.clicked.connect( self.bannerToogle )
         self.ui.previewBtn.clicked.connect( self.preview_banner )
         self.ui.nextBtn.clicked.connect( self.closeWidget )
