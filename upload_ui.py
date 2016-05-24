@@ -38,7 +38,6 @@ class Ui_StackedWidget(object):
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.progressBox = QtGui.QGroupBox(self.groupBox)
         self.progressBox.setGeometry(QtCore.QRect(20, 420, 161, 101))
-        self.progressBox.setTitle(_fromUtf8(""))
         self.progressBox.setObjectName(_fromUtf8("progressBox"))
         self.nextLabel = QtGui.QLabel(self.progressBox)
         self.nextLabel.setGeometry(QtCore.QRect(10, 10, 81, 31))
@@ -137,7 +136,6 @@ class Ui_StackedWidget(object):
         self.vimeoBtn.setObjectName(_fromUtf8("vimeoBtn"))
         self.progressBox_2 = QtGui.QGroupBox(self.page1)
         self.progressBox_2.setGeometry(QtCore.QRect(20, 430, 161, 101))
-        self.progressBox_2.setTitle(_fromUtf8(""))
         self.progressBox_2.setObjectName(_fromUtf8("progressBox_2"))
         self.nextLabel_2 = QtGui.QLabel(self.progressBox_2)
         self.nextLabel_2.setGeometry(QtCore.QRect(10, 10, 81, 31))
@@ -161,13 +159,14 @@ class Ui_StackedWidget(object):
         StackedWidget.addWidget(self.page1)
 
         self.retranslateUi(StackedWidget)
-        StackedWidget.setCurrentIndex(0)
+        StackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(StackedWidget)
 
     def retranslateUi(self, StackedWidget):
         StackedWidget.setWindowTitle(_translate("StackedWidget", "Video Venom", None))
         self.groupBox.setTitle(_translate("StackedWidget", "Generate tags for videos", None))
-        self.nextLabel.setText(_translate("StackedWidget", "Step 4/5", None))
+        self.progressBox.setTitle(_translate("StackedWidget", "Step 4/5", None))
+        self.nextLabel.setText(_translate("StackedWidget", "Next", None))
         self.nextBtn.setText(_translate("StackedWidget", "Select video sites", None))
         self.seedBox.setTitle(_translate("StackedWidget", "Seed Tag", None))
         self.label.setText(_translate("StackedWidget", "Enter seed tag to generate multiple tags", None))
@@ -177,7 +176,8 @@ class Ui_StackedWidget(object):
         self.uploadBox.setTitle(_translate("StackedWidget", "Authenticate to video sharing sites", None))
         self.youtubeBtn.setText(_translate("StackedWidget", "Youtube", None))
         self.vimeoBtn.setText(_translate("StackedWidget", "Vimeo", None))
-        self.nextLabel_2.setText(_translate("StackedWidget", "Step 5/5", None))
+        self.progressBox_2.setTitle(_translate("StackedWidget", "Step 5/5", None))
+        self.nextLabel_2.setText(_translate("StackedWidget", "Next", None))
         self.finishBtn.setText(_translate("StackedWidget", "Finish and upload", None))
 
 import icons_rc

@@ -230,7 +230,7 @@
      </rect>
     </property>
     <property name="title">
-     <string/>
+     <string>Step 1/5</string>
     </property>
     <widget class="QLabel" name="nextLabel">
      <property name="geometry">
@@ -255,7 +255,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Step 1/5</string>
+      <string>Next</string>
      </property>
     </widget>
     <widget class="QPushButton" name="nextBtn">

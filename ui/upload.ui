@@ -21,7 +21,7 @@
    <string>Video Venom</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QGroupBox" name="groupBox">
@@ -46,7 +46,7 @@
       </rect>
      </property>
      <property name="title">
-      <string/>
+      <string>Step 4/5</string>
      </property>
      <widget class="QLabel" name="nextLabel">
       <property name="geometry">
@@ -71,7 +71,7 @@
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Step 4/5</string>
+       <string>Next</string>
       </property>
      </widget>
      <widget class="QPushButton" name="nextBtn">
@@ -287,7 +287,7 @@
      </rect>
     </property>
     <property name="title">
-     <string/>
+     <string>Step 5/5</string>
     </property>
     <widget class="QLabel" name="nextLabel_2">
      <property name="geometry">
@@ -312,7 +312,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Step 5/5</string>
+      <string>Next</string>
      </property>
     </widget>
     <widget class="QPushButton" name="finishBtn">
