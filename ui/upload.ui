@@ -21,7 +21,7 @@
    <string>Video Venom</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QGroupBox" name="groupBox">
@@ -89,7 +89,11 @@
        </font>
       </property>
       <property name="text">
-       <string>Select websites to upload</string>
+       <string>Select video sites</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../moviepy/resources/icons.qrc">
+        <normaloff>:/next/Hopstarter-Button-Button-Next.ico</normaloff>:/next/Hopstarter-Button-Button-Next.ico</iconset>
       </property>
      </widget>
     </widget>
@@ -153,6 +157,10 @@
       </property>
       <property name="text">
        <string>Generate Tags</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../moviepy/resources/icons.qrc">
+        <normaloff>:/info/Hopstarter-Button-Button-Info.ico</normaloff>:/info/Hopstarter-Button-Button-Info.ico</iconset>
       </property>
      </widget>
     </widget>
@@ -322,12 +330,18 @@
       </font>
      </property>
      <property name="text">
-      <string>Finish and start uploading</string>
+      <string>Finish and upload</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../moviepy/resources/icons.qrc">
+       <normaloff>:/next/Hopstarter-Button-Button-Next.ico</normaloff>:/next/Hopstarter-Button-Button-Next.ico</iconset>
      </property>
     </widget>
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../moviepy/resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

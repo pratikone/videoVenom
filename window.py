@@ -7,7 +7,7 @@ import os
 import basic_ui
 from timeline import AnotherTimeline, Communicate
 from PyQt4 import QtGui, QtCore
-from PyQt4.phonon import Phonon 
+from PyQt4.phonon import Phonon
 import time
 import textEditor
 import videoProcessing

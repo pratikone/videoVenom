@@ -57,6 +57,9 @@ class Ui_StackedWidget(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.nextBtn.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/next/Hopstarter-Button-Button-Next.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.nextBtn.setIcon(icon)
         self.nextBtn.setObjectName(_fromUtf8("nextBtn"))
         self.seedBox = QtGui.QGroupBox(self.groupBox)
         self.seedBox.setGeometry(QtCore.QRect(40, 30, 661, 141))
@@ -79,6 +82,9 @@ class Ui_StackedWidget(object):
         self.label.setObjectName(_fromUtf8("label"))
         self.seedTagBtn = QtGui.QPushButton(self.seedBox)
         self.seedTagBtn.setGeometry(QtCore.QRect(170, 72, 131, 31))
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/info/Hopstarter-Button-Button-Info.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.seedTagBtn.setIcon(icon1)
         self.seedTagBtn.setObjectName(_fromUtf8("seedTagBtn"))
         self.tagsBox = QtGui.QGroupBox(self.groupBox)
         self.tagsBox.setGeometry(QtCore.QRect(40, 180, 661, 111))
@@ -150,18 +156,19 @@ class Ui_StackedWidget(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.finishBtn.setFont(font)
+        self.finishBtn.setIcon(icon)
         self.finishBtn.setObjectName(_fromUtf8("finishBtn"))
         StackedWidget.addWidget(self.page1)
 
         self.retranslateUi(StackedWidget)
-        StackedWidget.setCurrentIndex(1)
+        StackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(StackedWidget)
 
     def retranslateUi(self, StackedWidget):
         StackedWidget.setWindowTitle(_translate("StackedWidget", "Video Venom", None))
         self.groupBox.setTitle(_translate("StackedWidget", "Generate tags for videos", None))
         self.nextLabel.setText(_translate("StackedWidget", "Step 4/5", None))
-        self.nextBtn.setText(_translate("StackedWidget", "Select websites to upload", None))
+        self.nextBtn.setText(_translate("StackedWidget", "Select video sites", None))
         self.seedBox.setTitle(_translate("StackedWidget", "Seed Tag", None))
         self.label.setText(_translate("StackedWidget", "Enter seed tag to generate multiple tags", None))
         self.seedTagBtn.setText(_translate("StackedWidget", "Generate Tags", None))
@@ -171,8 +178,9 @@ class Ui_StackedWidget(object):
         self.youtubeBtn.setText(_translate("StackedWidget", "Youtube", None))
         self.vimeoBtn.setText(_translate("StackedWidget", "Vimeo", None))
         self.nextLabel_2.setText(_translate("StackedWidget", "Step 5/5", None))
-        self.finishBtn.setText(_translate("StackedWidget", "Finish and start uploading", None))
+        self.finishBtn.setText(_translate("StackedWidget", "Finish and upload", None))
 
+import icons_rc
 
 if __name__ == "__main__":
     import sys

@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="play">
+    <file>Hopstarter-Button-Button-Play.ico</file>
+  </qresource>
+  <qresource prefix="info">
+    <file>Hopstarter-Button-Button-Info.ico</file>
+  </qresource>
+  <qresource prefix="next">
+    <file>Hopstarter-Button-Button-Next.ico</file>
+  </qresource>
+  <qresource prefix="stop">
+    <file>Hopstarter-Button-Button-Stop.ico</file>
+  </qresource>
+  <qresource prefix="pause">
+    <file>Hopstarter-Button-Button-Pause.ico</file>
+  </qresource>
+</RCC>

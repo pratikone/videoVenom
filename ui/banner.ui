@@ -31,6 +31,10 @@
    <property name="text">
     <string>Preview ...</string>
    </property>
+   <property name="icon">
+    <iconset resource="../moviepy/resources/icons.qrc">
+     <normaloff>:/info/Hopstarter-Button-Button-Info.ico</normaloff>:/info/Hopstarter-Button-Button-Info.ico</iconset>
+   </property>
   </widget>
   <widget class="QLabel" name="bannerLabel">
    <property name="geometry">
@@ -143,7 +147,11 @@
      </font>
     </property>
     <property name="text">
-     <string>NEXT : Set banner timeline</string>
+     <string>Set banner timeline</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../moviepy/resources/icons.qrc">
+      <normaloff>:/next/Hopstarter-Button-Button-Next.ico</normaloff>:/next/Hopstarter-Button-Button-Next.ico</iconset>
     </property>
    </widget>
   </widget>
@@ -286,6 +294,8 @@
   <zorder>groupBox</zorder>
   <zorder>bannerLabel</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="../moviepy/resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

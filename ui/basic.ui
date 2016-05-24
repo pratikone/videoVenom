@@ -73,6 +73,10 @@
        <property name="text">
         <string>Play/Open</string>
        </property>
+       <property name="icon">
+        <iconset resource="../moviepy/resources/icons.qrc">
+         <normaloff>:/play/Hopstarter-Button-Button-Play.ico</normaloff>:/play/Hopstarter-Button-Button-Play.ico</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -98,6 +102,10 @@
        <property name="text">
         <string>Pause</string>
        </property>
+       <property name="icon">
+        <iconset resource="../moviepy/resources/icons.qrc">
+         <normaloff>:/pause/Hopstarter-Button-Button-Pause.ico</normaloff>:/pause/Hopstarter-Button-Button-Pause.ico</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -122,6 +130,10 @@
        </property>
        <property name="text">
         <string>Stop</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../moviepy/resources/icons.qrc">
+         <normaloff>:/stop/Hopstarter-Button-Button-Stop.ico</normaloff>:/stop/Hopstarter-Button-Button-Stop.ico</iconset>
        </property>
       </widget>
      </item>
@@ -263,6 +275,13 @@
      <property name="text">
       <string>Select a banner</string>
      </property>
+     <property name="icon">
+      <iconset resource="../moviepy/resources/icons.qrc">
+       <normaloff>:/next/Hopstarter-Button-Button-Next.ico</normaloff>:/next/Hopstarter-Button-Button-Next.ico</iconset>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
     </widget>
    </widget>
    <widget class="QLabel" name="logoLabel">
@@ -326,6 +345,8 @@
    <header location="global">phonon/volumeslider.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../moviepy/resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

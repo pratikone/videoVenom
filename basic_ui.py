@@ -49,6 +49,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.playButton.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/play/Hopstarter-Button-Button-Play.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.playButton.setIcon(icon)
         self.playButton.setObjectName(_fromUtf8("playButton"))
         self.horizontalLayout.addWidget(self.playButton)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
@@ -57,6 +60,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.pauseButton.setFont(font)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/pause/Hopstarter-Button-Button-Pause.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pauseButton.setIcon(icon1)
         self.pauseButton.setObjectName(_fromUtf8("pauseButton"))
         self.horizontalLayout.addWidget(self.pauseButton)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
@@ -65,6 +71,9 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.stopButton.setFont(font)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/stop/Hopstarter-Button-Button-Stop.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.stopButton.setIcon(icon2)
         self.stopButton.setObjectName(_fromUtf8("stopButton"))
         self.horizontalLayout.addWidget(self.stopButton)
         self.bannerBox = QtGui.QGroupBox(self.centralwidget)
@@ -113,6 +122,10 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.nextBtn.setFont(font)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/next/Hopstarter-Button-Button-Next.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.nextBtn.setIcon(icon3)
+        self.nextBtn.setFlat(False)
         self.nextBtn.setObjectName(_fromUtf8("nextBtn"))
         self.logoLabel = QtGui.QLabel(self.centralwidget)
         self.logoLabel.setGeometry(QtCore.QRect(10, 20, 241, 241))
@@ -158,6 +171,7 @@ class Ui_MainWindow(object):
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
 
 from PyQt4 import phonon
+import icons_rc
 
 if __name__ == "__main__":
     import sys

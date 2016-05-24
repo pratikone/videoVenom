@@ -32,6 +32,9 @@ class Ui_Form(object):
         font.setFamily(_fromUtf8("Arial"))
         font.setItalic(False)
         self.previewBtn.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/info/Hopstarter-Button-Button-Info.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.previewBtn.setIcon(icon)
         self.previewBtn.setObjectName(_fromUtf8("previewBtn"))
         self.bannerLabel = QtGui.QLabel(Form)
         self.bannerLabel.setGeometry(QtCore.QRect(210, 230, 191, 31))
@@ -73,6 +76,9 @@ class Ui_Form(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Arial"))
         self.nextBtn.setFont(font)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/next/Hopstarter-Button-Button-Next.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.nextBtn.setIcon(icon1)
         self.nextBtn.setObjectName(_fromUtf8("nextBtn"))
         self.groupBox = QtGui.QGroupBox(Form)
         self.groupBox.setGeometry(QtCore.QRect(190, 300, 531, 201))
@@ -142,7 +148,7 @@ class Ui_Form(object):
         self.previewBtn.setText(_translate("Form", "Preview ...", None))
         self.bannerLabel.setText(_translate("Form", "Banner Text", None))
         self.nextLabel.setText(_translate("Form", "Step 2/5", None))
-        self.nextBtn.setText(_translate("Form", "NEXT : Set banner timeline", None))
+        self.nextBtn.setText(_translate("Form", "Set banner timeline", None))
         self.groupBox.setTitle(_translate("Form", "Banner controls", None))
         self.bannerBtn.setText(_translate("Form", "Add Banner", None))
         self.textLabel.setText(_translate("Form", "Add banner text to the video", None))
@@ -150,6 +156,7 @@ class Ui_Form(object):
         self.fontBtn.setText(_translate("Form", "Select Font", None))
         self.colorBtn.setText(_translate("Form", "Set Font Color", None))
 
+import icons_rc
 
 if __name__ == "__main__":
     import sys
