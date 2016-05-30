@@ -14,7 +14,7 @@ Name "Video Venom installer"
 OutFile "videoVenom_installer.exe"
 
 ; The default installation directory
-InstallDir $DESKTOP\Example1
+InstallDir $DESKTOP\videoVenom
 
 ; Request application privileges for Windows Vista
 RequestExecutionLevel user
@@ -33,9 +33,31 @@ Section "" ;No components page, name is not important
 
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
+  # create the uninstaller
+  WriteUninstaller "$INSTDIR\uninstall.exe"
+  
+  # create a shortcut named "video venom" in the start menu programs directory
+  # point the new shortcut at the program uninstaller
   
   ; Put file there
   File /r "build\*.*"
   File /r "dist\*.*"
+
+  CreateShortCut "$SMPROGRAMS\Video Venom.lnk" "$INSTDIR\window\window.exe"  
+  CreateShortCut "$SMPROGRAMS\Uninstall Video Venom.lnk" "$INSTDIR\uninstall.exe"  
+
   
 SectionEnd ; end the section
+
+# uninstaller section start
+Section "uninstall"
+ 
+    # first, delete the uninstaller
+    Delete "$INSTDIR\uninstall.exe"
+ 
+    # second, remove the link from the start menu
+    Delete "$SMPROGRAMS\Video Venom.lnk"
+    Delete "$SMPROGRAMS\Uninstall Video Venom.lnk"
+ 	RMDir /r "$INSTDIR\window"
+# uninstaller section end
+SectionEnd

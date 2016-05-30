@@ -33,7 +33,7 @@ class Upload(QtGui.QStackedWidget) :
     def getSynonyms( self, seedTag ):
         resp =  requests.get("http://suggestqueries.google.com/complete/search?client=youtube&ds=yt&client=firefox&q=" + str(seedTag))
         list_of_syn = simplejson.loads(str(resp.text))[1] # [0] is Query word
-        return list_of_syn
+        return list_of_syn[:5] #top 5 suggestions
         
     def populateTextBoxWithSynonyms( self ) :
         seedTag = self.ui.seedTagTextBox.text()
