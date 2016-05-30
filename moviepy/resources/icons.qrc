@@ -2,6 +2,16 @@
   <qresource prefix="play">
     <file>Hopstarter-Button-Button-Play.ico</file>
   </qresource>
+  <qresource prefix="time">
+    <file>Designbolts-Free-Multimedia-Film.ico</file>
+    <file>Paomedia-Small-N-Flat-Dashboard-alt.ico</file>
+    <file>Paomedia-Small-N-Flat-Dashboard.ico</file>
+  </qresource>
+  <qresource prefix="camera">
+    <file>file-video-icon.png</file>
+    <file>HDRCameraApp.png</file>
+    <file>HDRCameraApp_trans.png</file>
+  </qresource>
   <qresource prefix="info">
     <file>Hopstarter-Button-Button-Info.ico</file>
   </qresource>

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/processing.ui'
+# Form implementation generated from reading ui file 'ui\processing.ui'
 #
-# Created: Thu Mar 10 16:40:12 2016
-#      by: PyQt4 UI code generator 4.10.4
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -37,6 +36,15 @@ class Ui_Dialog(object):
         font.setPointSize(12)
         self.loadingLabel.setFont(font)
         self.loadingLabel.setObjectName(_fromUtf8("loadingLabel"))
+        self.picLabel = QtGui.QLabel(Dialog)
+        self.picLabel.setGeometry(QtCore.QRect(100, 20, 211, 221))
+        self.picLabel.setText(_fromUtf8(""))
+        self.picLabel.setPixmap(QtGui.QPixmap(_fromUtf8(":/camera/HDRCameraApp_trans.png")))
+        self.picLabel.setScaledContents(True)
+        self.picLabel.setObjectName(_fromUtf8("picLabel"))
+        self.picLabel.raise_()
+        self.animatedDial.raise_()
+        self.loadingLabel.raise_()
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -45,6 +53,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Video Processing", None))
         self.loadingLabel.setText(_translate("Dialog", "Processing ...", None))
 
+import icons_rc
 
 if __name__ == "__main__":
     import sys

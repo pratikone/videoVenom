@@ -32,6 +32,8 @@ class Processing(QtGui.QWidget) :
                      self.animate)
         self.timer.start(DELAY)
 
+
+
     def animate(self) :
         if self.dontAnimate is True :
             return

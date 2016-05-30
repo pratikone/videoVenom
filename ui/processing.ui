@@ -42,7 +42,31 @@
     <string>Processing ...</string>
    </property>
   </widget>
+  <widget class="QLabel" name="picLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>20</y>
+     <width>211</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../moviepy/resources/icons.qrc">:/camera/HDRCameraApp_trans.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>picLabel</zorder>
+  <zorder>animatedDial</zorder>
+  <zorder>loadingLabel</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="../moviepy/resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

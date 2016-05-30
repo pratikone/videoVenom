@@ -287,12 +287,32 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout"/>
   </widget>
+  <widget class="QLabel" name="picLabel">
+   <property name="geometry">
+    <rect>
+     <x>-40</x>
+     <y>-60</y>
+     <width>211</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../moviepy/resources/icons.qrc">:/camera/HDRCameraApp_trans.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
   <zorder>progressBox</zorder>
   <zorder>frame</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>previewBtn</zorder>
   <zorder>groupBox</zorder>
   <zorder>bannerLabel</zorder>
+  <zorder>picLabel</zorder>
  </widget>
  <resources>
   <include location="../moviepy/resources/icons.qrc"/>

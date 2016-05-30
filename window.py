@@ -48,9 +48,8 @@ class Window(QtGui.QMainWindow):
         self.ui.nextBtn.setEnabled(False)
         #disabling stuff at init
         self.ui.bannerBox.hide()
+        self.ui.bannerPic.hide()
 
-        pixmap = QtGui.QPixmap( "moviepy/resources/file-video-icon.png" ) 
-        self.ui.logoLabel.setPixmap( pixmap.scaled( self.ui.logoLabel.width(), self.ui.logoLabel.height())) #resize image
 
     def paintEvent(self, e):
         self.timeline.paintEvent(e )
@@ -115,6 +114,7 @@ class Window(QtGui.QMainWindow):
 
 
     def nextButtonToogle(self) :
+        self.pause_playback()
         if self.bannerAndText is False :
                 self.bannerWidget = textEditor.showBannerandText( self)
                 self.bannerWidget.setScaleFactor( self.videoWidth, self.videoHeight )
@@ -124,7 +124,7 @@ class Window(QtGui.QMainWindow):
 
         elif self.bannerAndText is True :
                 self.ui.bannerBox.show()
-                self.ui.logoLabel.hide()
+                self.ui.bannerPic.show()
                 self.ui.startTimeWidget.setTime(QtCore.QTime(0,0,0,0))
                 self.ui.endTimeWidget.setTime(QtCore.QTime(0,0,0,0))
                 self.ui.nextLabel.setText("Step 3/5")
