@@ -205,6 +205,7 @@ def run():
     ui.setupUi(MainWindow)
     MainWindow.show()
     MainWindow.setup_connections(ui)
+    #QtGui.QApplication.setStyle("cleanlooks")
     sys.exit(app.exec_())
 
 

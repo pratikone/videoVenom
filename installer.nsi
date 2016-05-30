@@ -43,9 +43,11 @@ Section "" ;No components page, name is not important
   File /r "build\*.*"
   File /r "dist\*.*"
 
-  CreateShortCut "$SMPROGRAMS\Video Venom.lnk" "$INSTDIR\window\window.exe"  
-  CreateShortCut "$SMPROGRAMS\Uninstall Video Venom.lnk" "$INSTDIR\uninstall.exe"  
 
+  CreateShortCut "$SMPROGRAMS\Uninstall Video Venom.lnk" "$INSTDIR\uninstall.exe"  
+  SetOutPath "$INSTDIR\window" #necessary for making shortcut start in right folder
+  CreateShortCut "$SMPROGRAMS\Video Venom.lnk" "$INSTDIR\window\window.exe"
+  CreateShortCut "$DESKTOP\Video Venom.lnk" "$INSTDIR\window\window.exe"  
   
 SectionEnd ; end the section
 
@@ -57,6 +59,7 @@ Section "uninstall"
  
     # second, remove the link from the start menu
     Delete "$SMPROGRAMS\Video Venom.lnk"
+    Delete "$DESKTOP\Video Venom.lnk"
     Delete "$SMPROGRAMS\Uninstall Video Venom.lnk"
  	RMDir /r "$INSTDIR\window"
 # uninstaller section end
